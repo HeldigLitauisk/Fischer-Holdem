@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44158C2020386DDD001C9B2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44158C1F20386DDD001C9B2E /* Images.xcassets */; };
+		44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AD36EC203873BD00D3A0F8 /* Card.swift */; };
+		44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AD36F22038C22700D3A0F8 /* SharedConstants.swift */; };
 		44BA6480203868280037C175 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BA647F203868280037C175 /* AppDelegate.swift */; };
 		44BA6482203868280037C175 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6481203868280037C175 /* art.scnassets */; };
 		44BA6484203868280037C175 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BA6483203868280037C175 /* GameViewController.swift */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		44158C1F20386DDD001C9B2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		44AD36EC203873BD00D3A0F8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		44AD36F22038C22700D3A0F8 /* SharedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConstants.swift; sourceTree = "<group>"; };
 		44BA647C203868280037C175 /* Fischer Holdem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fischer Holdem.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44BA647F203868280037C175 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44BA6481203868280037C175 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -37,9 +43,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		44158C1C20386D02001C9B2E /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		44158C1D20386D27001C9B2E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				44AD36EC203873BD00D3A0F8 /* Card.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		44158C1E20386D2E001C9B2E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				44BA6483203868280037C175 /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		44BA6473203868280037C175 = {
 			isa = PBXGroup;
 			children = (
+				44AD36F22038C22700D3A0F8 /* SharedConstants.swift */,
 				44BA647E203868280037C175 /* Fischer Holdem */,
 				44BA647D203868280037C175 /* Products */,
 			);
@@ -56,9 +86,12 @@
 		44BA647E203868280037C175 /* Fischer Holdem */ = {
 			isa = PBXGroup;
 			children = (
+				44158C1E20386D2E001C9B2E /* Controller */,
+				44158C1D20386D27001C9B2E /* Model */,
+				44158C1C20386D02001C9B2E /* View */,
 				44BA647F203868280037C175 /* AppDelegate.swift */,
+				44158C1F20386DDD001C9B2E /* Images.xcassets */,
 				44BA6481203868280037C175 /* art.scnassets */,
-				44BA6483203868280037C175 /* GameViewController.swift */,
 				44BA6485203868280037C175 /* Main.storyboard */,
 				44BA6488203868280037C175 /* Assets.xcassets */,
 				44BA648A203868280037C175 /* LaunchScreen.storyboard */,
@@ -127,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44BA6482203868280037C175 /* art.scnassets in Resources */,
+				44158C2020386DDD001C9B2E /* Images.xcassets in Resources */,
 				44BA648C203868280037C175 /* LaunchScreen.storyboard in Resources */,
 				44BA6489203868280037C175 /* Assets.xcassets in Resources */,
 				44BA6487203868280037C175 /* Main.storyboard in Resources */,
@@ -140,7 +174,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */,
 				44BA6484203868280037C175 /* GameViewController.swift in Sources */,
+				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
