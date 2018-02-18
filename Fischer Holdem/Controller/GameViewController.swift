@@ -37,12 +37,11 @@ class GameViewController: UIViewController {
         let cardNode = Card(cardValue: (Card.Rank.ace, Card.Suit.club))
         cardNode.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "cardSide1")
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
-        floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
-        let table = scene.rootNode.childNode(withName: "table", recursively: true)
-        table?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt1")
+        floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
+        let leg = scene.rootNode.childNode(withName: "leg", recursively: true)
+        leg?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         let leather = scene.rootNode.childNode(withName: "leather", recursively: true)
-        leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "Floor")
-       
+        leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         scene.rootNode.addChildNode(cardNode)
         
         // create and add an ambient light to the scene
