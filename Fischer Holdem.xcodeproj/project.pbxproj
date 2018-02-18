@@ -16,8 +16,8 @@
 		44BA6487203868280037C175 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6485203868280037C175 /* Main.storyboard */; };
 		44BA6489203868280037C175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6488203868280037C175 /* Assets.xcassets */; };
 		44BA648C203868280037C175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA648A203868280037C175 /* LaunchScreen.storyboard */; };
-		44E2E9B82039B3860084D933 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9B72039B3860084D933 /* GameLogic.swift */; };
 		44E2E9BA2039C2710084D933 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9B92039C2710084D933 /* Deck.swift */; };
+		44E2E9C0203A0A6F0084D933 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9BF203A0A6F0084D933 /* RoundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +32,8 @@
 		44BA6488203868280037C175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44BA648B203868280037C175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44BA648D203868280037C175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44E2E9B72039B3860084D933 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		44E2E9B92039C2710084D933 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		44E2E9BF203A0A6F0084D933 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +50,7 @@
 		44158C1C20386D02001C9B2E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				44E2E9BF203A0A6F0084D933 /* RoundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -68,7 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				44BA6483203868280037C175 /* GameViewController.swift */,
-				44E2E9B72039B3860084D933 /* GameLogic.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -181,10 +181,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				44E2E9BA2039C2710084D933 /* Deck.swift in Sources */,
+				44E2E9C0203A0A6F0084D933 /* RoundView.swift in Sources */,
 				44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */,
 				44BA6484203868280037C175 /* GameViewController.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
-				44E2E9B82039B3860084D933 /* GameLogic.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

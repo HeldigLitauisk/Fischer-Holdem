@@ -22,7 +22,7 @@ class Deck {
         return deck
     }
     
-    func dealCard() -> Card {
+    func assignCard() -> Card {
         let randomCard = Int(arc4random_uniform(UInt32(deck.count)))
         let cardNode = Card(cardValue: deck[randomCard])
         cardNode.colorizeCard()

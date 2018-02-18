@@ -21,17 +21,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
         
         scene.physicsWorld.gravity = SCNVector3Make(0, -10, 0)
-        let newDeck = Deck()
-        let cardNode = newDeck.dealCard()
-        cardNode.name = "hero"
-        cardNode.position = SCNVector3(0,50,0)
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
         floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
         let leg = scene.rootNode.childNode(withName: "leg", recursively: true)
         leg?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         let leather = scene.rootNode.childNode(withName: "leather", recursively: true)
         leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
-        scene.rootNode.addChildNode(cardNode)
+        
+        let newRound = RoundView()
+        let cardNodes = newRound.dealCards(gamePhase: .preflop)
+        for card in cardNodes {
+            scene.rootNode.addChildNode(card)
+            if card.name == "hero" {
+                let dealHero = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z + 15), duration: 0.2)
+                card.runAction(dealHero)
+            } else {
+                let dealOpponent = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z - 15), duration: 0.2)
+                card.runAction(dealOpponent)
+            }
+            
+        }
         
         // retrieve the ship node
        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
@@ -56,7 +65,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scnView.showsStatistics = true
         
         // configure the view
-        scnView.backgroundColor = UIColor.black
+        //scnView.backgroundColor = UIColor.black
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -70,13 +79,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
-       // let scnView = self.view as! SCNView
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
             let result = hitResults[0]
             if result.node.name == "hero" {
-                let rotate = SCNAction.rotateBy(x: 180, y: 0, z: 0, duration: 0.2)
+                let pos = result.node.position
+                let up = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z), duration: 0.2)
+                let rotate = (SCNAction.rotateBy(x: 0, y: 0, z: 2, duration: 0.2))
+                result.node.runAction(up)
                 result.node.runAction(rotate)
             }
         }
@@ -84,41 +95,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
    @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        
-        // retrieve the SCNView
-        //let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
-        // check that we clicked on at least one object
         if hitResults.count > 0 {
-            // retrieved the first clicked object
             let result = hitResults[0]
-            
-            // get its material
-            let material = result.node.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-            
-            // on completion - unhighlight
-            SCNTransaction.completionBlock = {
+            if result.node.name == "hero" {
+                let pos = result.node.position
+                let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
+                result.node.runAction(up)
+                
+                let material = result.node.geometry!.materials[2]
                 SCNTransaction.begin()
                 SCNTransaction.animationDuration = 0.5
-                
-                material.emission.contents = UIColor.black
-                
+                SCNTransaction.completionBlock = {
+                    SCNTransaction.begin()
+                    SCNTransaction.animationDuration = 0.5
+                    material.emission.contents = UIColor.black
+                    SCNTransaction.commit()
+                }
+                material.emission.contents = UIColor.green
                 SCNTransaction.commit()
             }
-            
-         material.emission.contents = UIColor.red
-            
-            SCNTransaction.commit()
         }
     }
-    
+
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
     }
     

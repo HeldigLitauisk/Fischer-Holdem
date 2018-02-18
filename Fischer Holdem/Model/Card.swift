@@ -16,7 +16,7 @@ class Card: SCNNode {
         self.cardValue = cardValue
         super.init()
         self.name = nodeName
-        self.geometry = SCNBox(width: 3, height: 5, length: 0.1, chamferRadius: 5)
+        self.geometry = SCNBox(width: 3, height: 4.2, length: 0.1, chamferRadius: 5)
         self.eulerAngles = SCNVector3(x: -30, y: 0, z: 0)
         self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         self.geometry?.firstMaterial?.shininess = 1
@@ -30,7 +30,6 @@ class Card: SCNNode {
     
     func colorizeCard() {
         let faceUpCard: String = String(describing: self.cardValue.rank) + String(describing: self.cardValue.suit)
-        print(faceUpCard)
         let frontMaterial = SCNMaterial()
         let backMaterial = SCNMaterial()
         let sideMaterial = SCNMaterial()
