@@ -10,31 +10,20 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+    var scene: SCNScene!
+    var scnView: SCNView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
+        scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
         
         scene.physicsWorld.gravity = SCNVector3Make(0, -10, 0)
-        
-        // create and add a camera to the scene
-       // let cameraNode = SCNNode()
-       // cameraNode.camera = SCNCamera()
-      //  scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-     //   cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-        
-        // create and add a light to the scene
-    //    let lightNode = SCNNode()
-       // lightNode.light = SCNLight()
-       // lightNode.light!.type = .omni
-       // lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-       // scene.rootNode.addChildNode(lightNode)
-        let cardNode = Card(cardValue: (Card.Rank.ace, Card.Suit.club))
+        let newDeck = Deck()
+        let cardNode = newDeck.dealCard()
+        cardNode.position = SCNVector3(0,50,0)
         cardNode.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "cardSide1")
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
         floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
@@ -44,24 +33,21 @@ class GameViewController: UIViewController {
         leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         scene.rootNode.addChildNode(cardNode)
         
-        // create and add an ambient light to the scene
-      //  let ambientLightNode = SCNNode()
-     //   ambientLightNode.light = SCNLight()
-      //  ambientLightNode.light!.type = .ambient
-     //   ambientLightNode.light!.color = UIColor.darkGray
-   //     scene.rootNode.addChildNode(ambientLightNode)
-        
         // retrieve the ship node
        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        ship.castsShadow = true
         
         // animate the 3d object
-    ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
+        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
         
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        scnView = self.view as! SCNView
         
         // set the scene to the view
         scnView.scene = scene
+        
+        //Allows actions during different phases of screen rendering
+        scnView.delegate = self
         
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
@@ -75,12 +61,32 @@ class GameViewController: UIViewController {
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
+        
+        // double click reveals card
+        let doubleClickGesture = UITapGestureRecognizer(target: self, action: #selector(revealCard(_:)))
+        doubleClickGesture.numberOfTapsRequired = 2
+        scnView.addGestureRecognizer(doubleClickGesture)
     }
     
     @objc
+    func revealCard(_ gestureRecognize: UIGestureRecognizer) {
+       // let scnView = self.view as! SCNView
+        let p = gestureRecognize.location(in: scnView)
+        let hitResults = scnView.hitTest(p, options: [:])
+        if hitResults.count > 0 {
+            let result = hitResults[0]
+            if result.node.name == "hero" {
+                let rotate = SCNAction.rotateBy(x: 0, y: 180, z: 0, duration: 0.2)
+                result.node.runAction(rotate)
+            }
+        }
+    }
+    
+   @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+        
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        //let scnView = self.view as! SCNView
         
         // check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
@@ -111,6 +117,29 @@ class GameViewController: UIViewController {
             
             SCNTransaction.commit()
         }
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        print("didBeginContact")
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
+        print("didEndContact")
+    }
+    func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+        print("didUpdateContact")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
     override var shouldAutorotate: Bool {
