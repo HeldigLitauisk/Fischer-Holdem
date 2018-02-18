@@ -23,8 +23,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scene.physicsWorld.gravity = SCNVector3Make(0, -10, 0)
         let newDeck = Deck()
         let cardNode = newDeck.dealCard()
+        cardNode.name = "hero"
         cardNode.position = SCNVector3(0,50,0)
-        cardNode.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "cardSide1")
+       // cardNode.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "cardSide1")
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
         floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
         let leg = scene.rootNode.childNode(withName: "leg", recursively: true)

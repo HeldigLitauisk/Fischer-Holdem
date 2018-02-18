@@ -10,14 +10,11 @@ import Foundation
 import SceneKit
 
 class Card: SCNNode {
-    var cardValue: (rank: Rank, suit: Suit) {
-        get { return self.cardValue }
-        set { self.cardValue = newValue}
-    }
+    let cardValue: (rank: Rank, suit: Suit)
     
     init(cardValue: (Rank, Suit), nodeName: String = "card") {
-        super.init()
         self.cardValue = cardValue
+        super.init()
         self.name = nodeName
         self.geometry = SCNBox(width: 3, height: 5, length: 0.1, chamferRadius: 5)
         self.eulerAngles = SCNVector3(x: -30, y: 0, z: 0)
@@ -31,5 +28,17 @@ class Card: SCNNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func colorizeCard() {
+        var materials = [SCNMaterial]()
+        let faceUpCard: String = String(describing: self.cardValue.rank) + String(describing: self.cardValue.suit)
+        print(faceUpCard)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIImage(named: faceUpCard)
+        materials.append(material)
+        for index in 2...6 {
+            material.diffuse.contents = UIImage(named: "cardSide" + String(index))
+            materials.append(material)
+        }
+        self.geometry?.materials = materials
+    }
 }

@@ -25,6 +25,7 @@ class Deck {
     func dealCard() -> Card {
         let randomCard = Int(arc4random_uniform(UInt32(deck.count)))
         let cardNode = Card(cardValue: deck[randomCard])
+        cardNode.colorizeCard()
         deck.remove(at: randomCard)
         return cardNode
     }

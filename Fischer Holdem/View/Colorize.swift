@@ -11,18 +11,6 @@ import SceneKit
 
 struct Colorize {
     
-    func colorizeCard(cardNode: Card) {
-        var materials = [SCNMaterial]()
-        let faceUpCard: String = String(describing: cardNode.cardValue.rank) + String(describing: cardNode.cardValue.suit)
-        print(faceUpCard)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: faceUpCard)
-        materials.append(material)
-        for index in 2...6 {
-            material.diffuse.contents = UIImage(named: "cardSide" + String(index))
-            materials.append(material)
-        }
-        cardNode.geometry?.materials = materials
-    }
+    
     
 }
