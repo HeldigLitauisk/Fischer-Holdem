@@ -18,8 +18,8 @@ class Card: SCNNode {
         self.name = nodeName
         self.geometry = SCNBox(width: 3, height: 5, length: 0.1, chamferRadius: 5)
         self.eulerAngles = SCNVector3(x: -30, y: 0, z: 0)
-        self.geometry?.firstMaterial?.shininess = 1
         self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        self.geometry?.firstMaterial?.shininess = 1
         self.physicsBody?.categoryBitMask = CollisionCategoryCard
         self.physicsBody?.collisionBitMask = CollisionCategoryCard | CollisionCategoryChip | CollisionCategoryDealerButton
     }
@@ -29,16 +29,16 @@ class Card: SCNNode {
     }
     
     func colorizeCard() {
-        var materials = [SCNMaterial]()
         let faceUpCard: String = String(describing: self.cardValue.rank) + String(describing: self.cardValue.suit)
         print(faceUpCard)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: faceUpCard)
-        materials.append(material)
-        for index in 2...6 {
-            material.diffuse.contents = UIImage(named: "cardSide" + String(index))
-            materials.append(material)
-        }
+        let frontMaterial = SCNMaterial()
+        let backMaterial = SCNMaterial()
+        let sideMaterial = SCNMaterial()
+        sideMaterial.diffuse.contents = UIColor.white
+        frontMaterial.diffuse.contents = UIImage(named: faceUpCard)
+        backMaterial.diffuse.contents = UIImage(named: "cardSide3")
+        let materials: [SCNMaterial] = [frontMaterial, sideMaterial, backMaterial, sideMaterial, sideMaterial, sideMaterial]
         self.geometry?.materials = materials
+       
     }
 }

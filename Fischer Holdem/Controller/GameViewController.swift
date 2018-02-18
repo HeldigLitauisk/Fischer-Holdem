@@ -25,7 +25,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let cardNode = newDeck.dealCard()
         cardNode.name = "hero"
         cardNode.position = SCNVector3(0,50,0)
-       // cardNode.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "cardSide1")
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
         floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
         let leg = scene.rootNode.childNode(withName: "leg", recursively: true)
@@ -77,7 +76,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if hitResults.count > 0 {
             let result = hitResults[0]
             if result.node.name == "hero" {
-                let rotate = SCNAction.rotateBy(x: 0, y: 180, z: 0, duration: 0.2)
+                let rotate = SCNAction.rotateBy(x: 180, y: 0, z: 0, duration: 0.2)
                 result.node.runAction(rotate)
             }
         }
@@ -114,7 +113,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 SCNTransaction.commit()
             }
             
-            material.emission.contents = UIColor.red
+         material.emission.contents = UIColor.red
             
             SCNTransaction.commit()
         }
