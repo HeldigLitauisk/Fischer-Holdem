@@ -53,6 +53,7 @@
 		44158C1D20386D27001C9B2E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				44AD36F22038C22700D3A0F8 /* SharedConstants.swift */,
 				44AD36EC203873BD00D3A0F8 /* Card.swift */,
 			);
 			path = Model;
@@ -69,7 +70,6 @@
 		44BA6473203868280037C175 = {
 			isa = PBXGroup;
 			children = (
-				44AD36F22038C22700D3A0F8 /* SharedConstants.swift */,
 				44BA647E203868280037C175 /* Fischer Holdem */,
 				44BA647D203868280037C175 /* Products */,
 			);

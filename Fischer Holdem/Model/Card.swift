@@ -16,7 +16,9 @@ class Card: SCNNode {
         self.cardValue = cardValue
         super.init()
         self.name = nodeName
-        self.geometry = SCNBox(width: 15, height: 21, length: 0.5, chamferRadius: 5)
+        self.position = SCNVector3(0,50,0)
+        self.geometry = SCNBox(width: 1.5, height: 2.1, length: 0.05, chamferRadius: 5)
+        self.eulerAngles = SCNVector3(x: -30, y: 0, z: 0)
         self.geometry?.firstMaterial?.shininess = 1
         self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         self.physicsBody?.categoryBitMask = CollisionCategoryCard
