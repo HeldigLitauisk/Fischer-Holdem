@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
     var scene: SCNScene!
     var scnView: SCNView!
 
@@ -41,14 +41,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
             
         }
-        
-        // retrieve the ship node
-       let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
-        ship.castsShadow = true
-        
-        // animate the 3d object
-        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
-        
+  
         // retrieve the SCNView
         scnView = self.view as! SCNView
         
@@ -59,13 +52,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scnView.delegate = self
         
         // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
+       // scnView.allowsCameraControl = true
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
         
         // configure the view
-        //scnView.backgroundColor = UIColor.black
+        scnView.backgroundColor = UIColor.black
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -75,10 +68,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let doubleClickGesture = UITapGestureRecognizer(target: self, action: #selector(revealCard(_:)))
         doubleClickGesture.numberOfTapsRequired = 2
         scnView.addGestureRecognizer(doubleClickGesture)
+        
+        let cameraZoom = UIPinchGestureRecognizer(target: self, action: #selector(zoom(_:)))
+        scnView.addGestureRecognizer(cameraZoom)
+        
     }
     
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
+
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
@@ -92,6 +90,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
         }
     }
+    
     
    @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
@@ -116,6 +115,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 material.emission.contents = UIColor.green
                 SCNTransaction.commit()
             }
+        }
+    }
+    
+    @objc
+     func zoom(_ gesture: UIPinchGestureRecognizer) {
+        let node = scene.rootNode.childNode(withName: "camera", recursively: false)
+        let scale = gesture.velocity
+        
+        let maximumFOV:CGFloat = 10
+        let minimumFOV:CGFloat = 110
+        
+        switch gesture.state {
+        case .began:
+            break
+        case .changed:
+            node!.camera!.fieldOfView = node!.camera!.fieldOfView - CGFloat(scale)
+            if node!.camera!.fieldOfView <= maximumFOV {
+                node!.camera!.fieldOfView = maximumFOV
+            }
+            if node!.camera!.fieldOfView >= minimumFOV {
+                node!.camera!.fieldOfView = minimumFOV
+            }
+            break
+        default: break
         }
     }
 
