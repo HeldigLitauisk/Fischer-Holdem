@@ -13,12 +13,15 @@ import SceneKit
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
     var scene: SCNScene!
     var scnView: SCNView!
+    var gameOverlay: GameOverlay!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
         scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
+        
         
         scene.physicsWorld.gravity = SCNVector3Make(0, -10, 0)
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
@@ -28,19 +31,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let leather = scene.rootNode.childNode(withName: "leather", recursively: true)
         leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         
-        let newRound = RoundView()
-        let cardNodes = newRound.dealCards(gamePhase: .preflop)
-        for card in cardNodes {
-            scene.rootNode.addChildNode(card)
-            if card.name == "hero" {
-                let dealHero = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z + 15), duration: 0.2)
-                card.runAction(dealHero)
-            } else {
-                let dealOpponent = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z - 15), duration: 0.2)
-                card.runAction(dealOpponent)
-            }
-            
-        }
+        
   
         // retrieve the SCNView
         scnView = self.view as! SCNView
@@ -51,8 +42,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         //Allows actions during different phases of screen rendering
         scnView.delegate = self
         
-        // allows the user to manipulate the camera
-       // scnView.allowsCameraControl = true
+        // display card as an overlay on screen
+        scnView.overlaySKScene = GameOverlay(size: view.frame.size)
+        let gameOverlay = scnView.overlaySKScene as! GameOverlay
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
@@ -72,6 +64,31 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let cameraZoom = UIPinchGestureRecognizer(target: self, action: #selector(zoom(_:)))
         scnView.addGestureRecognizer(cameraZoom)
         
+        let foldingSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+        foldingSwipe.direction = [.up]
+        scnView.addGestureRecognizer(foldingSwipe)
+        
+        let cameraSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeCamera(_:)))
+        cameraSwipe.direction = [.left, .right]
+        scnView.addGestureRecognizer(cameraSwipe)
+        
+        
+        
+        let newRound = RoundView()
+        let cardNodes = newRound.dealCards(gamePhase: .preflop)
+        for card in cardNodes {
+            
+            scene.rootNode.addChildNode(card)
+            if card.name == "hero" {
+                gameOverlay.showCard(cardNode: card)
+                let dealHero = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z + 15), duration: 0.2)
+                card.runAction(dealHero)
+            } else {
+                let dealOpponent = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z - 15), duration: 0.2)
+                card.runAction(dealOpponent)
+            }
+            
+        }
     }
     
     @objc
@@ -94,6 +111,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
    @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+    
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
@@ -103,6 +121,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
                 result.node.runAction(up)
                 
+                // highlights card when clicked
                 let material = result.node.geometry!.materials[2]
                 SCNTransaction.begin()
                 SCNTransaction.animationDuration = 0.5
@@ -112,9 +131,36 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     material.emission.contents = UIColor.black
                     SCNTransaction.commit()
                 }
+                
                 material.emission.contents = UIColor.green
                 SCNTransaction.commit()
             }
+        }
+    
+    
+    }
+    
+    @objc
+    func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        let p = gesture.location(in: scnView)
+        let hitResults = scnView.hitTest(p, options: [:])
+        let node = hitResults[0]
+        if node.node.name == "hero" {
+                let pos = node.node.position
+                let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 15), duration: 0.2)
+                node.node.runAction(forward)
+            }
+        }
+    
+    @objc
+    func handleSwipeCamera(_ gesture: UISwipeGestureRecognizer) {
+        let cameraNode = scene.rootNode.childNode(withName: "camera", recursively: false)
+        let heroView = SCNAction.move(to: SCNVector3(0, 25, 28), duration: 2)
+        let sideView = SCNAction.move(to: SCNVector3(-50, 50, 0), duration: 2)
+        if cameraNode?.position.x == 0 {
+            cameraNode?.runAction(sideView)
+        } else {
+            cameraNode?.runAction(heroView)
         }
     }
     
@@ -141,6 +187,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         default: break
         }
     }
+    
+    
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
     }
