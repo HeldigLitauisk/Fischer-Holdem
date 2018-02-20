@@ -57,15 +57,15 @@ class Chips: SCNNode {
     }
     
     private func createChipNode() {
-        var chip1 = SCNVector3(x: -2, y: 17, z: 10)
-        var chip5 = SCNVector3(x: -4, y: 16, z: 12)
-        var chip25 = SCNVector3(x: -6, y: 16, z: 12)
+        var chip1 = SCNVector3(x: 0, y: 18, z: 15)
+        var chip5 = SCNVector3(x: -2.2, y: 18, z: 12.8)
+        var chip25 = SCNVector3(x: -4.4, y: 18, z: 10.6)
         let numberOfChips = calculateNumberOfChips(chipCount: self.chipCount)
         for chip in 0...numberOfChips.dollar25 {
             let newChip = chipNode(chipValue: ChipValue.twentyFiveDollars)
             newChip.position = chip25
             if chip % 15 == 0 && chip != 0  {
-                chip25 = SCNVector3(x: newChip.position.x, y: newChip.position.y, z: newChip.position.z - 2.2)
+                chip25 = SCNVector3(x: newChip.position.x - 2.05, y: newChip.position.y, z: newChip.position.z + 2.05)
             }
             self.addChildNode(newChip)
         }
@@ -73,7 +73,7 @@ class Chips: SCNNode {
             let newChip = chipNode(chipValue: ChipValue.fiveDollars)
             newChip.position = chip5
             if chip % 15 == 0 && chip != 0 {
-                chip5 = SCNVector3(x: newChip.position.x, y: newChip.position.y, z: newChip.position.z - 2.2)
+                chip5 = SCNVector3(x: newChip.position.x - 2.05, y: newChip.position.y, z: newChip.position.z + 2.05)
             }
             self.addChildNode(newChip)
         }
@@ -81,7 +81,7 @@ class Chips: SCNNode {
             let newChip = chipNode(chipValue: ChipValue.dollar)
             newChip.position = chip1
             if chip % 15 == 0 && chip != 0 {
-                chip1 = SCNVector3(x: newChip.position.x, y: newChip.position.y, z: newChip.position.z - 2.2)
+                chip1 = SCNVector3(x: newChip.position.x - 2, y: newChip.position.y, z: newChip.position.z + 2)
             }
             self.addChildNode(newChip)
         }

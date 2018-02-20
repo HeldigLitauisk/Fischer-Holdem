@@ -83,10 +83,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             scene.rootNode.addChildNode(card)
             if card.name == "hero" {
                 gameOverlay.showCard(cardNode: card)
-                let dealHero = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z + 15), duration: 0.2)
+                let dealHero = SCNAction.move(to: SCNVector3(3 , card.position.y, card.position.z + 15), duration: 0.2)
                 card.runAction(dealHero)
             } else {
-                let dealOpponent = SCNAction.move(to: SCNVector3(0 , card.position.y, card.position.z - 15), duration: 0.2)
+                let dealOpponent = SCNAction.move(to: SCNVector3(3 , card.position.y, card.position.z - 15), duration: 0.2)
                 card.runAction(dealOpponent)
             }
             
@@ -120,29 +120,36 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if hitResults.count > 0 {
             let result = hitResults[0]
             let material: SCNMaterial
+            let pos = result.node.position
+            let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
             if result.node.name == "hero" {
-                let pos = result.node.position
-                let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
-                result.node.runAction(up)
-                
-                // highlights card when clicked
                 material = result.node.geometry!.materials[2]
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-                SCNTransaction.completionBlock = {
-                    SCNTransaction.begin()
-                    SCNTransaction.animationDuration = 0.5
-                    material.emission.contents = UIColor.black
-                    SCNTransaction.commit()
-                }
-
-                material.emission.contents = UIColor.green
-                SCNTransaction.commit()
+                highlightNode(material: material)
+                result.node.runAction(up)
+            } else if result.node.parent?.name == "chips" {
+                material = (result.node.geometry?.firstMaterial)!
+                highlightNode(material: material)
+                result.node.runAction(up)
             }
+            
+            
         }
-    
-    
     }
+    
+    // highlights card when clicked
+    private func highlightNode(material: SCNMaterial) {
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = 0.5
+        SCNTransaction.completionBlock = {
+            SCNTransaction.begin()
+            SCNTransaction.animationDuration = 0.5
+            material.emission.contents = UIColor.black
+            SCNTransaction.commit()
+        }
+        material.emission.contents = UIColor.yellow
+        SCNTransaction.commit()
+    }
+    
     
     @objc
     func handleSwipe(_ gesture: UISwipeGestureRecognizer) {

@@ -24,10 +24,10 @@ class RoundView {
             heroCard2.name = "hero"
             opponentCard1.name = "opponent"
             opponentCard2.name = "opponent"
-            heroCard1.position = SCNVector3(0, 18, 0)
-            opponentCard1.position = SCNVector3(0, 18, 0)
-            heroCard2.position = SCNVector3(0, 18, 0)
-            opponentCard2.position = SCNVector3(0, 18, 0)
+            heroCard1.position = SCNVector3(10, 18, 0)
+            opponentCard1.position = SCNVector3(10, 18, 0)
+            heroCard2.position = SCNVector3(10, 18, 0)
+            opponentCard2.position = SCNVector3(10, 18, 0)
             cardNodes = [heroCard1, opponentCard1, heroCard2, opponentCard2]
             return cardNodes!
         default:
