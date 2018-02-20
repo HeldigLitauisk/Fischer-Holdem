@@ -19,9 +19,8 @@ class Card: SCNNode {
         self.geometry = SCNBox(width: 3, height: 4.2, length: 0.1, chamferRadius: 5)
         self.eulerAngles = SCNVector3(x: -30, y: 0, z: 0)
         self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        self.geometry?.firstMaterial?.shininess = 1
         self.physicsBody?.categoryBitMask = CollisionCategoryCard
-        self.physicsBody?.collisionBitMask = CollisionCategoryCard | CollisionCategoryChip | CollisionCategoryDealerButton
+        self.physicsBody?.collisionBitMask = CollisionCategoryCard | CollisionCategoryChip | CollisionCategoryDealerButton | CollisionCategoryFloor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,6 +37,8 @@ class Card: SCNNode {
         backMaterial.diffuse.contents = UIImage(named: "cardSide3")
         let materials: [SCNMaterial] = [frontMaterial, sideMaterial, backMaterial, sideMaterial, sideMaterial, sideMaterial]
         self.geometry?.materials = materials
+        self.geometry?.firstMaterial?.shininess = 5
        
     }
 }
+

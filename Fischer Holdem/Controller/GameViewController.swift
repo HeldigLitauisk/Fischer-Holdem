@@ -23,13 +23,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
         
         
-        scene.physicsWorld.gravity = SCNVector3Make(0, -10, 0)
         let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
         floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
         let leg = scene.rootNode.childNode(withName: "leg", recursively: true)
         leg?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         let leather = scene.rootNode.childNode(withName: "leather", recursively: true)
         leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
+        let table = scene.rootNode.childNode(withName: "table", recursively: true)
+        table?.physicsBody?.collisionBitMask = CollisionCategoryTable
+        scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
         
         
   
@@ -89,6 +91,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
             
         }
+        scene.rootNode.addChildNode(Chips(chipCount: 424))
     }
     
     @objc
@@ -116,13 +119,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
             let result = hitResults[0]
+            let material: SCNMaterial
             if result.node.name == "hero" {
                 let pos = result.node.position
                 let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
                 result.node.runAction(up)
                 
                 // highlights card when clicked
-                let material = result.node.geometry!.materials[2]
+                material = result.node.geometry!.materials[2]
                 SCNTransaction.begin()
                 SCNTransaction.animationDuration = 0.5
                 SCNTransaction.completionBlock = {
@@ -131,7 +135,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     material.emission.contents = UIColor.black
                     SCNTransaction.commit()
                 }
-                
+
                 material.emission.contents = UIColor.green
                 SCNTransaction.commit()
             }
@@ -147,7 +151,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let node = hitResults[0]
         if node.node.name == "hero" {
                 let pos = node.node.position
-                let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 15), duration: 0.2)
+                let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 5), duration: 0.2)
                 node.node.runAction(forward)
             }
         }
@@ -155,8 +159,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     @objc
     func handleSwipeCamera(_ gesture: UISwipeGestureRecognizer) {
         let cameraNode = scene.rootNode.childNode(withName: "camera", recursively: false)
-        let heroView = SCNAction.move(to: SCNVector3(0, 25, 28), duration: 2)
-        let sideView = SCNAction.move(to: SCNVector3(-50, 50, 0), duration: 2)
+        let heroView = SCNAction.move(to: SCNVector3(0, 25, 28), duration: 1)
+        let sideView = SCNAction.move(to: SCNVector3(-50, 50, 0), duration: 1)
         if cameraNode?.position.x == 0 {
             cameraNode?.runAction(sideView)
         } else {

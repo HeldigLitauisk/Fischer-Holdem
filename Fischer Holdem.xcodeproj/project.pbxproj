@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		44158C2020386DDD001C9B2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44158C1F20386DDD001C9B2E /* Images.xcassets */; };
 		442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8111203B5E9B00721554 /* GameOverlay.swift */; };
+		442D8118203BB5CC00721554 /* Chips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8117203BB5CC00721554 /* Chips.swift */; };
 		44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AD36EC203873BD00D3A0F8 /* Card.swift */; };
 		44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AD36F22038C22700D3A0F8 /* SharedConstants.swift */; };
 		44BA6480203868280037C175 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BA647F203868280037C175 /* AppDelegate.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		44158C1F20386DDD001C9B2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		442D8111203B5E9B00721554 /* GameOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverlay.swift; sourceTree = "<group>"; };
+		442D8117203BB5CC00721554 /* Chips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chips.swift; sourceTree = "<group>"; };
 		44AD36EC203873BD00D3A0F8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		44AD36F22038C22700D3A0F8 /* SharedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConstants.swift; sourceTree = "<group>"; };
 		44BA647C203868280037C175 /* Fischer Holdem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fischer Holdem.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +56,7 @@
 			children = (
 				44E2E9BF203A0A6F0084D933 /* RoundView.swift */,
 				442D8111203B5E9B00721554 /* GameOverlay.swift */,
+				442D8117203BB5CC00721554 /* Chips.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */,
 				44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */,
 				44BA6484203868280037C175 /* GameViewController.swift in Sources */,
+				442D8118203BB5CC00721554 /* Chips.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);

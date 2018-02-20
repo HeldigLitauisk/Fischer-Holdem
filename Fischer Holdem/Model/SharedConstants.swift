@@ -5,10 +5,11 @@
 //  Created by Eimantas Urbutis on 17/02/2018.
 //  Copyright © 2018 Urbut Corp. All rights reserved.
 //
-let CollisionCategoryDealerButton = 4
-let CollisionCategoryChip = 6
-let CollisionCategoryCard = 1
+let CollisionCategoryDealerButton = 5
+let CollisionCategoryChip = 1
+let CollisionCategoryCard = 3
 let CollisionCategoryFloor = 10
+let CollisionCategoryTable = 10
 
 enum Suit: Int {
     case heart = 0, daimond, club, spade
