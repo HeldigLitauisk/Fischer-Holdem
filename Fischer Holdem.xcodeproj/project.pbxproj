@@ -56,7 +56,6 @@
 			children = (
 				44E2E9BF203A0A6F0084D933 /* RoundView.swift */,
 				442D8111203B5E9B00721554 /* GameOverlay.swift */,
-				442D8117203BB5CC00721554 /* Chips.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -67,6 +66,7 @@
 				44AD36F22038C22700D3A0F8 /* SharedConstants.swift */,
 				44AD36EC203873BD00D3A0F8 /* Card.swift */,
 				44E2E9B92039C2710084D933 /* Deck.swift */,
+				442D8117203BB5CC00721554 /* Chips.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

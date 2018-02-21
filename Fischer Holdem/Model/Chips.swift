@@ -67,7 +67,9 @@ class Chips: SCNNode {
             if chip % 15 == 0 && chip != 0  {
                 chip25 = SCNVector3(x: newChip.position.x - 2.05, y: newChip.position.y, z: newChip.position.z + 2.05)
             }
-            self.addChildNode(newChip)
+            if chip != 0 {
+                self.addChildNode(newChip)
+            }
         }
         for chip in 0...numberOfChips.dollar5 {
             let newChip = chipNode(chipValue: ChipValue.fiveDollars)
@@ -75,7 +77,9 @@ class Chips: SCNNode {
             if chip % 15 == 0 && chip != 0 {
                 chip5 = SCNVector3(x: newChip.position.x - 2.05, y: newChip.position.y, z: newChip.position.z + 2.05)
             }
-            self.addChildNode(newChip)
+            if chip != 0 {
+                self.addChildNode(newChip)
+            }
         }
         for chip in 0...numberOfChips.dollar {
             let newChip = chipNode(chipValue: ChipValue.dollar)
@@ -83,7 +87,9 @@ class Chips: SCNNode {
             if chip % 15 == 0 && chip != 0 {
                 chip1 = SCNVector3(x: newChip.position.x - 2, y: newChip.position.y, z: newChip.position.z + 2)
             }
-            self.addChildNode(newChip)
+            if chip != 0 {
+                self.addChildNode(newChip)
+            }
         }
     }
     

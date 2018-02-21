@@ -9,8 +9,44 @@
 import Foundation
 import SceneKit
 
-class RoundView {
-    let deck = Deck()
+/*struct RoundView {
+ 
+    init(phase: GamePhase) {
+        
+        switch phase {
+            case .preflop:
+                preflopActions()
+            case .flop:
+                flopActions()
+            case .turn:
+                turnActions()
+            case .river:
+                riverActions()
+            case .showdown:
+                showdownActions()
+        }
+    }
+    
+    
+    
+    private func preflopActions() {
+    }
+    
+    private func flopActions() {
+        let heroCard1 = Deck.dealCard()
+        let opponentCard1 = Deck.dealCard()
+        let heroCard2 = Deck.dealCard()
+        let opponentCard2 = Deck.dealCard()
+    }
+    
+    private func turnActions() {
+    }
+    
+    private func riverActions() {
+    }
+    
+    private func showdownActions() {
+    }
     
     func dealCards(gamePhase: GamePhase) -> [Card] {
         var cardNodes: [Card]?
@@ -35,4 +71,4 @@ class RoundView {
         }
     }
     
-}
+} */

@@ -22,3 +22,5 @@ enum Rank: Int {
 enum GamePhase: String {
     case preflop, flop, turn, river, showdown
 }
+
+

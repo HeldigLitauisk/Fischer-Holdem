@@ -14,7 +14,7 @@ class GameOverlay: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-      //  scaleMode = .resizeFill
+      scaleMode = .resizeFill
     }
     
     required init?(coder aDecoder: NSCoder) {

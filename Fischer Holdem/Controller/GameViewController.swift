@@ -31,6 +31,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
         let table = scene.rootNode.childNode(withName: "table", recursively: true)
         table?.physicsBody?.collisionBitMask = CollisionCategoryTable
+        
+        
         scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
         
         
@@ -75,25 +77,34 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scnView.addGestureRecognizer(cameraSwipe)
         
         
-        
-        let newRound = RoundView()
-        let cardNodes = newRound.dealCards(gamePhase: .preflop)
-        for card in cardNodes {
-            
-            scene.rootNode.addChildNode(card)
-            if card.name == "hero" {
-                gameOverlay.showCard(cardNode: card)
-                let dealHero = SCNAction.move(to: SCNVector3(3 , card.position.y, card.position.z + 15), duration: 0.2)
-                card.runAction(dealHero)
-            } else {
-                let dealOpponent = SCNAction.move(to: SCNVector3(3 , card.position.y, card.position.z - 15), duration: 0.2)
-                card.runAction(dealOpponent)
-            }
-            
-        }
-        scene.rootNode.addChildNode(Chips(chipCount: 424))
-    }
     
+        
+        let deck = Deck()
+        scene.rootNode.addChildNode(deck)
+        scene.rootNode.addChildNode(Chips(chipCount: 777))
+        
+        let heroCard1 = deck.dealCard()
+        let heroCard2 = deck.dealCard()
+        let opponentCard1 = deck.dealCard()
+        let opponentCard2 = deck.dealCard()
+        
+        let dealHeroAction = SCNAction.move(to: SCNVector3(3 , 16, 15), duration: 0.2)
+        heroCard1.runAction(dealHeroAction)
+        heroCard2.runAction(dealHeroAction)
+        
+        let dealOpponentAction = SCNAction.move(to: SCNVector3(3 , 16, -15), duration: 0.2)
+        opponentCard1.runAction(dealOpponentAction)
+        opponentCard2.runAction(dealOpponentAction)
+        
+        gameOverlay.showCard(cardNode: heroCard1)
+        gameOverlay.showCard(cardNode: heroCard2)
+        
+        
+        
+        
+        
+    }
+        
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
 
@@ -101,7 +112,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
             let result = hitResults[0]
-            if result.node.name == "hero" {
+            if result.node.name == "52" || result.node.name == "51" {
                 let pos = result.node.position
                 let up = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z), duration: 0.2)
                 let rotate = (SCNAction.rotateBy(x: 0, y: 0, z: 2, duration: 0.2))
@@ -122,7 +133,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             let material: SCNMaterial
             let pos = result.node.position
             let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
-            if result.node.name == "hero" {
+            if result.node.name == "52" || result.node.name == "51" {
                 material = result.node.geometry!.materials[2]
                 highlightNode(material: material)
                 result.node.runAction(up)
@@ -156,7 +167,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let p = gesture.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         let node = hitResults[0]
-        if node.node.name == "hero" {
+        if node.node.name == "52" || node.node.name == "51"  {
                 let pos = node.node.position
                 let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 5), duration: 0.2)
                 node.node.runAction(forward)

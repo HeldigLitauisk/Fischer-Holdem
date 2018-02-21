@@ -9,24 +9,44 @@
 import Foundation
 import SceneKit
 
-class Deck {
-    private var deck = deckBuilder()
-
-    private static func deckBuilder() -> Array<(rank: Rank, suit: Suit)> {
-        var deck: Array<(rank: Rank, suit: Suit)> = []
-        for _ in 1...52 {
-            let randomRank = Rank(rawValue: Int(arc4random_uniform(13)))
-            let randomSuit = Suit(rawValue: Int(arc4random_uniform(4)))
-            deck.append((rank: randomRank!, suit: randomSuit!))
-        }
-        return deck
+class Deck: SCNNode {
+    var deck: Array<Card> = []
+    
+    override init() {
+        super.init()
+        self.name = "deck"
+        self.deck = deckBuilder()
+        createCards()
     }
     
-    func assignCard() -> Card {
-        let randomCard = Int(arc4random_uniform(UInt32(deck.count)))
-        let cardNode = Card(cardValue: deck[randomCard])
-        cardNode.colorizeCard()
-        deck.remove(at: randomCard)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func deckBuilder() -> Array<Card> {
+        var newDeck: Array<Card> = []
+        for card in 1...52 {
+            let randomRank = Rank(rawValue: Int(arc4random_uniform(13)))
+            let randomSuit = Suit(rawValue: Int(arc4random_uniform(4)))
+            let cardNode = Card(cardValue: (randomRank!, randomSuit!))
+            cardNode.name = String(card)
+            newDeck.append(cardNode)
+        }
+      return newDeck
+    }
+    
+    private func createCards() {
+        for card in deck {
+            card.colorizeCard()
+            card.position = SCNVector3(x: 15, y: 18, z: 0)
+            self.addChildNode(card)
+        }
+    }
+    
+    func dealCard() -> Card {
+        let cardNode = deck[deck.count - 1]
+        deck.remove(at: deck.count - 1)
         return cardNode
     }
+    
 }
