@@ -48,7 +48,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // display card as an overlay on screen
         scnView.overlaySKScene = GameOverlay(size: view.frame.size)
-        let gameOverlay = scnView.overlaySKScene as! GameOverlay
+        
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
@@ -80,28 +80,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
         
         let deck = Deck()
+        
+        let hero = Player(chipCount: 200)
+        
+        let opponent = Player(chipCount: hero.chipCount)
+        scene.rootNode.addChildNode(Chips(chipCount: hero.chipCount))
         scene.rootNode.addChildNode(deck)
-        scene.rootNode.addChildNode(Chips(chipCount: 777))
-        
-        let heroCard1 = deck.dealCard()
-        let heroCard2 = deck.dealCard()
-        let opponentCard1 = deck.dealCard()
-        let opponentCard2 = deck.dealCard()
-        
-        let dealHeroAction = SCNAction.move(to: SCNVector3(3 , 16, 15), duration: 0.2)
-        heroCard1.runAction(dealHeroAction)
-        heroCard2.runAction(dealHeroAction)
-        
-        let dealOpponentAction = SCNAction.move(to: SCNVector3(3 , 16, -15), duration: 0.2)
-        opponentCard1.runAction(dealOpponentAction)
-        opponentCard2.runAction(dealOpponentAction)
-        
-        gameOverlay.showCard(cardNode: heroCard1)
-        gameOverlay.showCard(cardNode: heroCard2)
-        
-        
-        
-        
+        let gameLogic = GameLogic(hero: hero, opponent: opponent)
+        gameLogic.startNewGame(deck: deck)
         
     }
         
@@ -113,11 +99,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if hitResults.count > 0 {
             let result = hitResults[0]
             if result.node.name == "52" || result.node.name == "51" {
-                let pos = result.node.position
-                let up = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z), duration: 0.2)
-                let rotate = (SCNAction.rotateBy(x: 0, y: 0, z: 2, duration: 0.2))
-                result.node.runAction(up)
-                result.node.runAction(rotate)
+                let cardNode = result.node as! Card
+                cardNode.revealCard()
             }
         }
     }
@@ -132,11 +115,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             let result = hitResults[0]
             let material: SCNMaterial
             let pos = result.node.position
-            let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.05), duration: 0.02)
+            let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.3), duration: 0.02)
             if result.node.name == "52" || result.node.name == "51" {
                 material = result.node.geometry!.materials[2]
                 highlightNode(material: material)
                 result.node.runAction(up)
+                
+                let cardNode = result.node as! Card
+                let gameOverlay = scnView.overlaySKScene as! GameOverlay
+                gameOverlay.showCard(cardNode: cardNode)
+                
             } else if result.node.parent?.name == "chips" {
                 material = (result.node.geometry?.firstMaterial)!
                 highlightNode(material: material)

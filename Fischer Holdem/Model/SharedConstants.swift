@@ -19,8 +19,6 @@ enum Rank: Int {
     case deuce = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
 }
 
-enum GamePhase: String {
-    case preflop, flop, turn, river, showdown
-}
+
 
 

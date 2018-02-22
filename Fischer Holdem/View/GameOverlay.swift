@@ -22,13 +22,14 @@ class GameOverlay: SKScene {
     }
     
     func showCard(cardNode: Card) {
-        let faceUpCard: String = String(describing: cardNode.cardValue.rank) + String(describing: cardNode.cardValue.suit)
-        let cardSprite = SKSpriteNode(imageNamed: faceUpCard)
-        cardSprite.scale(to: CGSize(width: 120, height: 168))
-        heroCards.append(cardSprite)
-        let numberOfCards = CGFloat(heroCards.count)
-        cardSprite.position = CGPoint(x: -size.width / 2 + 130 * numberOfCards , y: size.height / 2 - 150)
-       addChild(cardSprite)
+        let cardImageName: String = String(describing: cardNode.cardValue.rank) + String(describing: cardNode.cardValue.suit)
+        let cardSprite = SKSpriteNode(imageNamed: cardImageName)
+        cardSprite.scale(to: CGSize(width: 80, height: 112))
+        cardSprite.position = CGPoint(x: 0, y: size.height / 2 - 100)
+        self.addChild(cardSprite)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.removeAllChildren()
+        }
     }
     
 }
