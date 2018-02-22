@@ -114,7 +114,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 let gameOverlay = scnView.overlaySKScene as! GameOverlay
                 gameOverlay.showCard(cardNode: cardNode)
                 
-            } else if result.node.parent?.name == "chips" {
+            } else if result.node.parent?.name == "chips" || result.node.parent?.name == "buttons" {
                 material = (result.node.geometry?.firstMaterial)!
                 highlightNode(material: material)
                 result.node.runAction(up)
@@ -134,7 +134,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             material.emission.contents = UIColor.black
             SCNTransaction.commit()
         }
-        material.emission.contents = UIColor.yellow
+        material.emission.contents = UIColor.green
         SCNTransaction.commit()
     }
     
