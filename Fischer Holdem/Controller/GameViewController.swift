@@ -22,17 +22,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         // create a new scene
         scene = SCNScene(named: "art.scnassets/pokerTable.scn")!
         
-        
-        let floor = scene.rootNode.childNode(withName: "floor", recursively: true)
-        floor?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "floorA")
-        let leg = scene.rootNode.childNode(withName: "leg", recursively: true)
-        leg?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
-        let leather = scene.rootNode.childNode(withName: "leather", recursively: true)
-        leather?.geometry?.firstMaterial?.diffuse.contents = #imageLiteral(resourceName: "pokerFelt3")
-        let table = scene.rootNode.childNode(withName: "table", recursively: true)
-        table?.physicsBody?.collisionBitMask = CollisionCategoryTable
-        
-        
         scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
         
         
