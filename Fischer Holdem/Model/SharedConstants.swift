@@ -19,7 +19,7 @@ enum Rank: UInt32 {
     case deuce = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
 }
 
-enum Choice: UInt32 {
+enum ButtonChoice: UInt32 {
     // fold ; check/call ; raise/bet accordingly
     case red = 0, blue, green
 }

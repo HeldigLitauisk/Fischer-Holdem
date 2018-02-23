@@ -27,13 +27,6 @@ class Player {
         self.chips = Chips(chipCount: chipCount)
     }
     
-    func fold() {
-        self.hasFolded = true
-    }
     
-    func bet(betAmount: UInt32) {
-        self.chipCount -= betAmount
-        self.chips.chipCount -= betAmount
-    }
     
 }

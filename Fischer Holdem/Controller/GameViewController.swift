@@ -17,7 +17,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var hero: Player!
     var opponent: Player!
     var gameLogic: GameLogic!
-    var choice: UInt32 = 0
     
 
     override func viewDidLoad() {
@@ -74,17 +73,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         opponent = Player(chipCount: hero.chipCount)
         
         gameLogic = GameLogic(hero: hero, opponent: opponent)
-        gameLogic.runGame(phase: .preflop)
-        
-        
-        
-        
         
         scene.rootNode.addChildNode(hero.chips)
         scene.rootNode.addChildNode(gameLogic.deck)
         
-      
+        
+        
+        gameLogic.runGame(phase: .preflop)
+        actionButtons()
+        
+        
+        
     }
+
+    func actionButtons() {
+        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = !(scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden)!
+    }
+    
+    
+    
+    
     
         
     @objc
@@ -137,18 +145,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         result.node.name = "p.twentyFiveDollars"
                         result.node.runAction(moveToPot)
                 }
-            } else if result.node.name == "red" {
-                choice = 1
-                material = (result.node.geometry?.firstMaterial)!
-                highlightNode(material: material)
-            } else if result.node.name == "blue" {
-                choice = 2
-                material = (result.node.geometry?.firstMaterial)!
-                highlightNode(material: material)
-            } else if result.node.name == "green" {
-                choice = 3
-                material = (result.node.geometry?.firstMaterial)!
-                highlightNode(material: material)
+            } else if result.node.name == "fold" {
+                gameLogic.fold()
+                actionButtons()
+                gameLogic.preflopDecisionMade = true
+            } else if result.node.name == "check" {
+                gameLogic.check()
+                actionButtons()
+                gameLogic.preflopDecisionMade = true
+            } else if result.node.name == "bet" {
+                gameLogic.bet(betAmount: gameLogic.betAmount)
+                actionButtons()
+                gameLogic.preflopDecisionMade = true
             }
         }
     }
@@ -219,11 +227,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        let text = scene.rootNode.childNode(withName: "bigbet", recursively: true)?.geometry as! SCNText
+        let text = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
         text.string = String(gameLogic.betAmount)
+        
+        if gameLogic.preflopDecisionMade {
+            
+            gameLogic.runGame(phase: gameLogic.gamePhase )
+            //gameLogic.dealFlop()
+            gameLogic.preflopDecisionMade = false
+        }
+        
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {

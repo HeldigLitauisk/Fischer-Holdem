@@ -23,6 +23,7 @@ class GameLogic {
     var potSize: UInt32
     var betAmount: UInt32
     let deck: Deck
+    var preflopDecisionMade: Bool = false
     
     init(hero: Player, opponent: Player) {
         self.gameStarted = true
@@ -33,7 +34,7 @@ class GameLogic {
         self.opponent = opponent
         self.potSize = 0
         self.deck = Deck()
-        self.betAmount = 2
+        self.betAmount = 0
     }
     
     private func startNewGame() {
@@ -45,17 +46,18 @@ class GameLogic {
     func runGame(phase: GamePhase) {
             switch gamePhase {
             case .preflop:
-                if hero.isDealer && hero.chipCount != 0 {
                 dealCards()
                 postBlinds()
+                
+                if hero.isDealer && hero.chipCount != 0 {
+                
                 }
-    
-                gamePhase = .flop
+                self.gamePhase = .flop
             case .flop:
+                dealFlop()
                 if !hero.isDealer && hero.chipCount != 0 {
                 } else if !opponent.isDealer && opponent.chipCount != 0 {
                 }
-                gamePhase = .turn
             case .turn:
                 if !hero.isDealer && hero.chipCount != 0 {
                 } else if !opponent.isDealer && opponent.chipCount != 0 {
@@ -109,6 +111,32 @@ class GameLogic {
     
     func increaseBetAmount(betAmount: UInt32) {
         self.betAmount += betAmount
+    }
+    
+    func fold() {
+        hero.hasFolded = true
+    }
+    
+    func bet(betAmount: UInt32) {
+        hero.chipCount -= betAmount
+        hero.chips.chipCount -= betAmount
+        self.betAmount = 0
+    }
+    
+    func check() {
+    }
+    
+    func dealFlop() {
+        let pos = SCNVector3(-5, 17, 0)
+        let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
+        for card in 0...2 {
+            let moveToCenter = SCNAction.move(to: SCNVector3(pos.x + Float(4 * card), pos.y, pos.z), duration:0.5)
+            let sequence = SCNAction.sequence([moveToCenter, rotate])
+            let cardNode = deck.dealCard()
+            cardNode.physicsBody?.isAffectedByGravity = false
+            cardNode.runAction(sequence)
+            cardNode.physicsBody?.isAffectedByGravity = true
+        }
     }
     
     
