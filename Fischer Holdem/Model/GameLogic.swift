@@ -24,6 +24,9 @@ class GameLogic {
     var betAmount: UInt32
     let deck: Deck
     var preflopDecisionMade: Bool = false
+    var flopDecisionMade: Bool = false
+    var turnDecisionMade: Bool = false
+    var riverDecisionMade: Bool = false
     
     init(hero: Player, opponent: Player) {
         self.gameStarted = true
@@ -59,21 +62,24 @@ class GameLogic {
                 } else if !opponent.isDealer && opponent.chipCount != 0 {
                 }
             case .turn:
+                dealTurn()
                 if !hero.isDealer && hero.chipCount != 0 {
                 } else if !opponent.isDealer && opponent.chipCount != 0 {
                 }
                 gamePhase = .river
             case .river:
+                dealTurn(isRiver: true)
                 if !hero.isDealer && hero.chipCount != 0 {
                 } else if !opponent.isDealer && opponent.chipCount != 0 {
                 }
                 gamePhase = .showdown
             case .showdown:
-               // hero.playerHand?.0.revealCard()
-             //   hero.playerHand?.1.revealCard()
-             //   opponent.playerHand?.0.revealCard()
-            //    opponent.playerHand?.1.revealCard()
-                self.haveWinner = true
+                hero.playerHand?.0.revealCard()
+                hero.playerHand?.1.revealCard()
+                opponent.playerHand?.0.revealCard()
+                opponent.playerHand?.1.revealCard()
+                
+               // self.haveWinner = true
             }
         moveDealerButton()
         }
@@ -92,14 +98,27 @@ class GameLogic {
     }
     
     private func postBlinds() {
+        let moveToPot = SCNAction.move(to: SCNVector3(0, 18, 0), duration: 0.5)
+        let heroBlind = hero.chips.childNode(withName: "dollar", recursively: true)
+        heroBlind?.runAction(moveToPot)
+        heroBlind?.name = "p.dollar"
+        let opponentBlind = hero.chips.childNode(withName: "dollar", recursively: true)
+        opponentBlind?.runAction(moveToPot)
+        opponentBlind?.name = "p.dollar"
         if hero.isDealer {
             hero.chipCount -= 1
             opponent.chipCount -= 2
             self.potSize += 3
+            let opponentBlind = hero.chips.childNode(withName: "dollar", recursively: true)
+            opponentBlind?.runAction(moveToPot)
+            opponentBlind?.name = "p.dollar"
         } else {
             opponent.chipCount -= 1
             hero.chipCount -= 2
             self.potSize += 3
+            let heroBlind = hero.chips.childNode(withName: "dollar", recursively: true)
+            heroBlind?.runAction(moveToPot)
+            heroBlind?.name = "p.dollar"
         }
     }
     
@@ -121,12 +140,13 @@ class GameLogic {
         hero.chipCount -= betAmount
         hero.chips.chipCount -= betAmount
         self.betAmount = 0
+        self.potSize += betAmount
     }
     
     func check() {
     }
     
-    func dealFlop() {
+    func dealFlop(){
         let pos = SCNVector3(-5, 17, 0)
         let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
         for card in 0...2 {
@@ -138,6 +158,20 @@ class GameLogic {
             cardNode.physicsBody?.isAffectedByGravity = true
         }
     }
+    
+    func dealTurn(isRiver: Bool = false) {
+        var moveToTurn = SCNAction.move(to: SCNVector3(3, 17, 0), duration: 1)
+        if isRiver {
+            moveToTurn = SCNAction.move(to: SCNVector3(5, 17, 0), duration: 1)
+        }
+        let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
+        let seqeunce = SCNAction.sequence([moveToTurn, rotate])
+        let cardNode = deck.dealCard()
+        cardNode.physicsBody?.isAffectedByGravity = false
+        cardNode.runAction(seqeunce)
+        cardNode.physicsBody?.isAffectedByGravity = true
+    }
+    
     
     
     

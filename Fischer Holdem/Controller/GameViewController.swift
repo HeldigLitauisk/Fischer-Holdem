@@ -70,13 +70,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
         
         hero = Player(chipCount: 200)
-        opponent = Player(chipCount: hero.chipCount)
+        opponent = Player(chipCount: hero.chipCount, isHero: false)
         
         gameLogic = GameLogic(hero: hero, opponent: opponent)
         
         scene.rootNode.addChildNode(hero.chips)
         scene.rootNode.addChildNode(gameLogic.deck)
-        
+        scene.rootNode.addChildNode(opponent.chips)
         
         
         gameLogic.runGame(phase: .preflop)
@@ -206,7 +206,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let scale = gesture.velocity
         
         let maximumFOV:CGFloat = 10
-        let minimumFOV:CGFloat = 110
+        let minimumFOV:CGFloat = 125
         
         switch gesture.state {
         case .began:
@@ -227,20 +227,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+        if gameLogic.preflopDecisionMade {
+            gameLogic.runGame(phase: gameLogic.gamePhase )
+            gameLogic.preflopDecisionMade = false
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        let text = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
-        text.string = String(gameLogic.betAmount)
-        
-        if gameLogic.preflopDecisionMade {
-            
-            gameLogic.runGame(phase: gameLogic.gamePhase )
-            //gameLogic.dealFlop()
-            gameLogic.preflopDecisionMade = false
-        }
-        
+        let betAmountText = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
+        betAmountText.string = String(gameLogic.betAmount)
+    
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
