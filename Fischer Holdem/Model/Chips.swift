@@ -10,7 +10,8 @@ import Foundation
 import SceneKit
 
 class Chips: SCNNode {
-    private let chipCount: UInt32
+    var chipCount: UInt32
+   // private var chipsCreated: (dollar: UInt32, dollar5: UInt32, dollar25: UInt32)?
     
     init(chipCount: UInt32) {
         self.chipCount = chipCount
@@ -24,7 +25,7 @@ class Chips: SCNNode {
     }
     
     // not really using atm
-    private enum ChipValue: UInt32 {
+    enum ChipValue: UInt32 {
         case dollar = 1, fiveDollars = 5, twentyFiveDollars = 25
     }
     
@@ -43,6 +44,7 @@ class Chips: SCNNode {
         }
         return (dollar, dollar5, dollar25)
     }
+    
     
     private func chipNode(chipValue: ChipValue) -> SCNNode {
         let chipNode = SCNNode()
@@ -93,8 +95,48 @@ class Chips: SCNNode {
         }
     }
     
+  /*  static func minimumNumberOfChips(chipCount: UInt32) -> (dollar: UInt32, dollar5: UInt32, dollar25: UInt32) {
+        var dollar = chipCount
+        var dollar5: UInt32 = 0
+        var dollar25: UInt32 = 0
+        
+        dollar25 = dollar / 25
+        dollar = dollar % 25
+        dollar5 = dollar / 5
+        dollar = dollar % 5
+        return (dollar, dollar5, dollar25)
+    }
+    
+    static func playerBets(betAmount: UInt32) {
+        let moveToPotAction = SCNAction.move(to: SCNVector3(0, 17, 0), duration: 1)
+        let numberOfChips = minimumNumberOfChips(chipCount: betAmount)
+        for chip in 0...numberOfChips.dollar25 {
+            if chip != 0 {
+                let chipNode = self.
+                chipNode?.runAction(moveToPotAction)
+                chipNode?.name = "inPot"
+            }
+        }
+        for chip in 0...numberOfChips.dollar5 {
+            if chip != 0 {
+                let chipNode = self.childNode(withName: "fiveDollars", recursively: true)
+                chipNode?.runAction(moveToPotAction)
+                chipNode?.name = "inPot"
+            }
+        }
+        for chip in 0...numberOfChips.dollar {
+            if chip != 0 {
+                let chipNode = self.childNode(withName: "dollar", recursively: true)
+                chipNode?.runAction(moveToPotAction)
+                chipNode?.name = "inPot"
+            }
+        }
+        //self.chipCount -= betAmount
+    }
+    
+    
     private func updateChips() {
     // for future
-    }
+    } */
 }
 

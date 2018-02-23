@@ -10,10 +10,14 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate, UIGestureRecognizerDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var scene: SCNScene!
     var scnView: SCNView!
     var gameOverlay: GameOverlay!
+    var hero: Player!
+    var opponent: Player!
+    var gameLogic: GameLogic!
+    var choice: UInt32 = 0
     
 
     override func viewDidLoad() {
@@ -64,21 +68,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let cameraSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeCamera(_:)))
         cameraSwipe.direction = [.left, .right]
         scnView.addGestureRecognizer(cameraSwipe)
+
+        
+        hero = Player(chipCount: 200)
+        opponent = Player(chipCount: hero.chipCount)
+        
+        gameLogic = GameLogic(hero: hero, opponent: opponent)
+        gameLogic.runGame(phase: .preflop)
         
         
-    
         
-        let deck = Deck()
         
-        let hero = Player(chipCount: 200)
         
-        let opponent = Player(chipCount: hero.chipCount)
-        scene.rootNode.addChildNode(Chips(chipCount: hero.chipCount))
-        scene.rootNode.addChildNode(deck)
-        let gameLogic = GameLogic(hero: hero, opponent: opponent)
-        gameLogic.startNewGame(deck: deck)
+        scene.rootNode.addChildNode(hero.chips)
+        scene.rootNode.addChildNode(gameLogic.deck)
         
+      
     }
+    
         
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
@@ -93,8 +100,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             }
         }
     }
-    
-    
+            
    @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
     
@@ -105,6 +111,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             let material: SCNMaterial
             let pos = result.node.position
             let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.3), duration: 0.02)
+            let moveToPot = SCNAction.move(to: SCNVector3(0, 20, 0), duration: 1)
             if result.node.name == "52" || result.node.name == "51" {
                 material = result.node.geometry!.materials[2]
                 highlightNode(material: material)
@@ -114,13 +121,35 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 let gameOverlay = scnView.overlaySKScene as! GameOverlay
                 gameOverlay.showCard(cardNode: cardNode)
                 
-            } else if result.node.parent?.name == "chips" || result.node.parent?.name == "buttons" {
+            } else if result.node.parent?.name == "chips" {
                 material = (result.node.geometry?.firstMaterial)!
                 highlightNode(material: material)
-                result.node.runAction(up)
+                if result.node.name == "dollar" {
+                    gameLogic.increaseBetAmount(betAmount: UInt32(1))
+                    result.node.name = "p.dollar"
+                    result.node.runAction(moveToPot)
+                } else if result.node.name == "fiveDollars" {
+                    gameLogic.increaseBetAmount(betAmount: UInt32(5))
+                    result.node.name = "p.fiveDollars"
+                    result.node.runAction(moveToPot)
+                } else if result.node.name == "twentyFiveDollars" {
+                        gameLogic.increaseBetAmount(betAmount: UInt32(25))
+                        result.node.name = "p.twentyFiveDollars"
+                        result.node.runAction(moveToPot)
+                }
+            } else if result.node.name == "red" {
+                choice = 1
+                material = (result.node.geometry?.firstMaterial)!
+                highlightNode(material: material)
+            } else if result.node.name == "blue" {
+                choice = 2
+                material = (result.node.geometry?.firstMaterial)!
+                highlightNode(material: material)
+            } else if result.node.name == "green" {
+                choice = 3
+                material = (result.node.geometry?.firstMaterial)!
+                highlightNode(material: material)
             }
-            
-            
         }
     }
     
@@ -193,6 +222,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
+        let text = scene.rootNode.childNode(withName: "bigbet", recursively: true)?.geometry as! SCNText
+        text.string = String(gameLogic.betAmount)
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
