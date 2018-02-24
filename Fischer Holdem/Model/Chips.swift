@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 class Chips: SCNNode {
-    var chipCount: UInt32
+    let chipCount: UInt32
     let isHero: Bool
    // private var chipsCreated: (dollar: UInt32, dollar5: UInt32, dollar25: UInt32)?
     

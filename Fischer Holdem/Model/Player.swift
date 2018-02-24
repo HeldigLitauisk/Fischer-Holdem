@@ -10,20 +10,18 @@ import Foundation
 import SceneKit
 
 class Player {
+    let isHero: Bool
     var isDealer: Bool
-    var isHero: Bool
-    var hasFolded: Bool
+    var hasFolded: Bool = false
     var chipCount: UInt32
+    var contribution: UInt32 = 0
+    let chips: Chips
     var playerHand: (Card, Card)?
-    var isPlaying: Bool
-    var chips: Chips
     
     init(chipCount: UInt32, isHero: Bool = true) {
         self.isHero = isHero
         self.isDealer = isHero  // for first hand only
-        self.hasFolded = false
         self.chipCount  = chipCount
-        self.isPlaying = true
         self.chips = Chips(chipCount: chipCount, isHero: isHero)
     }
     

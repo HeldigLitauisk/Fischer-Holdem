@@ -10,76 +10,56 @@ import Foundation
 import SceneKit
 
 class GameLogic {
-    var gameStarted: Bool
-    var timeExpired: Bool
-    var flopCards: (Card, Card, Card)?
-    var turnCard: Card?
-    var riverCard: Card?
+    var decisionMade: Bool = true
+    var haveWinner: Bool = false
+    var potSize: UInt32 = 0
+    var callAmount: UInt32 = 0
+    var betAmount: UInt32 = 0
     var gamePhase: GamePhase
-    var haveWinner: Bool
-    var winner: Player?
+    let deck: Deck
     let hero: Player
     let opponent: Player
-    var potSize: UInt32
-    var betAmount: UInt32
-    let deck: Deck
-    var preflopDecisionMade: Bool = false
-    var flopDecisionMade: Bool = false
-    var turnDecisionMade: Bool = false
-    var riverDecisionMade: Bool = false
+    var winner: Player?
+    var boardCards: Array<Card>?
     
     init(hero: Player, opponent: Player) {
-        self.gameStarted = true
-        self.timeExpired = false
-        self.haveWinner = false
         self.gamePhase = .preflop
+        self.deck = Deck()
         self.hero = hero
         self.opponent = opponent
-        self.potSize = 0
-        self.deck = Deck()
-        self.betAmount = 0
     }
     
-    private func startNewGame() {
+    func startNewGame() {
         hero.hasFolded = false
         opponent.hasFolded = false
-        self.haveWinner = false
+        self.gamePhase = .preflop
+        nextPhase(phase: gamePhase)
+        //add a original deck
+        //add updated chip
     }
     
-    func runGame(phase: GamePhase) {
+   func nextPhase(phase: GamePhase) {
+    // add if statement in case hero or opponent is all in.
             switch gamePhase {
             case .preflop:
                 dealCards()
                 postBlinds()
-                
-                if hero.isDealer && hero.chipCount != 0 {
-                
-                }
                 self.gamePhase = .flop
             case .flop:
                 dealFlop()
-                if !hero.isDealer && hero.chipCount != 0 {
-                } else if !opponent.isDealer && opponent.chipCount != 0 {
-                }
+                self.gamePhase = .turn
             case .turn:
                 dealTurn()
-                if !hero.isDealer && hero.chipCount != 0 {
-                } else if !opponent.isDealer && opponent.chipCount != 0 {
-                }
-                gamePhase = .river
+                self.gamePhase = .river
             case .river:
                 dealTurn(isRiver: true)
-                if !hero.isDealer && hero.chipCount != 0 {
-                } else if !opponent.isDealer && opponent.chipCount != 0 {
-                }
-                gamePhase = .showdown
+                self.gamePhase = .showdown
             case .showdown:
                 hero.playerHand?.0.revealCard()
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
                 
-               // self.haveWinner = true
             }
         moveDealerButton()
         }
@@ -108,6 +88,8 @@ class GameLogic {
         if hero.isDealer {
             hero.chipCount -= 1
             opponent.chipCount -= 2
+            hero.contribution += 1
+            opponent.contribution += 2
             self.potSize += 3
             let opponentBlind = hero.chips.childNode(withName: "dollar", recursively: true)
             opponentBlind?.runAction(moveToPot)
@@ -115,6 +97,8 @@ class GameLogic {
         } else {
             opponent.chipCount -= 1
             hero.chipCount -= 2
+            hero.contribution += 2
+            opponent.contribution += 1
             self.potSize += 3
             let heroBlind = hero.chips.childNode(withName: "dollar", recursively: true)
             heroBlind?.runAction(moveToPot)
@@ -122,7 +106,15 @@ class GameLogic {
         }
     }
     
-    private func moveDealerButton() {
+    func updateCallAmount() {
+        if hero.contribution < opponent.contribution {
+            callAmount = opponent.contribution - hero.contribution
+            hero.contribution = 0
+            opponent.contribution = 0
+        }
+    }
+    
+    func moveDealerButton() {
         let tempValue = hero.isDealer
         hero.isDealer = opponent.isDealer
         opponent.isDealer = tempValue
@@ -133,21 +125,38 @@ class GameLogic {
     }
     
     func fold() {
+        decisionMade = true
         hero.hasFolded = true
+        haveWinner = true
+        winner = opponent
     }
     
-    func bet(betAmount: UInt32) {
+    func bet() {
+        decisionMade = true
         hero.chipCount -= betAmount
-        hero.chips.chipCount -= betAmount
-        self.betAmount = 0
+        hero.contribution += betAmount
         self.potSize += betAmount
+        self.betAmount = 0
+    }
+    
+    func call() {
+        decisionMade = true
+        hero.chipCount -= callAmount
+        hero.contribution += callAmount
+        self.potSize += callAmount
+        self.callAmount = 0
+        nextPhase(phase: gamePhase)
     }
     
     func check() {
+        decisionMade = true
+        nextPhase(phase: gamePhase)
+        print(gamePhase)
+        print(callAmount)
     }
     
     func dealFlop(){
-        let pos = SCNVector3(-5, 17, 0)
+        let pos = SCNVector3(-8, 17, 0)
         let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
         for card in 0...2 {
             let moveToCenter = SCNAction.move(to: SCNVector3(pos.x + Float(4 * card), pos.y, pos.z), duration:0.5)
@@ -156,13 +165,14 @@ class GameLogic {
             cardNode.physicsBody?.isAffectedByGravity = false
             cardNode.runAction(sequence)
             cardNode.physicsBody?.isAffectedByGravity = true
+            boardCards?.append(cardNode)
         }
     }
     
     func dealTurn(isRiver: Bool = false) {
         var moveToTurn = SCNAction.move(to: SCNVector3(3, 17, 0), duration: 1)
         if isRiver {
-            moveToTurn = SCNAction.move(to: SCNVector3(5, 17, 0), duration: 1)
+            moveToTurn = SCNAction.move(to: SCNVector3(6, 17, 0), duration: 1)
         }
         let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
         let seqeunce = SCNAction.sequence([moveToTurn, rotate])
@@ -170,6 +180,7 @@ class GameLogic {
         cardNode.physicsBody?.isAffectedByGravity = false
         cardNode.runAction(seqeunce)
         cardNode.physicsBody?.isAffectedByGravity = true
+        boardCards?.append(cardNode)
     }
     
     

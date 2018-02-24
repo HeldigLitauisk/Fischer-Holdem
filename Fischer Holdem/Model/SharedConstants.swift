@@ -32,8 +32,8 @@ enum Reaction: UInt32 {
     case fold = 0, call, raise
 }
 
-enum GamePhase: String {
-    case preflop, flop, turn, river, showdown
+enum GamePhase: UInt32, Hashable, Equatable {
+    case preflop = 0, flop, turn, river, showdown
 }
 
 

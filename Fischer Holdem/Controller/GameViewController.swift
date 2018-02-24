@@ -17,7 +17,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var hero: Player!
     var opponent: Player!
     var gameLogic: GameLogic!
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,23 +78,35 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scene.rootNode.addChildNode(gameLogic.deck)
         scene.rootNode.addChildNode(opponent.chips)
         
+        gameLogic.startNewGame()
         
-        gameLogic.runGame(phase: .preflop)
-        actionButtons()
+        //if gameLogic.hero.isDealer == true {
+       //     reactionButtonsOn()
+     //   }
+        
+        
+        
         
         
         
     }
 
-    func actionButtons() {
-        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = !(scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden)!
+    func actionButtonsOn() {
+        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = false
     }
     
+    func actionButtonsOff() {
+        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = true
+    }
     
+    func reactionButtonsOn() {
+        scene.rootNode.childNode(withName: "reactionButtons", recursively: false)?.isHidden = false
+    }
     
-    
-    
-        
+    func reactionButtonsOff() {
+        scene.rootNode.childNode(withName: "reactionButtons", recursively: false)?.isHidden = true
+    }
+
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
 
@@ -145,18 +157,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                         result.node.name = "p.twentyFiveDollars"
                         result.node.runAction(moveToPot)
                 }
-            } else if result.node.name == "fold" {
-                gameLogic.fold()
-                actionButtons()
-                gameLogic.preflopDecisionMade = true
-            } else if result.node.name == "check" {
-                gameLogic.check()
-                actionButtons()
-                gameLogic.preflopDecisionMade = true
-            } else if result.node.name == "bet" {
-                gameLogic.bet(betAmount: gameLogic.betAmount)
-                actionButtons()
-                gameLogic.preflopDecisionMade = true
+            } else if result.node.parent?.name == "actionButtons" {
+                if result.node.name == "fold" {
+                    gameLogic.fold()
+                } else if result.node.name == "check" {
+                    gameLogic.check()
+                } else if result.node.name == "bet" {
+                    if gameLogic.betAmount != 0 {
+                        gameLogic.bet()
+                    }
+                }
+                actionButtonsOff()
+            } else if result.node.parent?.name == "reactionButtons" {
+                if result.node.name == "fold" {
+                    gameLogic.fold()
+                } else if result.node.name == "call" {
+                    gameLogic.call()
+                } else if result.node.name == "raise" {
+                    if gameLogic.betAmount != 0 {
+                        gameLogic.bet()
+                    }
+                }
+                reactionButtonsOff()
             }
         }
     }
@@ -227,15 +249,35 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if gameLogic.preflopDecisionMade {
-            gameLogic.runGame(phase: gameLogic.gamePhase )
-            gameLogic.preflopDecisionMade = false
+        let betAmountText = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
+        betAmountText.string = String(gameLogic.betAmount) + "$"
+        let callAmountText = scene.rootNode.childNode(withName: "callAmount", recursively: true)?.geometry as! SCNText
+        callAmountText.string = String(gameLogic.callAmount) + "$"
+        
+        if gameLogic.decisionMade == true {
+            gameLogic.updateCallAmount()
+            if gameLogic.callAmount > 0 {
+                reactionButtonsOn()
+            } else if gameLogic.callAmount == 0 {
+                actionButtonsOn()
+            }
+            gameLogic.decisionMade = false
         }
     }
     
+    
+    
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        let betAmountText = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
-        betAmountText.string = String(gameLogic.betAmount)
+       
+        
+        
+        if gameLogic.haveWinner == true {
+            //gameLogic.givePotToWinner
+            //gameLogic.zeroGravity
+            gameLogic.startNewGame()
+        }
+        
+        
     
     }
     
@@ -251,6 +293,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // let taps = event?.allTouches
+       // let firstTouch = taps?.count
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
