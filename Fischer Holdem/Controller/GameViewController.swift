@@ -151,7 +151,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                     gameLogic.fold(player: gameLogic.hero)
                     actionButtonsOff()
                 } else if result.node.name == "check" {
-                    gameLogic.check()
+                    gameLogic.check(player: hero)
                     actionButtonsOff()
                 } else if result.node.name == "bet" {
                     if gameLogic.betAmount != 0 {
@@ -256,10 +256,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             gameLogic.haveWinner = false
         }
         
-        
+      gameLogic.updateCallAmount()
         
       if gameLogic.heroToAct == true {
-        gameLogic.updateCallAmount()
         if gameLogic.callAmount > 0 {
             reactionButtonsOn()
             gameLogic.heroToAct = false
@@ -282,11 +281,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        
-        
-        
-        
-        
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {

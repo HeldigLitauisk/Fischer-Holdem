@@ -46,7 +46,6 @@ class GameLogic {
         winner = nil
         boardCards = nil
         moveDealerButton()
-        dealCards()
         postBlinds()
         nextPhase(phase: gamePhase)
     }
@@ -61,31 +60,32 @@ class GameLogic {
     // add if statement in case hero or opponent is all in.
             switch gamePhase {
             case .preflop:
-                if !heroToAct {
-                    if callAmount > 0 {
-                        randomReactionDecision()
-                        heroToAct = true
-                    } else if callAmount == 0 {
-                        randomActionDecision()
-                    }
-                } else if callAmount == 0 {
-                    self.gamePhase = .flop
-                }
+                dealCards()
+               // self.gamePhase = .flop
             case .flop:
                 dealFlop()
-                self.gamePhase = .turn
+                if !opponent.isDealer {
+                    randomActionDecision()
+                }
+                //self.gamePhase = .turn
             case .turn:
                 dealTurn()
-                self.gamePhase = .river
+                if !opponent.isDealer {
+                    randomActionDecision()
+                }
+               // self.gamePhase = .river
             case .river:
                 dealTurn(isRiver: true)
-                self.gamePhase = .showdown
+                if !opponent.isDealer {
+                    randomActionDecision()
+                }
+              //  self.gamePhase = .showdown
             case .showdown:
                 hero.playerHand?.0.revealCard()
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
-                moveDealerButton()
+                //moveDealerButton()
             }
         }
     
@@ -95,36 +95,91 @@ class GameLogic {
         }
         player.chipCount -= betAmount
         player.contribution += betAmount
-        self.potSize += betAmount
+        potSize += betAmount
+        betAmount = 0
         customAmount(amount: betAmount, player: player)
-        self.betAmount = 0
-        self.callAmount = 0
-        
-        wentAllIn()
-        nextPhase(phase: gamePhase)
+        //wentAllIn()
     }
-    
     
     func call(player: Player) {
         if callAmount > player.chipCount {
             callAmount = player.chipCount
         }
         player.chipCount -= callAmount
-        player.contribution += callAmount
         potSize += callAmount
         customAmount(amount: callAmount, player: player)
-        //self.hero.contribution = 0
-        //self.opponent.contribution = 0
         callAmount = 0
+        // preflop SB completion
+        if gamePhase == .preflop && player.isDealer && potSize == 4 {
+            if opponent.isDealer {
+                heroToAct = true
+            } else {
+                randomActionDecision()
+            }
+        // all other calling situations
+        } else {
+            gamePhase = nextStreet(phase: gamePhase)
+            nextPhase(phase: gamePhase)
+        }
         //wentAllIn()
+    }
+    
+    func check(player: Player) {
+        // preflop BB check
+        if gamePhase == .preflop && !player.isDealer {
+            gamePhase = nextStreet(phase: gamePhase)
+        }
+        // flop, turn, river BB check
+        if gamePhase != .preflop && !player.isDealer {
+            if opponent.isDealer {
+                randomActionDecision()
+            } else {
+                heroToAct = true
+            }
+        }
+        // flop, turn, river BTN check back
+        if gamePhase != .preflop && player.isDealer {
+            gamePhase = nextStreet(phase: gamePhase)
+        }
         nextPhase(phase: gamePhase)
     }
     
-    func check() {
-        nextPhase(phase: gamePhase)
+    func randomReactionDecision() {
+        if let decision = ReactionChoice(rawValue: arc4random_uniform(3)) {
+            print("Stupid AI makes random Reaction " + String(describing: decision))
+            switch decision {
+            case .fold:
+                fold(player: opponent)
+            case .call:
+                call(player: opponent)
+            case .raise:
+                betAmount = (2 * callAmount) + arc4random_uniform(callAmount)
+                bet(player: opponent)
+                heroToAct = true
+            }
+        }
     }
     
+    func nextStreet(phase: GamePhase) -> GamePhase {
+        let nextStreet = GamePhase(rawValue: phase.rawValue + 1)
+        return nextStreet!
+    }
     
+    func randomActionDecision() {
+        if let decision =  ActionChoice(rawValue: arc4random_uniform(3)) {
+            print("Stupid AI makes random Action " + String(describing: decision))
+            switch decision {
+            case .fold:
+                fold(player: opponent)
+            case .check:
+                check(player: opponent)
+            case .bet:
+                betAmount = arc4random_uniform(125) * potSize / 100 + 1
+                bet(player: opponent)
+                heroToAct = true
+            }
+        }
+    }
     
     private func dealCards() {
         hero.playerHand = (deck.dealCard(), deck.dealCard())
@@ -162,10 +217,13 @@ class GameLogic {
             callAmount = opponent.contribution - hero.contribution
             hero.contribution = 0
             opponent.contribution = 0
+            heroToAct = true
         } else if hero.contribution > opponent.contribution {
             callAmount = hero.contribution - opponent.contribution
             hero.contribution = 0
             opponent.contribution = 0
+            heroToAct = false
+            randomReactionDecision()
         }
     }
     
@@ -173,11 +231,11 @@ class GameLogic {
         let tempValue = hero.isDealer
         hero.isDealer = opponent.isDealer
         opponent.isDealer = tempValue
-        if hero.isDealer {
-            heroToAct = true
-        } else if !hero.isDealer {
-                heroToAct = false
-            }
+      //  if hero.isDealer {
+       //     heroToAct = true
+      //  } else if !hero.isDealer {
+      //          heroToAct = false
+          //  }
     }
     
     
@@ -188,15 +246,8 @@ class GameLogic {
     func fold(player: Player) {
         player.hasFolded = true
         haveWinner = true
-        //winner = player
-        //winner?.chipCount += potSize
-        
     }
-    
-    
-    
-    
-    
+
     func dealFlop(){
         let pos = SCNVector3(-8, 17, 0)
         let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
@@ -237,44 +288,6 @@ class GameLogic {
         opponent.chips = Chips(chipCount: opponent.chipCount, isHero: false)
     }
     
-    func wentAllIn() {
-        if hero.isAllIn || opponent.isAllIn {
-            gamePhase = .showdown
-            nextPhase(phase: .showdown)
-        }
-    }
-    
-    func randomReactionDecision() {
-        if let decision = ReactionChoice(rawValue: arc4random_uniform(3)) {
-            print("Stupid AI make random Reaction " + String(describing: decision))
-            switch decision {
-            case .fold:
-                fold(player: opponent)
-            case .call:
-                call(player: opponent)
-            case .raise:
-                betAmount = (2 * callAmount) + arc4random_uniform(callAmount)
-                bet(player: opponent)
-                heroToAct = true
-            }
-        }
-    }
-    
-    func randomActionDecision() {
-        if let decision =  ActionChoice(rawValue: arc4random_uniform(3)) {
-            print("Stupid AI make random Action " + String(describing: decision))
-            switch decision {
-            case .fold:
-                fold(player: opponent)
-            case .check:
-                check()
-            case .bet:
-                betAmount = arc4random_uniform(125) * potSize / 100 + 1
-                bet(player: opponent)
-                heroToAct = true
-            }
-        }
-    }
     
     // for calling or raising any amount from avaialble chips on the table
     func customAmount(amount: UInt32, player: Player) {
