@@ -31,6 +31,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
   
         // retrieve the SCNView
         scnView = self.view as! SCNView
+        scnView.pointOfView = scene.rootNode.childNode(withName: "camera", recursively: true)
         
         // set the scene to the view
         scnView.scene = scene
@@ -74,38 +75,31 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         gameLogic = GameLogic(hero: hero, opponent: opponent)
         
+        gameLogic.startNewGame()
         scene.rootNode.addChildNode(hero.chips)
         scene.rootNode.addChildNode(gameLogic.deck)
         scene.rootNode.addChildNode(opponent.chips)
         
-        gameLogic.startNewGame()
-        
-        //if gameLogic.hero.isDealer == true {
-       //     reactionButtonsOn()
-     //   }
-        
-        
-        
-        
-        
         
     }
 
+
     func actionButtonsOn() {
-        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = false
+        scene.rootNode.childNode(withName: "actionButtons", recursively: true)?.isHidden = false
     }
     
     func actionButtonsOff() {
-        scene.rootNode.childNode(withName: "actionButtons", recursively: false)?.isHidden = true
+        scene.rootNode.childNode(withName: "actionButtons", recursively: true)?.isHidden = true
     }
     
     func reactionButtonsOn() {
-        scene.rootNode.childNode(withName: "reactionButtons", recursively: false)?.isHidden = false
+        scene.rootNode.childNode(withName: "reactionButtons", recursively: true)?.isHidden = false
     }
     
     func reactionButtonsOff() {
-        scene.rootNode.childNode(withName: "reactionButtons", recursively: false)?.isHidden = true
+        scene.rootNode.childNode(withName: "reactionButtons", recursively: true)?.isHidden = true
     }
+
 
     @objc
     func revealCard(_ gestureRecognize: UIGestureRecognizer) {
@@ -224,61 +218,74 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     @objc
      func zoom(_ gesture: UIPinchGestureRecognizer) {
-        let node = scene.rootNode.childNode(withName: "camera", recursively: false)
+        let node = scene.rootNode.childNode(withName: "camera", recursively: true)
         let scale = gesture.velocity
         
         let maximumFOV:CGFloat = 10
         let minimumFOV:CGFloat = 125
         
-        switch gesture.state {
-        case .began:
-            break
-        case .changed:
-            node!.camera!.fieldOfView = node!.camera!.fieldOfView - CGFloat(scale)
-            if node!.camera!.fieldOfView <= maximumFOV {
-                node!.camera!.fieldOfView = maximumFOV
+        if scale > -20 && scale < 20 {
+            switch gesture.state {
+            case .began:
+                break
+            case .changed:
+                node!.camera!.fieldOfView = node!.camera!.fieldOfView - CGFloat(scale)
+                if node!.camera!.fieldOfView <= maximumFOV {
+                    node!.camera!.fieldOfView = maximumFOV
+                }
+                if node!.camera!.fieldOfView >= minimumFOV {
+                    node!.camera!.fieldOfView = minimumFOV
+                }
+                break
+            default: break
             }
-            if node!.camera!.fieldOfView >= minimumFOV {
-                node!.camera!.fieldOfView = minimumFOV
-            }
-            break
-        default: break
         }
+        
     }
-    
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        let betAmountText = scene.rootNode.childNode(withName: "betAmount", recursively: true)?.geometry as! SCNText
-        betAmountText.string = String(gameLogic.betAmount) + "$"
-        let callAmountText = scene.rootNode.childNode(withName: "callAmount", recursively: true)?.geometry as! SCNText
+        
+       
+        
+        let callAmountText = scene.rootNode.childNode(withName: "callSize", recursively: true)?.geometry as! SCNText
         callAmountText.string = String(gameLogic.callAmount) + "$"
         
+        let raiseAmountText = scene.rootNode.childNode(withName: "raiseAmount", recursively: true)?.geometry as! SCNText
+        raiseAmountText.string = String(gameLogic.betAmount) + "$"
+        
+     
         if gameLogic.decisionMade == true {
             gameLogic.updateCallAmount()
             if gameLogic.callAmount > 0 {
+                
                 reactionButtonsOn()
             } else if gameLogic.callAmount == 0 {
                 actionButtonsOn()
             }
             gameLogic.decisionMade = false
         }
+        
+    
     }
     
     
     
+    
+    
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-       
-        
+
         
         if gameLogic.haveWinner == true {
-            //gameLogic.givePotToWinner
-            //gameLogic.zeroGravity
             gameLogic.startNewGame()
+            scene.rootNode.addChildNode(hero.chips)
+            scene.rootNode.addChildNode(gameLogic.deck)
+            scene.rootNode.addChildNode(opponent.chips)
+            //gameLogic.givePotToWinner
+            gameLogic.haveWinner = false
         }
         
         
-    
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {

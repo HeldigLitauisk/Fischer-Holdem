@@ -16,7 +16,7 @@ class GameLogic {
     var callAmount: UInt32 = 0
     var betAmount: UInt32 = 0
     var gamePhase: GamePhase
-    let deck: Deck
+    var deck: Deck
     let hero: Player
     let opponent: Player
     var winner: Player?
@@ -30,12 +30,14 @@ class GameLogic {
     }
     
     func startNewGame() {
+        potSize = 0
         hero.hasFolded = false
         opponent.hasFolded = false
+        updateDeck()
+        updateChips()
         self.gamePhase = .preflop
         nextPhase(phase: gamePhase)
-        //add a original deck
-        //add updated chip
+        
     }
     
    func nextPhase(phase: GamePhase) {
@@ -59,9 +61,10 @@ class GameLogic {
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
-                
+    
+    
             }
-        moveDealerButton()
+       // moveDealerButton()
         }
     
     
@@ -129,6 +132,7 @@ class GameLogic {
         hero.hasFolded = true
         haveWinner = true
         winner = opponent
+        winner?.chipCount += potSize
     }
     
     func bet() {
@@ -151,8 +155,6 @@ class GameLogic {
     func check() {
         decisionMade = true
         nextPhase(phase: gamePhase)
-        print(gamePhase)
-        print(callAmount)
     }
     
     func dealFlop(){
@@ -182,6 +184,19 @@ class GameLogic {
         cardNode.physicsBody?.isAffectedByGravity = true
         boardCards?.append(cardNode)
     }
+    
+    func updateDeck() {
+        self.deck.removeFromParentNode()
+        deck = Deck()
+    }
+    
+    func updateChips() {
+        hero.chips.removeFromParentNode()
+        opponent.chips.removeFromParentNode()
+        hero.chips = Chips(chipCount: hero.chipCount)
+        opponent.chips = Chips(chipCount: opponent.chipCount, isHero: false)
+    }
+    
     
     
     

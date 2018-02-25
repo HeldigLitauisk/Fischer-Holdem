@@ -15,7 +15,7 @@ class Player {
     var hasFolded: Bool = false
     var chipCount: UInt32
     var contribution: UInt32 = 0
-    let chips: Chips
+    var chips: Chips
     var playerHand: (Card, Card)?
     
     init(chipCount: UInt32, isHero: Bool = true) {
