@@ -116,16 +116,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
             
    @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+    func handleTap(_ gestureRecognize: UITapGestureRecognizer) {
     
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         if hitResults.count > 0 {
             let result = hitResults[0]
-            let material: SCNMaterial
+            var material = (result.node.geometry?.firstMaterial)!
             let pos = result.node.position
             let up = SCNAction.move(to: SCNVector3(pos.x , pos.y, pos.z - 0.3), duration: 0.02)
-            let moveToPot = SCNAction.move(to: SCNVector3(0, 20, 0), duration: 1)
             if result.node.name == "52" || result.node.name == "51" {
                 material = result.node.geometry!.materials[2]
                 highlightNode(material: material)
@@ -136,22 +135,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 gameOverlay.showCard(cardNode: cardNode)
                 
             } else if result.node.parent?.name == "chips" {
-                material = (result.node.geometry?.firstMaterial)!
+                
                 highlightNode(material: material)
+                result.node.runAction(up)
                 if result.node.name == "dollar" {
                     gameLogic.increaseBetAmount(betAmount: UInt32(1))
-                    result.node.name = "p.dollar"
-                    result.node.runAction(moveToPot)
                 } else if result.node.name == "fiveDollars" {
                     gameLogic.increaseBetAmount(betAmount: UInt32(5))
-                    result.node.name = "p.fiveDollars"
-                    result.node.runAction(moveToPot)
                 } else if result.node.name == "twentyFiveDollars" {
                         gameLogic.increaseBetAmount(betAmount: UInt32(25))
-                        result.node.name = "p.twentyFiveDollars"
-                        result.node.runAction(moveToPot)
                 }
             } else if result.node.parent?.name == "actionButtons" {
+                highlightNode(material: material)
                 if result.node.name == "fold" {
                     gameLogic.fold()
                 } else if result.node.name == "check" {
@@ -163,12 +158,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
                 }
                 actionButtonsOff()
             } else if result.node.parent?.name == "reactionButtons" {
+                highlightNode(material: material)
                 if result.node.name == "fold" {
                     gameLogic.fold()
                 } else if result.node.name == "call" {
                     gameLogic.call()
                 } else if result.node.name == "raise" {
-                    if gameLogic.betAmount != 0 {
+                    if gameLogic.betAmount >= 2 * gameLogic.callAmount {
                         gameLogic.bet()
                     }
                 }
@@ -245,7 +241,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+        if gameLogic.decisionMade == true {
+            gameLogic.updateCallAmount()
+            if gameLogic.callAmount > 0 {
+                reactionButtonsOn()
+            } else if gameLogic.callAmount == 0 {
+                actionButtonsOn()
+            }
+            gameLogic.decisionMade = false
+        }
        
         
         let callAmountText = scene.rootNode.childNode(withName: "callSize", recursively: true)?.geometry as! SCNText
@@ -254,27 +258,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let raiseAmountText = scene.rootNode.childNode(withName: "raiseAmount", recursively: true)?.geometry as! SCNText
         raiseAmountText.string = String(gameLogic.betAmount) + "$"
         
-     
-        if gameLogic.decisionMade == true {
-            gameLogic.updateCallAmount()
-            if gameLogic.callAmount > 0 {
-                
-                reactionButtonsOn()
-            } else if gameLogic.callAmount == 0 {
-                actionButtonsOn()
-            }
-            gameLogic.decisionMade = false
-        }
-        
-    
+  
+
     }
     
-    
-    
-    
-    
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-
+        
         
         if gameLogic.haveWinner == true {
             gameLogic.startNewGame()

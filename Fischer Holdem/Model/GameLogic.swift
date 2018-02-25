@@ -30,12 +30,22 @@ class GameLogic {
     }
     
     func startNewGame() {
+        if hero.chipCount <= 2 || opponent.chipCount <= 2 {
+            print("GAME OVER! You lost the game, time to rebuy")
+        }
         potSize = 0
+        hero.contribution = 0
+        opponent.contribution = 0
+        betAmount = 0
+        callAmount = 0
         hero.hasFolded = false
         opponent.hasFolded = false
+        haveWinner = false
         updateDeck()
         updateChips()
-        self.gamePhase = .preflop
+        gamePhase = .preflop
+        winner = nil
+        boardCards = nil
         nextPhase(phase: gamePhase)
         
     }
@@ -81,31 +91,22 @@ class GameLogic {
     }
     
     private func postBlinds() {
-        let moveToPot = SCNAction.move(to: SCNVector3(0, 18, 0), duration: 0.5)
-        let heroBlind = hero.chips.childNode(withName: "dollar", recursively: true)
-        heroBlind?.runAction(moveToPot)
-        heroBlind?.name = "p.dollar"
-        let opponentBlind = hero.chips.childNode(withName: "dollar", recursively: true)
-        opponentBlind?.runAction(moveToPot)
-        opponentBlind?.name = "p.dollar"
         if hero.isDealer {
             hero.chipCount -= 1
             opponent.chipCount -= 2
             hero.contribution += 1
             opponent.contribution += 2
             self.potSize += 3
-            let opponentBlind = hero.chips.childNode(withName: "dollar", recursively: true)
-            opponentBlind?.runAction(moveToPot)
-            opponentBlind?.name = "p.dollar"
+            customAmount(amount: 1, player: hero)
+            customAmount(amount: 2, player: opponent)
         } else {
             opponent.chipCount -= 1
             hero.chipCount -= 2
             hero.contribution += 2
             opponent.contribution += 1
             self.potSize += 3
-            let heroBlind = hero.chips.childNode(withName: "dollar", recursively: true)
-            heroBlind?.runAction(moveToPot)
-            heroBlind?.name = "p.dollar"
+            customAmount(amount: 2, player: hero)
+            customAmount(amount: 1, player: opponent)
         }
     }
     
@@ -133,23 +134,36 @@ class GameLogic {
         haveWinner = true
         winner = opponent
         winner?.chipCount += potSize
+        
     }
     
     func bet() {
+        if betAmount > hero.chipCount {
+            betAmount = hero.chipCount
+        }
         decisionMade = true
         hero.chipCount -= betAmount
         hero.contribution += betAmount
         self.potSize += betAmount
+        customAmount(amount: betAmount, player: hero)
         self.betAmount = 0
+        self.callAmount = 0
+        wentAllIn()
     }
     
+    
     func call() {
+        if callAmount > hero.chipCount {
+            callAmount = hero.chipCount
+        }
         decisionMade = true
         hero.chipCount -= callAmount
         hero.contribution += callAmount
         self.potSize += callAmount
+        customAmount(amount: callAmount, player: hero)
         self.callAmount = 0
         nextPhase(phase: gamePhase)
+        wentAllIn()
     }
     
     func check() {
@@ -197,6 +211,69 @@ class GameLogic {
         opponent.chips = Chips(chipCount: opponent.chipCount, isHero: false)
     }
     
+    func wentAllIn() {
+        if hero.isAllIn || opponent.isAllIn {
+            gamePhase = .showdown
+            nextPhase(phase: .showdown)
+        }
+    }
+    
+    // for calling or raising any amount from avaialble chips on the table
+    func customAmount(amount: UInt32, player: Player) {
+        var amountLeft = amount
+        let moveToCenter = SCNAction.move(to: SCNVector3(0, 17, 0), duration: 0.33)
+        while amountLeft != 0 && player.isAllIn != true  {
+            let chip25 = player.chips.childNode(withName: "twentyFiveDollars", recursively: true)
+            let chip5 = player.chips.childNode(withName: "fiveDollars", recursively: true)
+            let chip1 = player.chips.childNode(withName: "dollar", recursively: true)
+            if amountLeft > 25 {
+                if chip25 != nil {
+                    chip25?.runAction(moveToCenter)
+                    chip25?.name = "p.twentyFiveDollars"
+                    amountLeft -= 25
+                } else if chip5 != nil {
+                    chip5?.runAction(moveToCenter)
+                    chip5?.name = "p.fiveDollars"
+                    amountLeft -= 5
+                } else if chip1 != nil {
+                    chip1?.runAction(moveToCenter)
+                    chip1?.name = "p.dollar"
+                    amountLeft -= 1
+                }
+            } else if amountLeft > 5 {
+                if chip5 != nil {
+                    chip5?.runAction(moveToCenter)
+                    chip5?.name = "p.fiveDollars"
+                    amountLeft -= 5
+                } else if chip1 != nil {
+                    chip1?.runAction(moveToCenter)
+                    chip1?.name = "p.dollar"
+                    amountLeft -= 1
+                }
+            } else if amountLeft > 0 {
+                if chip1 != nil {
+                    chip1?.runAction(moveToCenter)
+                    chip1?.name = "p.dollar"
+                    amountLeft -= 1
+                } else if chip25 != nil {
+                        let newChips = Chips(chipCount: 25)
+                        chip25?.removeFromParentNode()
+                        player.chips.addChildNode(newChips)
+                    } else if chip5 != nil {
+                        let newChips = Chips(chipCount: 5)
+                        chip5?.removeFromParentNode()
+                        player.chips.addChildNode(newChips)
+                } else {
+                    player.isAllIn = true
+                }
+            }
+        }
+        }
+    
+    
+    
+    
+    }
     
     
     
@@ -204,7 +281,5 @@ class GameLogic {
     
     
     
-    
-   
-}
+
 

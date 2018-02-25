@@ -12,6 +12,7 @@ import SceneKit
 class Player {
     let isHero: Bool
     var isDealer: Bool
+    var isAllIn: Bool = false
     var hasFolded: Bool = false
     var chipCount: UInt32
     var contribution: UInt32 = 0
