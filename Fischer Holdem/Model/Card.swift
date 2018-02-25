@@ -36,7 +36,7 @@ class Card: SCNNode {
         backMaterial.diffuse.contents = UIImage(named: "cardSide3")
         let materials: [SCNMaterial] = [frontMaterial, sideMaterial, backMaterial, sideMaterial, sideMaterial, sideMaterial]
         self.geometry?.materials = materials
-        self.geometry?.firstMaterial?.shininess = 5
+        self.geometry?.firstMaterial?.shininess = 1
     }
     
     func revealCard() {
@@ -47,14 +47,6 @@ class Card: SCNNode {
         self.runAction(rotate)
     }
     
-    /*func peakAtCard() {
-        let pos = self.position
-        let moveUp = SCNAction.move(to: SCNVector3(pos.x, pos.y, pos.z - 0.3), duration: 0.2)
-        let peakUp = SCNAction.rotateBy(x: -1.5, y: 0, z: 0, duration: 1)
-        let peakDown = SCNAction.rotateBy(x: 1.5, y: 0, z: 0, duration: 0.5)
-        let sequence = SCNAction.sequence([moveUp, peakUp, peakDown])
-        self.runAction(sequence)
-        } */
 
 }
 

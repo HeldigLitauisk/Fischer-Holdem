@@ -102,18 +102,5 @@ class Chips: SCNNode {
         }
     }
     
-    
-  /*  static func minimumNumberOfChips(chipCount: UInt32) -> (dollar: UInt32, dollar5: UInt32, dollar25: UInt32) {
-        var dollar = chipCount
-        var dollar5: UInt32 = 0
-        var dollar25: UInt32 = 0
-        
-        dollar25 = dollar / 25
-        dollar = dollar % 25
-        dollar5 = dollar / 5
-        dollar = dollar % 5
-        return (dollar, dollar5, dollar25)
-    }
-    */
 }
 
