@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 class Player {
-    let isHero: Bool
+    var isHero: Bool
     var isDealer: Bool
     var isAllIn: Bool = false
     var hasFolded: Bool = false

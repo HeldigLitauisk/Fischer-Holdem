@@ -148,27 +148,31 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             } else if result.node.parent?.name == "actionButtons" {
                 highlightNode(material: material)
                 if result.node.name == "fold" {
-                    gameLogic.fold()
+                    gameLogic.fold(player: gameLogic.hero)
+                    actionButtonsOff()
                 } else if result.node.name == "check" {
                     gameLogic.check()
+                    actionButtonsOff()
                 } else if result.node.name == "bet" {
                     if gameLogic.betAmount != 0 {
-                        gameLogic.bet()
+                        gameLogic.bet(player: gameLogic.hero)
+                        actionButtonsOff()
                     }
                 }
-                actionButtonsOff()
             } else if result.node.parent?.name == "reactionButtons" {
                 highlightNode(material: material)
                 if result.node.name == "fold" {
-                    gameLogic.fold()
+                    gameLogic.fold(player: gameLogic.hero)
+                    reactionButtonsOff()
                 } else if result.node.name == "call" {
-                    gameLogic.call()
+                    gameLogic.call(player: gameLogic.hero)
+                    reactionButtonsOff()
                 } else if result.node.name == "raise" {
                     if gameLogic.betAmount >= 2 * gameLogic.callAmount {
-                        gameLogic.bet()
+                        gameLogic.bet(player: gameLogic.hero)
+                        reactionButtonsOff()
                     }
                 }
-                reactionButtonsOff()
             }
         }
     }
@@ -241,15 +245,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if gameLogic.decisionMade == true {
-            gameLogic.updateCallAmount()
-            if gameLogic.callAmount > 0 {
-                reactionButtonsOn()
-            } else if gameLogic.callAmount == 0 {
-                actionButtonsOn()
-            }
-            gameLogic.decisionMade = false
+        if gameLogic.haveWinner == true {
+            gameLogic.updateDeck()
+            gameLogic.updateChips()
+            scene.rootNode.addChildNode(hero.chips)
+            scene.rootNode.addChildNode(gameLogic.deck)
+            scene.rootNode.addChildNode(opponent.chips)
+            gameLogic.startNewGame()
+            //gameLogic.givePotToWinner
+            gameLogic.haveWinner = false
         }
+        
+        
+        
+      if gameLogic.heroToAct == true {
+        gameLogic.updateCallAmount()
+        if gameLogic.callAmount > 0 {
+            reactionButtonsOn()
+            gameLogic.heroToAct = false
+        } else if gameLogic.callAmount == 0 {
+            actionButtonsOn()
+            gameLogic.heroToAct = false
+        }
+    }
+    
        
         
         let callAmountText = scene.rootNode.childNode(withName: "callSize", recursively: true)?.geometry as! SCNText
@@ -265,14 +284,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
         
         
-        if gameLogic.haveWinner == true {
-            gameLogic.startNewGame()
-            scene.rootNode.addChildNode(hero.chips)
-            scene.rootNode.addChildNode(gameLogic.deck)
-            scene.rootNode.addChildNode(opponent.chips)
-            //gameLogic.givePotToWinner
-            gameLogic.haveWinner = false
-        }
+        
         
         
     }

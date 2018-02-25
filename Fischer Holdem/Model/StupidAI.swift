@@ -8,5 +8,9 @@
 
 import Foundation
 
+
 class StupidAI: Player {
+    
+    func makeDecision() {
+    }
 }
