@@ -11,7 +11,7 @@ import SceneKit
 
 class GameLogic {
     var heroToAct: Bool = true
-    var haveWinner: Bool = false
+    var haveWinner: Bool = true
     var potSize: UInt32 = 0
     var callAmount: UInt32 = 0
     var betAmount: UInt32 = 0
@@ -39,19 +39,17 @@ class GameLogic {
         opponent.contribution = 0
         betAmount = 0
         callAmount = 0
-        hero.hasFolded = false
-        opponent.hasFolded = false
-        haveWinner = false
         gamePhase = .preflop
-        winner = nil
         boardCards = nil
-        moveDealerButton()
-        postBlinds()
-        nextPhase(phase: gamePhase)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.nextPhase(phase: self.gamePhase)
+            self.postBlinds()
+            self.dealCards()
+        }
     }
     
    func nextPhase(phase: GamePhase) {
-    updateCallAmount()
+    
     print("Is hero to act " + String(heroToAct))
     print("How much too call " + String(callAmount))
  
@@ -60,8 +58,10 @@ class GameLogic {
     // add if statement in case hero or opponent is all in.
             switch gamePhase {
             case .preflop:
-                dealCards()
-               // self.gamePhase = .flop
+                if heroToAct {
+                }
+                //updateCallAmount()
+               //self.gamePhase = .flop
             case .flop:
                 dealFlop()
                 if !opponent.isDealer {
@@ -85,9 +85,22 @@ class GameLogic {
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
-                //moveDealerButton()
             }
         }
+    
+    func fold(player: Player) {
+        player.hasFolded = true
+        if hero.hasFolded {
+            winner = opponent
+        } else {
+            winner = hero
+        }
+        winner?.chipCount += potSize
+        player.foldCardsToCenter()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.haveWinner = true
+        }
+    }
     
     func bet(player: Player) {
         if betAmount > player.chipCount {
@@ -96,9 +109,8 @@ class GameLogic {
         player.chipCount -= betAmount
         player.contribution += betAmount
         potSize += betAmount
-        betAmount = 0
         customAmount(amount: betAmount, player: player)
-        //wentAllIn()
+        betAmount = 0
     }
     
     func call(player: Player) {
@@ -158,6 +170,8 @@ class GameLogic {
                 heroToAct = true
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        }
     }
     
     func nextStreet(phase: GamePhase) -> GamePhase {
@@ -170,7 +184,9 @@ class GameLogic {
             print("Stupid AI makes random Action " + String(describing: decision))
             switch decision {
             case .fold:
-                fold(player: opponent)
+                betAmount = arc4random_uniform(125) * potSize / 100 + 1
+                bet(player: opponent)
+                heroToAct = true
             case .check:
                 check(player: opponent)
             case .bet:
@@ -179,17 +195,21 @@ class GameLogic {
                 heroToAct = true
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        }
     }
     
     private func dealCards() {
         hero.playerHand = (deck.dealCard(), deck.dealCard())
         opponent.playerHand = (deck.dealCard(), deck.dealCard())
-        let dealOpponentAction = SCNAction.move(to: SCNVector3(3 , 16, -15), duration: 0.2)
-        let dealHeroAction = SCNAction.move(to: SCNVector3(3 , 16, 15), duration: 0.2)
+        let dealOpponentAction = SCNAction.move(to: SCNVector3(-5 , 18, -13), duration: 0.5)
+        let dealHeroAction = SCNAction.move(to: SCNVector3(2.5 , 16, 15), duration: 0.5)
+        let dealOpponent2 = SCNAction.move(to: SCNVector3(-4.5 , 18, -13), duration: 1)
+        let dealHero2 = SCNAction.move(to: SCNVector3(3 , 16.5, 14.5), duration: 1)
         hero.playerHand?.0.runAction(dealHeroAction)
         opponent.playerHand?.0.runAction(dealOpponentAction)
-        hero.playerHand?.1.runAction(dealHeroAction)
-        opponent.playerHand?.1.runAction(dealOpponentAction)
+        hero.playerHand?.1.runAction(dealHero2)
+        opponent.playerHand?.1.runAction(dealOpponent2)
     }
     
     private func postBlinds() {
@@ -231,23 +251,21 @@ class GameLogic {
         let tempValue = hero.isDealer
         hero.isDealer = opponent.isDealer
         opponent.isDealer = tempValue
-      //  if hero.isDealer {
-       //     heroToAct = true
-      //  } else if !hero.isDealer {
-      //          heroToAct = false
-          //  }
     }
+    
+    
     
     
     func increaseBetAmount(betAmount: UInt32) {
         self.betAmount += betAmount
     }
     
-    func fold(player: Player) {
-        player.hasFolded = true
-        haveWinner = true
-    }
-
+   
+    
+    
+    
+    
+    
     func dealFlop(){
         let pos = SCNVector3(-8, 17, 0)
         let rotate = SCNAction.rotateBy(x: 0, y: 0, z: 4, duration: 1)
@@ -257,8 +275,10 @@ class GameLogic {
             let cardNode = deck.dealCard()
             cardNode.physicsBody?.isAffectedByGravity = false
             cardNode.runAction(sequence)
-            cardNode.physicsBody?.isAffectedByGravity = true
-            boardCards?.append(cardNode)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                cardNode.physicsBody?.isAffectedByGravity = true
+                self.boardCards?.append(cardNode)
+            }
         }
     }
     
@@ -272,8 +292,10 @@ class GameLogic {
         let cardNode = deck.dealCard()
         cardNode.physicsBody?.isAffectedByGravity = false
         cardNode.runAction(seqeunce)
-        cardNode.physicsBody?.isAffectedByGravity = true
-        boardCards?.append(cardNode)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            cardNode.physicsBody?.isAffectedByGravity = true
+            self.boardCards?.append(cardNode)
+        }
     }
     
     func updateDeck() {
@@ -292,7 +314,7 @@ class GameLogic {
     // for calling or raising any amount from avaialble chips on the table
     func customAmount(amount: UInt32, player: Player) {
         var amountLeft = amount
-        let moveToCenter = SCNAction.move(to: SCNVector3(0, 17, 0), duration: 0.33)
+        let moveToCenter = SCNAction.move(to: SCNVector3(0, 17, 0), duration: 1)
         while amountLeft != 0 && player.isAllIn != true  {
             let chip25 = player.chips.childNode(withName: "twentyFiveDollars", recursively: true)
             let chip5 = player.chips.childNode(withName: "fiveDollars", recursively: true)
@@ -300,31 +322,31 @@ class GameLogic {
             if amountLeft >= 25 {
                 if chip25 != nil {
                     chip25?.runAction(moveToCenter)
-                    chip25?.name = "p.twentyFiveDollars"
+                    chip25?.name = "inPot"
                     amountLeft -= 25
                 } else if chip5 != nil {
                     chip5?.runAction(moveToCenter)
-                    chip5?.name = "p.fiveDollars"
+                    chip5?.name = "inPot"
                     amountLeft -= 5
                 } else if chip1 != nil {
                     chip1?.runAction(moveToCenter)
-                    chip1?.name = "p.dollar"
+                    chip1?.name = "inPot"
                     amountLeft -= 1
                 }
             } else if amountLeft >= 5 {
                 if chip5 != nil {
                     chip5?.runAction(moveToCenter)
-                    chip5?.name = "p.fiveDollars"
+                    chip5?.name = "inPot"
                     amountLeft -= 5
                 } else if chip1 != nil {
                     chip1?.runAction(moveToCenter)
-                    chip1?.name = "p.dollar"
+                    chip1?.name = "inPot"
                     amountLeft -= 1
                 }
             } else if amountLeft > 0 {
                 if chip1 != nil {
                     chip1?.runAction(moveToCenter)
-                    chip1?.name = "p.dollar"
+                    chip1?.name = "inPot"
                     amountLeft -= 1
                 } else if chip25 != nil {
                         let newChips = Chips(chipCount: 25)

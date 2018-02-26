@@ -26,6 +26,9 @@ class Player {
         self.chips = Chips(chipCount: chipCount, isHero: isHero)
     }
     
-    
-    
+    func foldCardsToCenter() {
+        let foldCards = SCNAction.move(to: SCNVector3(0,17,0), duration: 0.5)
+        self.playerHand?.0.runAction(foldCards)
+        self.playerHand?.1.runAction(foldCards)
+    }
 }

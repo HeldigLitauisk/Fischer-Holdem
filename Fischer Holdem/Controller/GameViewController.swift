@@ -70,17 +70,29 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         scnView.addGestureRecognizer(cameraSwipe)
 
         
+        
+        
         hero = Player(chipCount: 200)
         opponent = Player(chipCount: hero.chipCount, isHero: false)
-        
         gameLogic = GameLogic(hero: hero, opponent: opponent)
         
-        gameLogic.startNewGame()
-        scene.rootNode.addChildNode(hero.chips)
-        scene.rootNode.addChildNode(gameLogic.deck)
-        scene.rootNode.addChildNode(opponent.chips)
         
         
+        
+    }
+    
+    func moveDealerButton() {
+        gameLogic.moveDealerButton()
+        let dealerButton = scene.rootNode.childNode(withName: "dealerButton", recursively: true)
+        let heroPos = SCNVector3(-5, 17, -5)
+        let opponentPos = SCNVector3(-5, 17, 5)
+        if gameLogic.hero.isDealer {
+            let moveButton = SCNAction.move(to: heroPos, duration: 1)
+            dealerButton?.runAction(moveButton)
+        } else {
+            let moveButton = SCNAction.move(to: opponentPos, duration: 1)
+            dealerButton?.runAction(moveButton)
+        }
     }
 
 
@@ -111,6 +123,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             if result.node.name == "52" || result.node.name == "51" {
                 let cardNode = result.node as! Card
                 cardNode.revealCard()
+            } else if result.node.name == "dealerButton" {
+                let dropDownAction = SCNAction.move(to: SCNVector3(0, 50, 0), duration: 1)
+                result.node.runAction(dropDownAction)
             }
         }
     }
@@ -198,9 +213,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let hitResults = scnView.hitTest(p, options: [:])
         let node = hitResults[0]
         if node.node.name == "52" || node.node.name == "51"  {
-                let pos = node.node.position
-                let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 5), duration: 0.2)
-                node.node.runAction(forward)
+            let material = (node.node.geometry?.firstMaterial)!
+            highlightNode(material: material)
+               // let pos = node.node.position
+              //  let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 5), duration: 0.2)
+              //  node.node.runAction(forward)
+            gameLogic.fold(player: hero)
             }
         }
     
@@ -246,14 +264,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if gameLogic.haveWinner == true {
+            gameLogic.haveWinner = false
             gameLogic.updateDeck()
             gameLogic.updateChips()
+            moveDealerButton()
             scene.rootNode.addChildNode(hero.chips)
             scene.rootNode.addChildNode(gameLogic.deck)
             scene.rootNode.addChildNode(opponent.chips)
             gameLogic.startNewGame()
-            //gameLogic.givePotToWinner
-            gameLogic.haveWinner = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            }
         }
         
       gameLogic.updateCallAmount()
