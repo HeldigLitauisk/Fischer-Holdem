@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		44158C2020386DDD001C9B2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44158C1F20386DDD001C9B2E /* Images.xcassets */; };
 		4418BF2D203DAC7E00125819 /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418BF2C203DAC7E00125819 /* testViewController.swift */; };
+		442292DE2044E802000AEACD /* HandStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442292DD2044E802000AEACD /* HandStrength.swift */; };
 		442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8111203B5E9B00721554 /* GameOverlay.swift */; };
 		442D8118203BB5CC00721554 /* Chips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8117203BB5CC00721554 /* Chips.swift */; };
 		446AFA4B203DD0E300EA2434 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446AFA4A203DD0E300EA2434 /* Player.swift */; };
@@ -22,14 +23,13 @@
 		44BA6487203868280037C175 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6485203868280037C175 /* Main.storyboard */; };
 		44BA6489203868280037C175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6488203868280037C175 /* Assets.xcassets */; };
 		44BA648C203868280037C175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA648A203868280037C175 /* LaunchScreen.storyboard */; };
-		44C5D660203FCCF70020C9A5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C5D65F203FCCF70020C9A5 /* GameView.swift */; };
 		44E2E9BA2039C2710084D933 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9B92039C2710084D933 /* Deck.swift */; };
-		44E576FB2040B0D000302724 /* DealerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E576FA2040B0D000302724 /* DealerButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		44158C1F20386DDD001C9B2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4418BF2C203DAC7E00125819 /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
+		442292DD2044E802000AEACD /* HandStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStrength.swift; sourceTree = "<group>"; };
 		442D8111203B5E9B00721554 /* GameOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverlay.swift; sourceTree = "<group>"; };
 		442D8117203BB5CC00721554 /* Chips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chips.swift; sourceTree = "<group>"; };
 		446AFA4A203DD0E300EA2434 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -45,9 +45,7 @@
 		44BA6488203868280037C175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44BA648B203868280037C175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44BA648D203868280037C175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44C5D65F203FCCF70020C9A5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		44E2E9B92039C2710084D933 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
-		44E576FA2040B0D000302724 /* DealerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealerButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				442D8111203B5E9B00721554 /* GameOverlay.swift */,
-				44C5D65F203FCCF70020C9A5 /* GameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -79,7 +76,7 @@
 				442D8117203BB5CC00721554 /* Chips.swift */,
 				446AFA4A203DD0E300EA2434 /* Player.swift */,
 				446AFA4C203DD0F600EA2434 /* GameLogic.swift */,
-				44E576FA2040B0D000302724 /* DealerButton.swift */,
+				442292DD2044E802000AEACD /* HandStrength.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,14 +202,13 @@
 				44E2E9BA2039C2710084D933 /* Deck.swift in Sources */,
 				446AFA4D203DD0F600EA2434 /* GameLogic.swift in Sources */,
 				442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */,
+				442292DE2044E802000AEACD /* HandStrength.swift in Sources */,
 				4418BF2D203DAC7E00125819 /* testViewController.swift in Sources */,
 				44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */,
 				44BA6484203868280037C175 /* GameViewController.swift in Sources */,
-				44E576FB2040B0D000302724 /* DealerButton.swift in Sources */,
 				442D8118203BB5CC00721554 /* Chips.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
 				446AFA4B203DD0E300EA2434 /* Player.swift in Sources */,
-				44C5D660203FCCF70020C9A5 /* GameView.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

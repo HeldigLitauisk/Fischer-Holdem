@@ -31,7 +31,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
   
         // retrieve the SCNView
         scnView = self.view as! SCNView
-        scnView.pointOfView = scene.rootNode.childNode(withName: "camera", recursively: true)
         
         // set the scene to the view
         scnView.scene = scene
@@ -82,7 +81,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     func moveDealerButton() {
-        gameLogic.moveDealerButton()
         let dealerButton = scene.rootNode.childNode(withName: "dealerButton", recursively: true)
         let heroPos = SCNVector3(-5, 17, -5)
         let opponentPos = SCNVector3(-5, 17, 5)
@@ -215,9 +213,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if node.node.name == "52" || node.node.name == "51"  {
             let material = (node.node.geometry?.firstMaterial)!
             highlightNode(material: material)
-               // let pos = node.node.position
-              //  let forward = SCNAction.move(to: SCNVector3(pos.x, pos.y + 0.1 , pos.z - 5), duration: 0.2)
-              //  node.node.runAction(forward)
             gameLogic.fold(player: hero)
             }
         }
@@ -263,44 +258,52 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if gameLogic.haveWinner == true {
-            gameLogic.haveWinner = false
-            gameLogic.updateDeck()
-            gameLogic.updateChips()
-            moveDealerButton()
-            scene.rootNode.addChildNode(hero.chips)
-            scene.rootNode.addChildNode(gameLogic.deck)
-            scene.rootNode.addChildNode(opponent.chips)
-            gameLogic.startNewGame()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            }
-        }
-        
-      gameLogic.updateCallAmount()
-        
-      if gameLogic.heroToAct == true {
-        if gameLogic.callAmount > 0 {
-            reactionButtonsOn()
-            gameLogic.heroToAct = false
-        } else if gameLogic.callAmount == 0 {
-            actionButtonsOn()
-            gameLogic.heroToAct = false
-        }
-    }
-    
-       
-        
-        let callAmountText = scene.rootNode.childNode(withName: "callSize", recursively: true)?.geometry as! SCNText
-        callAmountText.string = String(gameLogic.callAmount) + "$"
-        
-        let raiseAmountText = scene.rootNode.childNode(withName: "raiseAmount", recursively: true)?.geometry as! SCNText
-        raiseAmountText.string = String(gameLogic.betAmount) + "$"
-        
-  
-
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
+        if !gameLogic.haveWinner {
+            reactionButtonsOff()
+            actionButtonsOff()
+            gameLogic.updateCallAmount()
+            
+            let callAmountText = scene.rootNode.childNode(withName: "callSize", recursively: true)?.geometry as! SCNText
+            callAmountText.string = String(gameLogic.callAmount) + "$"
+            let raiseAmountText = scene.rootNode.childNode(withName: "raiseAmount", recursively: true)?.geometry as! SCNText
+            raiseAmountText.string = String(gameLogic.betAmount) + "$"
+            
+            if gameLogic.heroToAct && gameLogic.callAmount > 0  {
+                reactionButtonsOn()
+            } else if gameLogic.heroToAct && gameLogic.callAmount == 0 {
+                actionButtonsOn()
+            } else if gameLogic.computerToAct && gameLogic.callAmount > 0 {
+                self.gameLogic.computerToAct = false
+                self.gameLogic.heroToAct = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.gameLogic.randomReactionDecision()
+                }
+            } else if gameLogic.computerToAct && gameLogic.callAmount == 0 {
+                self.gameLogic.computerToAct = false
+                self.gameLogic.heroToAct = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.gameLogic.randomActionDecision()
+                }
+            }
+        }
+        
+        if gameLogic.haveWinner {
+            reactionButtonsOff()
+            actionButtonsOff()
+            gameLogic.haveWinner = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.gameLogic.updateDeck()
+                self.gameLogic.updateChips()
+                self.scene.rootNode.addChildNode(self.hero.chips)
+                self.scene.rootNode.addChildNode(self.gameLogic.deck)
+                self.scene.rootNode.addChildNode(self.opponent.chips)
+                self.gameLogic.startNewGame()
+            }
+            moveDealerButton()
+        }
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {

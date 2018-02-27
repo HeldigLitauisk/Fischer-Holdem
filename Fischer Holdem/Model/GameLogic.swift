@@ -10,17 +10,20 @@ import Foundation
 import SceneKit
 
 class GameLogic {
-    var heroToAct: Bool = true
+    var heroToAct: Bool = false
+    var computerToAct: Bool = false
     var haveWinner: Bool = true
     var potSize: UInt32 = 0
-    var callAmount: UInt32 = 0
     var betAmount: UInt32 = 0
+    var callAmount: UInt32 = 0
     var gamePhase: GamePhase
     var deck: Deck
     let hero: Player
     let opponent: Player
-    var winner: Player?
-    var boardCards: Array<Card>?
+    var winner: Player? 
+    var boardCards: Array<Card> = []
+    var chipsInPot: Array<SCNNode> = []
+    
     
     init(hero: Player, opponent: Player) {
         self.gamePhase = .preflop
@@ -31,60 +34,84 @@ class GameLogic {
     
     func startNewGame() {
         print("NEW GAME STARTED")
-        if hero.chipCount <= 2 || opponent.chipCount <= 2 {
-            print("GAME OVER! You lost the game, time to rebuy")
-        }
         potSize = 0
-        hero.contribution = 0
-        opponent.contribution = 0
         betAmount = 0
         callAmount = 0
+        hero.hasFolded = false
+        opponent.hasFolded = false
+        hero.isDealer = !hero.isDealer
+        opponent.isDealer = !opponent.isDealer
         gamePhase = .preflop
-        boardCards = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.nextPhase(phase: self.gamePhase)
-            self.postBlinds()
+        boardCards = []
+        chipsInPot = []
+        computerToAct = false
+        heroToAct = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.dealCards()
+            self.postBlinds()
+            self.nextPhase(phase: self.gamePhase)
         }
     }
     
    func nextPhase(phase: GamePhase) {
-    
-    print("Is hero to act " + String(heroToAct))
-    print("How much too call " + String(callAmount))
- 
-    print("Which street is it? " + String(describing: gamePhase))
-    
     // add if statement in case hero or opponent is all in.
             switch gamePhase {
             case .preflop:
-                if heroToAct {
+                updateCallAmount()
+                if opponent.isDealer {
+                    computerToAct = false
+                    heroToAct = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.randomReactionDecision()
+                    }
+                } else {
+                    heroToAct = true
                 }
-                //updateCallAmount()
-               //self.gamePhase = .flop
             case .flop:
                 dealFlop()
                 if !opponent.isDealer {
-                    randomActionDecision()
+                    computerToAct = false
+                    heroToAct = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.randomActionDecision()
+                    }
+                } else {
+                    heroToAct = true
                 }
-                //self.gamePhase = .turn
             case .turn:
                 dealTurn()
                 if !opponent.isDealer {
-                    randomActionDecision()
+                    computerToAct = false
+                    heroToAct = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.randomActionDecision()
+                    }
+                } else {
+                    heroToAct = true
                 }
-               // self.gamePhase = .river
             case .river:
                 dealTurn(isRiver: true)
                 if !opponent.isDealer {
-                    randomActionDecision()
+                    computerToAct = false
+                    heroToAct = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.randomActionDecision()
+                    }
+                } else {
+                    heroToAct = true
                 }
-              //  self.gamePhase = .showdown
             case .showdown:
+                computerToAct = false
+                heroToAct = false
                 hero.playerHand?.0.revealCard()
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
+                // evaluateHands(player: Hero, player: Opponent, board: boardCards)
+                giveChipsToWinner()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.haveWinner = true
+                }
             }
         }
     
@@ -97,6 +124,7 @@ class GameLogic {
         }
         winner?.chipCount += potSize
         player.foldCardsToCenter()
+        giveChipsToWinner()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.haveWinner = true
         }
@@ -111,6 +139,11 @@ class GameLogic {
         potSize += betAmount
         customAmount(amount: betAmount, player: player)
         betAmount = 0
+        if player.isHero {
+            computerToAct = true
+        } else {
+            heroToAct = true
+        }
     }
     
     func call(player: Player) {
@@ -126,12 +159,17 @@ class GameLogic {
             if opponent.isDealer {
                 heroToAct = true
             } else {
-                randomActionDecision()
+                computerToAct = false
+                heroToAct = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.randomActionDecision()
+                }
             }
         // all other calling situations
         } else {
             gamePhase = nextStreet(phase: gamePhase)
             nextPhase(phase: gamePhase)
+            moveChipsToPot()
         }
         //wentAllIn()
     }
@@ -140,20 +178,26 @@ class GameLogic {
         // preflop BB check
         if gamePhase == .preflop && !player.isDealer {
             gamePhase = nextStreet(phase: gamePhase)
+            nextPhase(phase: gamePhase)
+            moveChipsToPot()
         }
         // flop, turn, river BB check
         if gamePhase != .preflop && !player.isDealer {
             if opponent.isDealer {
-                randomActionDecision()
-            } else {
+                computerToAct = false
+                heroToAct = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.randomActionDecision()
+                }
+            } else if hero.isDealer {
                 heroToAct = true
             }
         }
         // flop, turn, river BTN check back
         if gamePhase != .preflop && player.isDealer {
             gamePhase = nextStreet(phase: gamePhase)
+            nextPhase(phase: gamePhase)
         }
-        nextPhase(phase: gamePhase)
     }
     
     func randomReactionDecision() {
@@ -167,10 +211,7 @@ class GameLogic {
             case .raise:
                 betAmount = (2 * callAmount) + arc4random_uniform(callAmount)
                 bet(player: opponent)
-                heroToAct = true
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         }
     }
     
@@ -180,22 +221,17 @@ class GameLogic {
     }
     
     func randomActionDecision() {
-        if let decision =  ActionChoice(rawValue: arc4random_uniform(3)) {
+        if let decision =  ActionChoice(rawValue: arc4random_uniform(2) + 1) {
             print("Stupid AI makes random Action " + String(describing: decision))
             switch decision {
             case .fold:
-                betAmount = arc4random_uniform(125) * potSize / 100 + 1
-                bet(player: opponent)
-                heroToAct = true
+                fold(player: opponent)
             case .check:
                 check(player: opponent)
             case .bet:
                 betAmount = arc4random_uniform(125) * potSize / 100 + 1
                 bet(player: opponent)
-                heroToAct = true
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         }
     }
     
@@ -238,19 +274,14 @@ class GameLogic {
             hero.contribution = 0
             opponent.contribution = 0
             heroToAct = true
+            computerToAct = false
         } else if hero.contribution > opponent.contribution {
             callAmount = hero.contribution - opponent.contribution
             hero.contribution = 0
             opponent.contribution = 0
             heroToAct = false
-            randomReactionDecision()
+            computerToAct = true
         }
-    }
-    
-    func moveDealerButton() {
-        let tempValue = hero.isDealer
-        hero.isDealer = opponent.isDealer
-        opponent.isDealer = tempValue
     }
     
     
@@ -259,6 +290,7 @@ class GameLogic {
     func increaseBetAmount(betAmount: UInt32) {
         self.betAmount += betAmount
     }
+    
     
    
     
@@ -277,7 +309,7 @@ class GameLogic {
             cardNode.runAction(sequence)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 cardNode.physicsBody?.isAffectedByGravity = true
-                self.boardCards?.append(cardNode)
+                self.boardCards.append(cardNode)
             }
         }
     }
@@ -294,7 +326,7 @@ class GameLogic {
         cardNode.runAction(seqeunce)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             cardNode.physicsBody?.isAffectedByGravity = true
-            self.boardCards?.append(cardNode)
+            self.boardCards.append(cardNode)
         }
     }
     
@@ -313,8 +345,9 @@ class GameLogic {
     
     // for calling or raising any amount from avaialble chips on the table
     func customAmount(amount: UInt32, player: Player) {
+        let pos = player.chips.childNode(withName: "dollar", recursively: true)?.position ?? SCNVector3(0,18,0)
         var amountLeft = amount
-        let moveToCenter = SCNAction.move(to: SCNVector3(0, 17, 0), duration: 1)
+        let moveToCenter = SCNAction.move(to: SCNVector3(pos.x, pos.y, pos.z / 3), duration: 1)
         while amountLeft != 0 && player.isAllIn != true  {
             let chip25 = player.chips.childNode(withName: "twentyFiveDollars", recursively: true)
             let chip5 = player.chips.childNode(withName: "fiveDollars", recursively: true)
@@ -323,30 +356,36 @@ class GameLogic {
                 if chip25 != nil {
                     chip25?.runAction(moveToCenter)
                     chip25?.name = "inPot"
+                    chipsInPot.append(chip25!)
                     amountLeft -= 25
                 } else if chip5 != nil {
                     chip5?.runAction(moveToCenter)
                     chip5?.name = "inPot"
+                    chipsInPot.append(chip5!)
                     amountLeft -= 5
                 } else if chip1 != nil {
                     chip1?.runAction(moveToCenter)
                     chip1?.name = "inPot"
+                    chipsInPot.append(chip1!)
                     amountLeft -= 1
                 }
             } else if amountLeft >= 5 {
                 if chip5 != nil {
                     chip5?.runAction(moveToCenter)
                     chip5?.name = "inPot"
+                    chipsInPot.append(chip5!)
                     amountLeft -= 5
                 } else if chip1 != nil {
                     chip1?.runAction(moveToCenter)
                     chip1?.name = "inPot"
+                    chipsInPot.append(chip1!)
                     amountLeft -= 1
                 }
             } else if amountLeft > 0 {
                 if chip1 != nil {
                     chip1?.runAction(moveToCenter)
                     chip1?.name = "inPot"
+                    chipsInPot.append(chip1!)
                     amountLeft -= 1
                 } else if chip25 != nil {
                         let newChips = Chips(chipCount: 25)
@@ -363,6 +402,20 @@ class GameLogic {
         }
         }
     
+    func giveChipsToWinner() {
+        let pos = winner?.chips.childNode(withName: "dollar", recursively: true)?.position ?? SCNVector3(0,18,0)
+        let giveToWinner = SCNAction.move(to: pos, duration: 1)
+        for chip in chipsInPot {
+            chip.runAction(giveToWinner)
+        }
+    }
+    
+    func moveChipsToPot() {
+        let moveToPot = SCNAction.move(to: SCNVector3(-10, 18, 0), duration: 1)
+        for chip in chipsInPot {
+            chip.runAction(moveToPot)
+        }
+    }
     
     
     

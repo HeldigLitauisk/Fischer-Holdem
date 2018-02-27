@@ -12,7 +12,6 @@ import SceneKit
 class Chips: SCNNode {
     let chipCount: UInt32
     let isHero: Bool
-   // private var chipsCreated: (dollar: UInt32, dollar5: UInt32, dollar25: UInt32)?
     
     init(chipCount: UInt32, isHero: Bool = true) {
         self.isHero = isHero
