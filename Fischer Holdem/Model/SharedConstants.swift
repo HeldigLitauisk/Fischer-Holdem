@@ -15,7 +15,11 @@ enum Suit: UInt32 {
     case heart = 0, daimond, club, spade
 }
 
-enum Rank: UInt32 {
+enum Rank: UInt32, Comparable, Equatable {
+    static func <(lhs: Rank, rhs: Rank) -> Bool {
+        return lhs < rhs
+    }
+    
     case deuce = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
 }
 

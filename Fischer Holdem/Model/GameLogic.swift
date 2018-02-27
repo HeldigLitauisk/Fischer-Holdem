@@ -109,7 +109,7 @@ class GameLogic {
                 opponent.playerHand?.1.revealCard()
                 // evaluateHands(player: Hero, player: Opponent, board: boardCards)
                 giveChipsToWinner()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.haveWinner = true
                 }
             }
@@ -125,7 +125,7 @@ class GameLogic {
         winner?.chipCount += potSize
         player.foldCardsToCenter()
         giveChipsToWinner()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.haveWinner = true
         }
     }

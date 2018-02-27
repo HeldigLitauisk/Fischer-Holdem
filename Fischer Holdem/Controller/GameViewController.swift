@@ -291,6 +291,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         }
         
         if gameLogic.haveWinner {
+            if gameLogic.opponent.chipCount < 3 {
+                gameLogic.opponent.chipCount += 200
+            }
             reactionButtonsOff()
             actionButtonsOff()
             gameLogic.haveWinner = false
