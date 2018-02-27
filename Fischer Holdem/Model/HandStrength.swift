@@ -30,7 +30,7 @@ struct HandStrength {
         case highCard, pair, twoPairs, trips, straight, flush, fourOfAKing, straightFlush
     }
     
-    func checkFlush(playerCards: Array<Card> ) -> (Bool, Rank) {
+    func checkFlushLongMethod(playerCards: Array<Card> ) -> (Bool, Rank) {
         var numberOfSpades = 0
         var numberOfClubs = 0
         var numberOfHearts = 0
@@ -80,19 +80,45 @@ struct HandStrength {
     }
     
     func checkStraight(playerCards: Array<Card>) -> (Bool, Rank) {
-        let sortedCards = playerCards.sorted { $0.cardValue.rank < $1.cardValue.rank }
-        return (false, Rank.deuce)
+        let sortedCards = playerCards.sorted(by: { $0.cardValue.rank < $1.cardValue.rank })
+        let withoutDuplicates = sortedCards.filterDuplicates { $0.cardValue.rank == $1.cardValue.rank }
+        var rowCount: UInt32 = 0
+        var previousValue: UInt32 = 0
+        var highestCard: Card = Card(cardValue: (Rank.deuce, Suit.club))
+        for card in withoutDuplicates {
+            if card.cardValue.rank.rawValue - previousValue == 1 {
+                rowCount += 1
+                highestCard = card
+            } else {
+                if rowCount >= 5 {
+                    return (true, highestCard.cardValue.rank)
+                }
+                rowCount = 0
+            }
+            previousValue = card.cardValue.rank.rawValue
+        }
+        if rowCount >= 5 {
+            return (true, highestCard.cardValue.rank)
+        } else  { return (false, highestCard.cardValue.rank)
+        }
     }
+        
+   
  
-    func checkFlush2(playerCards: Array<Card> ) -> (Bool, Rank) {
-        if playerCards.filter({ $0.cardValue.suit == Suit.club }).count >= 5 {
-            return (true, (playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted { $0.cardValue.rank < $1.cardValue.rank }.last?.cardValue.rank)!)
-        } else if playerCards.filter({ $0.cardValue.suit == Suit.daimond }).count >= 5 {
-            return (true, (playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted { $0.cardValue.rank < $1.cardValue.rank }.last?.cardValue.rank)!)
-            } else if playerCards.filter({ $0.cardValue.suit == Suit.heart }).count >= 5 {
-            return (true, (playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted { $0.cardValue.rank < $1.cardValue.rank }.last?.cardValue.rank)!)
-                } else if playerCards.filter({ $0.cardValue.suit == Suit.spade }).count >= 5 {
-            return (true, (playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted { $0.cardValue.rank < $1.cardValue.rank }.last?.cardValue.rank)!)
+    func checkFlush(playerCards: Array<Card> ) -> (Bool, Rank) {
+        let clubs = playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted { $0.cardValue.rank < $1.cardValue.rank }
+        let hearts = playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted { $0.cardValue.rank < $1.cardValue.rank }
+        let diamonds = playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted { $0.cardValue.rank < $1.cardValue.rank }
+        let spades = playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted { $0.cardValue.rank < $1.cardValue.rank }
+        
+        if clubs.count >= 5 {
+            return (true, clubs.last!.cardValue.rank)
+        } else if hearts.count >= 5 {
+            return (true, hearts.last!.cardValue.rank)
+        } else if diamonds.count >= 5 {
+            return (true, diamonds.last!.cardValue.rank)
+        } else if spades.count >= 5 {
+            return (true, spades.last!.cardValue.rank)
         } else {
             return (false, Rank.deuce)
         }
@@ -103,4 +129,21 @@ struct HandStrength {
     //}
     
     
+ }
+
+extension Array {
+    
+    func filterDuplicates(includeElement: @escaping (_ lhs:Element, _ rhs:Element) -> Bool) -> [Element]{
+        var results = [Element]()
+        
+        forEach { (element) in
+            let existingElements = results.filter {
+                return includeElement(element, $0)
+            }
+            if existingElements.count == 0 {
+                results.append(element)
+            }
+        }
+        return results
+    }
 }
