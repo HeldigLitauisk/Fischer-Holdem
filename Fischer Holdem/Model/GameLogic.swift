@@ -107,10 +107,22 @@ class GameLogic {
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
-                let handEvaluation = HandStrength(player1: hero, player2: opponent, board: boardCards)
-                handEvaluation.evaluateHands()
-                giveChipsToWinner()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                let determineWinner = HandStrength(player1: hero, player2: opponent, board: boardCards)
+                print(determineWinner.isSplit)
+                print(opponent.chipCount)
+                if !determineWinner.isSplit {
+                    winner = determineWinner.winner
+                    print(determineWinner.winnerHandStrength!)
+                    print(determineWinner.winnerHandRank!)
+                    print(winner!)
+                    winner?.chipCount += potSize
+                    print(opponent.chipCount)
+                    giveChipsToWinner()
+                } else {
+                    hero.chipCount += potSize / 2
+                    opponent.chipCount += potSize / 2
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                     self.haveWinner = true
                 }
             }

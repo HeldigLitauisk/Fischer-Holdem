@@ -80,6 +80,7 @@ struct HandStrength {
     }
     
     private func evaluateHand(playerCards: Array<Card>) -> (HandStrength, Rank, Rank) {
+        var playerCards = playerCards
         var highestFiveOfAKind = Rank.deuce
         var highestFourOfAKind = Rank.deuce
         var highestTrips = Rank.deuce
@@ -127,6 +128,7 @@ struct HandStrength {
                     }
                 }
             }
+            playerCards.remove(at: 0)
         }
         if numberOfFiveOfAKind == 1 {
             return (HandStrength.fiveOfAKind, highestFiveOfAKind, highCard)
