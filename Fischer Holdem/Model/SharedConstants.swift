@@ -17,7 +17,7 @@ enum Suit: UInt32 {
 
 enum Rank: UInt32, Comparable, Equatable {
     static func <(lhs: Rank, rhs: Rank) -> Bool {
-        return lhs < rhs
+        return lhs.rawValue < rhs.rawValue
     }
     
     case deuce = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace

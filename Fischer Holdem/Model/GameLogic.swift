@@ -107,7 +107,8 @@ class GameLogic {
                 hero.playerHand?.1.revealCard()
                 opponent.playerHand?.0.revealCard()
                 opponent.playerHand?.1.revealCard()
-                // evaluateHands(player: Hero, player: Opponent, board: boardCards)
+                let handEvaluation = HandStrength(player1: hero, player2: opponent, board: boardCards)
+                handEvaluation.evaluateHands()
                 giveChipsToWinner()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.haveWinner = true
