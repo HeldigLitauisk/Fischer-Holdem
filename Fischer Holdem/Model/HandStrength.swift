@@ -165,19 +165,19 @@ struct HandStrength {
     
     
     private func checkFlush(playerCards: Array<Card> ) -> (Bool, Rank, Rank, Rank, Rank, Rank) {
-        let clubs = playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
-        let hearts = playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
-        let diamonds = playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
-        let spades = playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
+        let clubs = playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted(by: { $0.cardValue.rank > $1.cardValue.rank })
+        let hearts = playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted(by: { $0.cardValue.rank > $1.cardValue.rank })
+        let diamonds = playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted(by: { $0.cardValue.rank > $1.cardValue.rank })
+        let spades = playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted(by: { $0.cardValue.rank > $1.cardValue.rank })
         
         if clubs.count >= 5 {
-            return (true, clubs[4].cardValue.rank, clubs[3].cardValue.rank, clubs[2].cardValue.rank, clubs[1].cardValue.rank, clubs[0].cardValue.rank)
+            return (true, clubs[0].cardValue.rank, clubs[1].cardValue.rank, clubs[2].cardValue.rank, clubs[3].cardValue.rank, clubs[4].cardValue.rank)
         } else if hearts.count >= 5 {
-            return (true, hearts[4].cardValue.rank, hearts[3].cardValue.rank, hearts[2].cardValue.rank, hearts[1].cardValue.rank, hearts[0].cardValue.rank)
+            return (true, hearts[0].cardValue.rank, hearts[1].cardValue.rank, hearts[2].cardValue.rank, hearts[3].cardValue.rank, hearts[4].cardValue.rank)
         } else if diamonds.count >= 5 {
-            return (true, diamonds[4].cardValue.rank, diamonds[3].cardValue.rank, diamonds[2].cardValue.rank, diamonds[1].cardValue.rank, clubs[0].cardValue.rank)
+            return (true, diamonds[0].cardValue.rank, diamonds[1].cardValue.rank, diamonds[2].cardValue.rank, diamonds[3].cardValue.rank, clubs[4].cardValue.rank)
         } else if spades.count >= 5 {
-            return (true, spades[4].cardValue.rank, spades[3].cardValue.rank, spades[2].cardValue.rank, spades[1].cardValue.rank, spades[0].cardValue.rank)
+            return (true, spades[0].cardValue.rank, spades[1].cardValue.rank, spades[2].cardValue.rank, spades[3].cardValue.rank, spades[4].cardValue.rank)
         } else {
             return (false, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce)
         }
