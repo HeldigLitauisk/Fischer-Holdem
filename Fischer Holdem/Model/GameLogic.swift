@@ -109,14 +109,11 @@ class GameLogic {
                 opponent.playerHand?.1.revealCard()
                 let determineWinner = HandStrength(player1: hero, player2: opponent, board: boardCards)
                 print(determineWinner.isSplit)
-                print(opponent.chipCount)
                 if !determineWinner.isSplit {
                     winner = determineWinner.winner
                     print(determineWinner.winnerHandStrength!)
                     print(determineWinner.winnerHandRank!)
-                    print(winner!)
                     winner?.chipCount += potSize
-                    print(opponent.chipCount)
                     giveChipsToWinner()
                 } else {
                     hero.chipCount += potSize / 2

@@ -20,7 +20,7 @@ enum Rank: UInt32, Comparable, Equatable {
         return lhs.rawValue < rhs.rawValue
     }
     
-    case deuce = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
+    case deuce = 1, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
 }
 
 

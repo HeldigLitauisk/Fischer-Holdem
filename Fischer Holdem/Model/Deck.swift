@@ -26,7 +26,7 @@ class Deck: SCNNode {
     private func deckBuilder() -> Array<Card> {
         var newDeck: Array<Card> = []
         for card in 1...52 {
-            let randomRank = Rank(rawValue: arc4random_uniform(13))
+            let randomRank = Rank(rawValue: arc4random_uniform(13) + 1)
             let randomSuit = Suit(rawValue: arc4random_uniform(4))
             let cardNode = Card(cardValue: (randomRank!, randomSuit!))
             cardNode.name = String(card)

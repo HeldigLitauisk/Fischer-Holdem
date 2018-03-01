@@ -36,14 +36,116 @@ struct HandStrength {
         }
         case highCard, pair, twoPairs, trips, straight, flush, fullHouse, fourOfAKind, straightFlush, fiveOfAKind
     }
+
+    private func getHandStrength(playerCards: Array<Card>) -> (HandStrength, Rank, Rank, Rank, Rank, Rank){
+        var highCard: Rank = Rank.deuce
+        var secondHighCard: Rank = Rank.deuce
+        var thirdHighCard: Rank = Rank.deuce
+        var fourthHighCard: Rank = Rank.deuce
+        var fifthHighCard: Rank = Rank.deuce
+        
+        var pairsCount: UInt32 = 0
+        var pairRank: Rank = Rank.deuce
+        var secondPairRank: Rank = Rank.deuce
+        var tripsCount: UInt32 = 0
+        var tripsRank: Rank = Rank.deuce
+        var fourOfAKindCount: UInt32 = 0
+        var fourOfAKindRank: Rank = Rank.deuce
+        var fiveOfAKindCount: UInt32 = 0
+        var fiveOfAKindRank: Rank = Rank.deuce
+        var previousValue: UInt32 = 0
+        var count = 0
+        let sortedCards = playerCards.sorted(by: { $0.cardValue.rank < $1.cardValue.rank })
+        
+        
+        for card in sortedCards {
+            if card.cardValue.rank.rawValue - previousValue == 0 {
+               count += 1
+                if count == 4 {
+                    fiveOfAKindRank = card.cardValue.rank
+                    fiveOfAKindCount += 1
+                } else if count == 3 {
+                    fourOfAKindRank = card.cardValue.rank
+                    fourOfAKindCount += 1
+                    if highCard < pairRank {
+                        highCard = pairRank
+                    }
+                } else if count == 2 {
+                    
+                    tripsCount += 1
+                    pairsCount -= 1
+                    print("plaers counts")
+                    print(pairsCount)
+                    print(tripsCount)
+                    if pairsCount >= 1 {
+                        pairRank = secondPairRank
+                    }
+                    if tripsCount == 2 {
+                        tripsCount -= 1
+                        pairRank = tripsRank
+                        }
+                    tripsRank = card.cardValue.rank
+                } else if count == 1 {
+                    pairsCount += 1
+                    print("pairs count")
+                    print(pairsCount)
+                        if pairsCount == 2 {
+                        secondPairRank = pairRank
+                        } else if pairsCount == 3 {
+                        pairsCount -= 1
+                        if secondPairRank > highCard {
+                            highCard = secondPairRank
+                        }
+                        secondPairRank = pairRank
+                    }
+                    pairRank = card.cardValue.rank
+                }
+            } else {
+                fifthHighCard = fourthHighCard
+                fourthHighCard = thirdHighCard
+                thirdHighCard = secondHighCard
+                secondHighCard = highCard
+                highCard = card.cardValue.rank
+                count = 0
+            }
+            previousValue = card.cardValue.rank.rawValue
+            //sortedCards.remove(at: 0)
+        }
+        
+        if fiveOfAKindCount == 1 {
+            return (HandStrength.fiveOfAKind, fiveOfAKindRank, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce)
+        } else if fourOfAKindCount == 1 {
+            return (HandStrength.fourOfAKind, fourOfAKindRank, highCard, Rank.deuce, Rank.deuce, Rank.deuce)
+        } else if tripsCount == 1 && pairsCount >= 1 {
+            return (HandStrength.fullHouse, tripsRank, pairRank, Rank.deuce, Rank.deuce, Rank.deuce)
+        } else if checkFlush(playerCards: playerCards).0 {
+            let flush = checkFlush(playerCards: playerCards)
+            return (HandStrength.flush, flush.1, flush.2, flush.3, flush.4, flush.5)
+        } else if checkStraight(playerCards: playerCards).0 {
+            return (HandStrength.straight, checkStraight(playerCards: playerCards).1, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce )
+        } else if  tripsCount == 1 {
+            return (HandStrength.trips, tripsRank, highCard, secondHighCard, Rank.deuce, Rank.deuce)
+        } else if pairsCount == 2 {
+            return (HandStrength.twoPairs, pairRank, secondPairRank, highCard, Rank.deuce, Rank.deuce)
+        } else if pairsCount == 1 {
+            return (HandStrength.pair, pairRank, highCard, secondHighCard, thirdHighCard, Rank.deuce)
+        } else {
+            return (HandStrength.highCard, highCard, secondHighCard, thirdHighCard, fourthHighCard, fifthHighCard)
+        }
+    }
     
     private func checkStraight(playerCards: Array<Card>) -> (Bool, Rank) {
-        let sortedCards = playerCards.sorted(by: { $0.cardValue.rank < $1.cardValue.rank })
-        let withoutDuplicates = sortedCards.filterDuplicates { $0.cardValue.rank == $1.cardValue.rank }
-        var rowCount: UInt32 = 0
-        var previousValue: UInt32 = 0
+        let withoutDuplicates = playerCards.filterDuplicates { $0.cardValue.rank == $1.cardValue.rank }
+        let sortedCards = withoutDuplicates.sorted(by: { $0.cardValue.rank < $1.cardValue.rank })
+        var rowCount = 0
         var highestCard: Card = Card(cardValue: (Rank.deuce, Suit.club))
-        for card in withoutDuplicates {
+        var previousValue: UInt32 = sortedCards.first!.cardValue.rank.rawValue
+        
+        if sortedCards.last?.cardValue.rank == Rank.ace && sortedCards.first?.cardValue.rank == Rank.deuce {
+            previousValue = 0
+        }
+        
+        for card in sortedCards {
             if card.cardValue.rank.rawValue - previousValue == 1 {
                 rowCount += 1
                 highestCard = card
@@ -54,122 +156,36 @@ struct HandStrength {
             }
             previousValue = card.cardValue.rank.rawValue
         }
-        if rowCount >= 5 {
+        
+        if rowCount >= 4 {
             return (true, highestCard.cardValue.rank)
         } else  { return (false, highestCard.cardValue.rank)
         }
     }
     
-    private func checkFlush(playerCards: Array<Card> ) -> (Bool, Rank) {
-        let clubs = playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted { $0.cardValue.rank < $1.cardValue.rank }
-        let hearts = playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted { $0.cardValue.rank < $1.cardValue.rank }
-        let diamonds = playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted { $0.cardValue.rank < $1.cardValue.rank }
-        let spades = playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted { $0.cardValue.rank < $1.cardValue.rank }
+    
+    private func checkFlush(playerCards: Array<Card> ) -> (Bool, Rank, Rank, Rank, Rank, Rank) {
+        let clubs = playerCards.filter({ $0.cardValue.suit == Suit.club }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
+        let hearts = playerCards.filter({ $0.cardValue.suit == Suit.heart }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
+        let diamonds = playerCards.filter({ $0.cardValue.suit == Suit.daimond }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
+        let spades = playerCards.filter({ $0.cardValue.suit == Suit.spade }).sorted(by: { $0.cardValue.rank < $1.cardValue.rank }).suffix(5)
         
         if clubs.count >= 5 {
-            return (true, clubs.last!.cardValue.rank)
+            return (true, clubs[4].cardValue.rank, clubs[3].cardValue.rank, clubs[2].cardValue.rank, clubs[1].cardValue.rank, clubs[0].cardValue.rank)
         } else if hearts.count >= 5 {
-            return (true, hearts.last!.cardValue.rank)
+            return (true, hearts[4].cardValue.rank, hearts[3].cardValue.rank, hearts[2].cardValue.rank, hearts[1].cardValue.rank, hearts[0].cardValue.rank)
         } else if diamonds.count >= 5 {
-            return (true, diamonds.last!.cardValue.rank)
+            return (true, diamonds[4].cardValue.rank, diamonds[3].cardValue.rank, diamonds[2].cardValue.rank, diamonds[1].cardValue.rank, clubs[0].cardValue.rank)
         } else if spades.count >= 5 {
-            return (true, spades.last!.cardValue.rank)
+            return (true, spades[4].cardValue.rank, spades[3].cardValue.rank, spades[2].cardValue.rank, spades[1].cardValue.rank, spades[0].cardValue.rank)
         } else {
-            return (false, Rank.deuce)
-        }
-    }
-    
-    private func evaluateHand(playerCards: Array<Card>) -> (HandStrength, Rank, Rank) {
-        var playerCards = playerCards
-        var highestFiveOfAKind = Rank.deuce
-        var highestFourOfAKind = Rank.deuce
-        var highestTrips = Rank.deuce
-        var secondHighestTrips = Rank.deuce
-        var highestPair = Rank.deuce
-        var secondHighestPair = Rank.deuce
-        var highCard = Rank.deuce
-        var secondHighCard = Rank.deuce
-        var numberOfPairs = 0
-        var numberOfTrips = 0
-        var numberOfFourOfAKind = 0
-        var numberOfFiveOfAKind = 0
-        
-        for card in playerCards {
-            var repeats = 0
-            if highCard < card.cardValue.rank {
-                secondHighCard = highCard
-                highCard = card.cardValue.rank
-            }
-            for card2 in playerCards {
-                if card.cardValue.rank == card2.cardValue.rank {
-                    repeats += 1
-                    if repeats == 2 {
-                        numberOfPairs += 1
-                        if card.cardValue.rank > highestPair {
-                            secondHighestPair = highestPair
-                            highestPair = card.cardValue.rank
-                        }
-                    } else if repeats == 3 {
-                        numberOfPairs -= 1
-                        numberOfTrips += 1
-                        if card.cardValue.rank > highestTrips {
-                            secondHighestTrips = highestTrips
-                            highestTrips = card.cardValue.rank
-                        }
-                        if card.cardValue.rank == highestPair {
-                            highestPair = secondHighestPair
-                        }
-                    } else if repeats == 4 {
-                        numberOfFourOfAKind += 1
-                        highestFourOfAKind = card.cardValue.rank
-                    } else if repeats == 5 {
-                        numberOfFiveOfAKind += 1
-                        highestFiveOfAKind = card.cardValue.rank
-                    }
-                }
-            }
-            playerCards.remove(at: 0)
-        }
-        if numberOfFiveOfAKind == 1 {
-            return (HandStrength.fiveOfAKind, highestFiveOfAKind, highCard)
-        } else if numberOfFourOfAKind == 1 {
-            if highestFiveOfAKind == highCard {
-                highCard = secondHighCard
-            }
-            return (HandStrength.fourOfAKind, highestFourOfAKind, highCard)
-        } else if numberOfTrips >= 1 && numberOfPairs >= 1 {
-            if secondHighestTrips > highestPair {
-                highestPair = secondHighestTrips
-            }
-            return (HandStrength.fullHouse, highestTrips, highestPair)
-        } else if checkFlush(playerCards: playerCards).0 {
-            return (HandStrength.flush, checkFlush(playerCards: playerCards).1, highCard)
-        } else if checkStraight(playerCards: playerCards).0 {
-            return (HandStrength.straight, checkStraight(playerCards: playerCards).1, highCard)
-        } else if numberOfTrips >= 1 {
-            if highestTrips == highCard {
-                highCard = secondHighCard
-            }
-            return (HandStrength.trips, highestTrips, highCard)
-        } else if numberOfPairs >= 2 {
-            if highestPair == highCard {
-                highCard = secondHighCard
-            }
-            // not covering cases where both players have equal two pairs but different high card
-            return (HandStrength.twoPairs, highestPair, secondHighestPair)
-        } else if numberOfPairs == 1 {
-            if highestPair == highCard {
-                highCard = secondHighCard
-            }
-            return (HandStrength.pair, highestPair, highCard)
-        } else {
-            return (HandStrength.highCard, highCard, secondHighCard)
+            return (false, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce, Rank.deuce)
         }
     }
     
     private mutating func determineWinner() {
-        let player1HandStrength = evaluateHand(playerCards: player1Cards)
-        let player2HandStrength = evaluateHand(playerCards: player2Cards)
+        let player1HandStrength = getHandStrength(playerCards: player1Cards)
+        let player2HandStrength = getHandStrength(playerCards: player2Cards)
         
         if player1HandStrength > player2HandStrength {
             winner = player1

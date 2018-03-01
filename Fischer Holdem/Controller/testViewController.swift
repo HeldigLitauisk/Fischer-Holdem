@@ -10,6 +10,7 @@ import UIKit
 
 class testViewController: UIViewController {
 
+    @IBOutlet var cmdLogin: UIButton!
     @IBOutlet var lblMyName: UILabel!
     @IBAction func btnClick(_ obj: Any) {
         lblMyName.text = "Button clicked!"
