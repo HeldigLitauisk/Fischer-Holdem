@@ -76,9 +76,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         gameLogic = GameLogic(hero: hero, opponent: opponent)
         
         
-        
+      
         
     }
+    
+  
     
     func moveDealerButton() {
         let dealerButton = scene.rootNode.childNode(withName: "dealerButton", recursively: true)

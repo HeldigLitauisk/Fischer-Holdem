@@ -1,0 +1,6 @@
+framework module Pods_Fischer_Holdem {
+  umbrella header "Pods-Fischer Holdem-umbrella.h"
+
+  export *
+  module * { export * }
+}

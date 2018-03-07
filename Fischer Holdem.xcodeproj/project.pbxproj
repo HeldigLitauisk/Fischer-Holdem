@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		44158C2020386DDD001C9B2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44158C1F20386DDD001C9B2E /* Images.xcassets */; };
 		4418BF2D203DAC7E00125819 /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418BF2C203DAC7E00125819 /* testViewController.swift */; };
+		441F9438204F4BFF004CB6AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 441F9437204F4BFF004CB6AC /* GoogleService-Info.plist */; };
 		442292DE2044E802000AEACD /* HandStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442292DD2044E802000AEACD /* HandStrength.swift */; };
 		442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8111203B5E9B00721554 /* GameOverlay.swift */; };
 		442D8118203BB5CC00721554 /* Chips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8117203BB5CC00721554 /* Chips.swift */; };
+		443E7C9C204F44810037B6CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E7C9B204F44810037B6CA /* LoginViewController.swift */; };
 		446AFA4B203DD0E300EA2434 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446AFA4A203DD0E300EA2434 /* Player.swift */; };
 		446AFA4D203DD0F600EA2434 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446AFA4C203DD0F600EA2434 /* GameLogic.swift */; };
 		446AFA5B203E385900EA2434 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446AFA59203E385900EA2434 /* Assets.xcassets */; };
@@ -24,14 +26,18 @@
 		44BA6489203868280037C175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6488203868280037C175 /* Assets.xcassets */; };
 		44BA648C203868280037C175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA648A203868280037C175 /* LaunchScreen.storyboard */; };
 		44E2E9BA2039C2710084D933 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9B92039C2710084D933 /* Deck.swift */; };
+		491BB7C0D9B0CC69B020C541 /* Pods_Fischer_Holdem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C8F9B6460323DDF355192C7 /* Pods_Fischer_Holdem.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		44158C1F20386DDD001C9B2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4418BF2C203DAC7E00125819 /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
+		441F9437204F4BFF004CB6AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		441F9439204F81A9004CB6AC /* Fischer Holdem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Fischer Holdem.entitlements"; sourceTree = "<group>"; };
 		442292DD2044E802000AEACD /* HandStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStrength.swift; sourceTree = "<group>"; };
 		442D8111203B5E9B00721554 /* GameOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverlay.swift; sourceTree = "<group>"; };
 		442D8117203BB5CC00721554 /* Chips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chips.swift; sourceTree = "<group>"; };
+		443E7C9B204F44810037B6CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		446AFA4A203DD0E300EA2434 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		446AFA4C203DD0F600EA2434 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		446AFA59203E385900EA2434 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,6 +52,9 @@
 		44BA648B203868280037C175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44BA648D203868280037C175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44E2E9B92039C2710084D933 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		9C8F9B6460323DDF355192C7 /* Pods_Fischer_Holdem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fischer_Holdem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCA094C7FB82EB6A5339D051 /* Pods-Fischer Holdem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fischer Holdem.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem.release.xcconfig"; sourceTree = "<group>"; };
+		F2E68875C6C18EF6A5BAFA1C /* Pods-Fischer Holdem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fischer Holdem.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491BB7C0D9B0CC69B020C541 /* Pods_Fischer_Holdem.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +96,7 @@
 			children = (
 				44BA6483203868280037C175 /* GameViewController.swift */,
 				4418BF2C203DAC7E00125819 /* testViewController.swift */,
+				443E7C9B204F44810037B6CA /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -96,8 +107,11 @@
 				446AFA59203E385900EA2434 /* Assets.xcassets */,
 				44BA647E203868280037C175 /* Fischer Holdem */,
 				44BA647D203868280037C175 /* Products */,
+				E8C2F4BB6377A8D234D071C6 /* Pods */,
+				6869308FA04B1E04093FC6BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		44BA647D203868280037C175 /* Products */ = {
 			isa = PBXGroup;
@@ -110,10 +124,12 @@
 		44BA647E203868280037C175 /* Fischer Holdem */ = {
 			isa = PBXGroup;
 			children = (
+				441F9439204F81A9004CB6AC /* Fischer Holdem.entitlements */,
 				44158C1E20386D2E001C9B2E /* Controller */,
 				44158C1D20386D27001C9B2E /* Model */,
 				44158C1C20386D02001C9B2E /* View */,
 				44BA647F203868280037C175 /* AppDelegate.swift */,
+				441F9437204F4BFF004CB6AC /* GoogleService-Info.plist */,
 				44158C1F20386DDD001C9B2E /* Images.xcassets */,
 				44BA6481203868280037C175 /* art.scnassets */,
 				44BA6485203868280037C175 /* Main.storyboard */,
@@ -124,6 +140,23 @@
 			path = "Fischer Holdem";
 			sourceTree = "<group>";
 		};
+		6869308FA04B1E04093FC6BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C8F9B6460323DDF355192C7 /* Pods_Fischer_Holdem.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E8C2F4BB6377A8D234D071C6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F2E68875C6C18EF6A5BAFA1C /* Pods-Fischer Holdem.debug.xcconfig */,
+				DCA094C7FB82EB6A5339D051 /* Pods-Fischer Holdem.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,9 +164,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44BA6490203868280037C175 /* Build configuration list for PBXNativeTarget "Fischer Holdem" */;
 			buildPhases = (
+				300498E2B483E258FABFB99F /* [CP] Check Pods Manifest.lock */,
 				44BA6478203868280037C175 /* Sources */,
 				44BA6479203868280037C175 /* Frameworks */,
 				44BA647A203868280037C175 /* Resources */,
+				BFAC0F4CF0077918D7BB957C /* [CP] Embed Pods Frameworks */,
+				512FC52C4C05EFCD1E5A46FF /* [CP] Copy Pods Resources */,
+				444AAA06204E548700BAFB18 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -150,6 +187,9 @@
 		44BA6474203868280037C175 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					Spinner,
+				);
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Urbut Corp.";
@@ -157,6 +197,11 @@
 					44BA647B203868280037C175 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -189,16 +234,130 @@
 				44BA6489203868280037C175 /* Assets.xcassets in Resources */,
 				446AFA5B203E385900EA2434 /* Assets.xcassets in Resources */,
 				44BA6487203868280037C175 /* Main.storyboard in Resources */,
+				441F9438204F4BFF004CB6AC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		300498E2B483E258FABFB99F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fischer Holdem-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		444AAA06204E548700BAFB18 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
+		};
+		512FC52C4C05EFCD1E5A46FF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BFAC0F4CF0077918D7BB957C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		44BA6478203868280037C175 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				443E7C9C204F44810037B6CA /* LoginViewController.swift in Sources */,
 				44E2E9BA2039C2710084D933 /* Deck.swift in Sources */,
 				446AFA4D203DD0F600EA2434 /* GameLogic.swift in Sources */,
 				442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */,
@@ -344,8 +503,10 @@
 		};
 		44BA6491203868280037C175 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2E68875C6C18EF6A5BAFA1C /* Pods-Fischer Holdem.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Fischer Holdem/Fischer Holdem.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y56785BWW4;
 				INFOPLIST_FILE = "Fischer Holdem/Info.plist";
@@ -359,8 +520,10 @@
 		};
 		44BA6492203868280037C175 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCA094C7FB82EB6A5339D051 /* Pods-Fischer Holdem.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Fischer Holdem/Fischer Holdem.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y56785BWW4;
 				INFOPLIST_FILE = "Fischer Holdem/Info.plist";

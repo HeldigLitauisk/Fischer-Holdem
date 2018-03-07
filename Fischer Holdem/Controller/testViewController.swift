@@ -9,6 +9,8 @@
 import UIKit
 
 class testViewController: UIViewController {
+    
+    
 
     @IBOutlet var cmdLogin: UIButton!
     @IBOutlet var lblMyName: UILabel!
@@ -16,8 +18,14 @@ class testViewController: UIViewController {
         lblMyName.text = "Button clicked!"
         
     }
+    @IBOutlet var crachButton: UIButton!
+    @IBAction func crashAction(_ sender: Any) {
+    }
+    
+    
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.

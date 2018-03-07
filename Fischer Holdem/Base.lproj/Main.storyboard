@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4SW-CB-z1F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nsL-Lg-ca1">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,25 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="WSD-l7-upo">
+            <objects>
+                <viewController id="nsL-Lg-ca1" customClass="LoginViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wCY-SU-cWX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="0iA-NL-6fw"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zvr-JH-D4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-516" y="298.2008995502249"/>
+        </scene>
         <!--Test View Controller-->
         <scene sceneID="YPC-8J-cLB">
             <objects>
-                <viewController id="4SW-CB-z1F" customClass="testViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Game Options" id="4SW-CB-z1F" customClass="testViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="imz-Io-glb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,6 +46,9 @@
                                 <rect key="frame" x="138" y="388" width="98" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="REGISTER"/>
+                                <connections>
+                                    <action selector="crashAction:" destination="4SW-CB-z1F" eventType="touchUpInside" id="tst-Dr-3yi"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
                                 <rect key="frame" x="164" y="77" width="151" height="21"/>
@@ -45,6 +63,7 @@
                     </view>
                     <connections>
                         <outlet property="cmdLogin" destination="imz-Io-glb" id="xpQ-sb-clj"/>
+                        <outlet property="crachButton" destination="imz-Io-glb" id="wgc-dy-pMr"/>
                         <outlet property="lblMyName" destination="f9j-RG-n4s" id="1Eq-rY-8CN"/>
                     </connections>
                 </viewController>
