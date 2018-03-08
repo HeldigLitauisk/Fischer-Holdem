@@ -170,8 +170,8 @@ PODS:
     - TwitterCore (>= 2.8)
 
 DEPENDENCIES:
-  - Crashlytics (~> 3.10.1)
-  - Fabric (~> 1.7.5)
+  - Crashlytics
+  - Fabric
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -224,6 +224,6 @@ SPEC CHECKSUMS:
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
 
-PODFILE CHECKSUM: a09bb91528413ba61d9da1afee113c156ba80e9e
+PODFILE CHECKSUM: 9d3aad2639bdd60d94d5fb29b78573642aa6dbb7
 
 COCOAPODS: 1.4.0

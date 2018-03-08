@@ -4,17 +4,16 @@ import FirebaseAuth
 import FirebaseAuthUI
 import FirebaseDatabaseUI
 import FirebaseGoogleAuthUI
-//import FirebaseFacebookAuthUI
+import FirebaseFacebookAuthUI
+import FirebaseTwitterAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
 
 class LoginViewController: UIViewController, FUIAuthDelegate {
     
-  //  var kFacebookAppID = "111111111111111"
+    var kFacebookAppID = "111111111111111"
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //FIRApp.configure()
         checkLoggedIn()
     }
     
@@ -33,17 +32,23 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
     
     func login() {
         let authUI = FUIAuth.defaultAuthUI()
-      //  let facebookProvider = FUIFacebookAuth()
+        let facebookProvider = FUIFacebookAuth()
         let googleProvider = FUIGoogleAuth()
+        let twitterProvider = FUITwitterAuth()
         authUI?.delegate = self
-        authUI?.providers = [googleProvider]//, facebookProvider]
+        authUI?.providers = [googleProvider, facebookProvider, twitterProvider]
         let authViewController = authUI?.authViewController()
         self.present(authViewController!, animated: true, completion: nil)
     }
     
-//    @IBAction func logoutUser(_ sender: AnyObject) {
-//        try! Auth.auth().signOut()
-//    }
+    @IBAction func signOut(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if error != nil {

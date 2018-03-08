@@ -41,18 +41,31 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fbFACEBOOK_APP_ID</string>
-			</array>
+    			<string>fb896549093884963</string>
+  			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>twitterkit-TWITTER_CONSUMER_KEY</string>
+				<string>twitterkit-tAVVVH3oIQre4JcuTyJ3LYKCo</string>
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    	<string>twitter</string>
+    	<string>twitterauth</string>
+	</array>
+	<key>FacebookAppID</key>
+	<string>896549093884963</string>
+	<key>FacebookDisplayName</key>
+	<string>Fischer Poker</string>
+	<key>FacebookAppID</key>
+	<string>896549093884963</string>
+	<key>FacebookDisplayName</key>
+	<string>Fischer Poker</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
