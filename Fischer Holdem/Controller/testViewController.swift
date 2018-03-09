@@ -47,6 +47,10 @@ class testViewController: UIViewController {
             if let data = try? Data(contentsOf: photoUrl!)
             {
                 userPhoto.image = UIImage(data: data)
+                userPhoto.layer.cornerRadius = userPhoto.frame.size.height / 2
+                userPhoto.layer.masksToBounds = true
+                userPhoto.layer.borderColor = UIColor.black.cgColor
+                userPhoto.layer.borderWidth = 1.0
             }
         }
         
