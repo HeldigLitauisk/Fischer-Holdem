@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zvr-JH-D4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-516" y="298.2008995502249"/>
+            <point key="canvasLocation" x="-450" y="130"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="YPC-8J-cLB">
@@ -50,13 +50,6 @@
                                     <action selector="crashAction:" destination="4SW-CB-z1F" eventType="touchUpInside" id="tst-Dr-3yi"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
-                                <rect key="frame" x="164" y="77" width="151" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47z-lw-X3a">
                                 <rect key="frame" x="151" y="546" width="72" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,6 +58,17 @@
                                     <action selector="signOut:" destination="o3J-kO-Klg" eventType="touchUpInside" id="bIo-Zd-bpI"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" restorationIdentifier="userPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="taL-gB-urn">
+                                <rect key="frame" x="67" y="148" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
+                                <rect key="frame" x="112" y="79" width="218" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="BXn-Vs-GVr"/>
@@ -73,6 +77,7 @@
                         <outlet property="cmdLogin" destination="imz-Io-glb" id="xpQ-sb-clj"/>
                         <outlet property="crachButton" destination="imz-Io-glb" id="wgc-dy-pMr"/>
                         <outlet property="lblMyName" destination="f9j-RG-n4s" id="1Eq-rY-8CN"/>
+                        <outlet property="userPhoto" destination="taL-gB-urn" id="VN2-Bs-4MJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0AX-hA-Vdl" userLabel="First Responder" sceneMemberID="firstResponder"/>

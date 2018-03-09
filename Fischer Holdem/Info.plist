@@ -41,8 +41,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-    			<string>fb896549093884963</string>
-  			</array>
+				<string>fb896549093884963</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -53,21 +53,31 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-    	<string>twitter</string>
-    	<string>twitterauth</string>
-	</array>
-	<key>FacebookAppID</key>
-	<string>896549093884963</string>
-	<key>FacebookDisplayName</key>
-	<string>Fischer Poker</string>
-	<key>FacebookAppID</key>
-	<string>896549093884963</string>
-	<key>FacebookDisplayName</key>
-	<string>Fischer Poker</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>b8d7fe14d726ce19a847c01978531a99bf3d343f</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
+	<key>FacebookAppID</key>
+	<string>896549093884963</string>
+	<key>FacebookDisplayName</key>
+	<string>Fischer Poker</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>twitter</string>
+		<string>twitterauth</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -18,20 +18,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Firebase
         FirebaseApp.configure()
+        // Firebase Cloud DB
+        let db = Firestore.firestore()
         // Twitter initialization
         Twitter.sharedInstance().start(withConsumerKey:"tAVVVH3oIQre4JcuTyJ3LYKCo", consumerSecret:"4txux9SeAWSBwtUsDYdDtjNYld632fYl5cwR7yAOckQM82cutO")
         return true
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Crashlytics config
+        Fabric.with([Crashlytics.self, Twitter.self])
         // Google Login redirect
         let googleSignIn = GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         // Facebook Login redirect
         let facebookSignIn = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         // Twitter Login redirect
         let twitterSignIn = Twitter.sharedInstance().application(app, open: url, options: options)
-        // Crashlytics config
-        Fabric.with([Crashlytics.self, Twitter.self])
             
         return googleSignIn || facebookSignIn || twitterSignIn
     }

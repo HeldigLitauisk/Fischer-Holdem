@@ -15,6 +15,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkLoggedIn()
+        Auth.auth()
     }
     
     func checkLoggedIn() {
@@ -22,6 +23,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
             if user != nil {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! testViewController
+                newViewController.currentUser = user
                 self.present(newViewController, animated: true, completion: nil)
             } else {
                 // No user is signed in.
@@ -31,6 +33,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
     }
     
     func login() {
+        
         let authUI = FUIAuth.defaultAuthUI()
         let facebookProvider = FUIFacebookAuth()
         let googleProvider = FUIGoogleAuth()
@@ -55,12 +58,18 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
             //Problem signing in
             login()
             
-        }else {
+        } else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! testViewController
+            newViewController.currentUser = user
             self.present(newViewController, animated: true, completion: nil)
+            
+            
             }
         }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    }
     
     }
 
