@@ -14,7 +14,8 @@ import FirebaseAuth
 class testViewController: UIViewController {
     var db: Firestore!
     var currentUser: User!
-    var cashier: UInt32?
+    var cashier: UInt32!
+    var cashierListener: ListenerRegistration!
     
     
     @IBOutlet weak var userPhoto: UIImageView!
@@ -53,8 +54,7 @@ class testViewController: UIViewController {
             }
         }
         
-        // shows and updates cashier amount to user
-        cashierAmount.text = "You have " + String(describing: cashier) + "$ in your account"
+        
         
         // if user is new sends all his data to cloud
         checkIfNewUser()
@@ -92,17 +92,21 @@ class testViewController: UIViewController {
         }
     }
     
-    private func listenCashierl() {
-        db.collection("users").document(currentUser.uid)
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                let source = document.metadata.hasPendingWrites ? "Local" : "Server"
-                print("\(source) data: \(String(describing: document.data()))")
-                self.cashier = document.data()!["cashier"] as! UInt32
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(currentUser.uid)
+        let docRef = db.collection("users").document(currentUser.uid)
+        cashierListener = docRef.addSnapshotListener { (docSnapshot, err) in
+            guard let docSnapshot = docSnapshot, docSnapshot.exists else { return }
+            let myData = (docSnapshot.data()!["cashier"]!)
+            self.cashierAmount.text = String(describing: myData) + "$"
+            self.cashier = myData as! UInt32
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        cashierListener.remove()
     }
 
     override func didReceiveMemoryWarning() {
