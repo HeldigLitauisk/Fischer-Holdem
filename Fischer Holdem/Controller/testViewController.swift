@@ -14,22 +14,18 @@ import FirebaseAuth
 class testViewController: UIViewController {
     var db: Firestore!
     var currentUser: User!
+    var cashier: UInt32?
     
-
+    
     @IBOutlet weak var userPhoto: UIImageView!
     @IBOutlet var cmdLogin: UIButton!
     @IBOutlet var lblMyName: UILabel!
     @IBAction func btnClick(_ obj: Any) {
-        
-        
     }
     @IBOutlet var crachButton: UIButton!
     @IBAction func crashAction(_ sender: Any) {
-        //      getCollection()
-        //     listenForUsers()
     }
-    
-    
+    @IBOutlet weak var cashierAmount: UILabel!
     
     override func viewDidLoad() {
         
@@ -37,75 +33,78 @@ class testViewController: UIViewController {
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
         
-        // [END setup]
+        // init db
         db = Firestore.firestore()
         
         // Welcomes Logged in User
-        lblMyName.text = "WELCOME, " + (currentUser.displayName?.uppercased())!
+        lblMyName.text = currentUser.displayName?.uppercased() ?? "__NONAME__"
+        
+        // creates UIImage from user profile picture
         for profile in currentUser.providerData {
-            let photoUrl = profile.photoURL //SMALL IMAGE
-            if let data = try? Data(contentsOf: photoUrl!)
-            {
-                userPhoto.image = UIImage(data: data)
-                userPhoto.layer.cornerRadius = userPhoto.frame.size.height / 2
-                userPhoto.layer.masksToBounds = true
-                userPhoto.layer.borderColor = UIColor.black.cgColor
-                userPhoto.layer.borderWidth = 1.0
+            let photoUrl = profile.photoURL
+            if photoUrl != nil {
+                if let data = try? Data(contentsOf: photoUrl!) {
+                    userPhoto.image = UIImage(data: data)
+                    userPhoto.layer.cornerRadius = userPhoto.frame.size.height / 2
+                    userPhoto.layer.masksToBounds = true
+                    userPhoto.layer.borderColor = UIColor.black.cgColor
+                    userPhoto.layer.borderWidth = 1.0
+                }
             }
         }
         
+        // shows and updates cashier amount to user
+        cashierAmount.text = "You have " + String(describing: cashier) + "$ in your account"
+        
+        // if user is new sends all his data to cloud
+        checkIfNewUser()
+        
     }
     
-    private func addAdaLovelace() {
-        // [START add_ada_lovelace]
-        // Add a new document with a generated ID
-        var ref: DocumentReference? = nil
-        ref = db.collection("users").addDocument(data: [
-            "first": "Ada",
-            "last": "Lovelace",
-            "born": 1815
+    private func addNewUser() {
+        db.collection("users").document(currentUser.uid).setData( [
+            "id": currentUser.uid,
+            "name": currentUser.displayName ?? "__NONAME__",
+            "email": currentUser.email ?? "__NOEMAIL__",
+            "phone": currentUser.phoneNumber ?? "__NOPHONE__",
+            "cashier": 1000
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
-                print("Document added with ID: \(ref!.documentID)")
+                print("Document added with ID: \(self.currentUser.uid)")
             }
         }
-        // [END add_ada_lovelace]
     }
-
-    private func getCollection() {
-        // [START get_collection]
-        db.collection("users").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
+    
+    
+    private func checkIfNewUser() {
+        let docRef = db.collection("users").document(currentUser.uid)
+        docRef.getDocument { (document, error) in
+            if let document = document {
+                if document.exists {
+                    print("Document data: \(String(describing: document.data()))")
+                } else {
+                    print("Document does not exist")
+                    self.addNewUser()
                 }
             }
         }
-        // [END get_collection]
     }
     
-    private func listenForUsers() {
-        // [START listen_for_users]
-        // Listen to a query on a collection.
-        //
-        // We will get a first snapshot with the initial results and a new
-        // snapshot each time there is a change in the results.
-        db.collection("users")
-            .whereField("born", isLessThan: 1900)
-            .addSnapshotListener { querySnapshot, error in
-                guard let snapshot = querySnapshot else {
-                    print("Error retreiving snapshots \(error!)")
+    private func listenCashierl() {
+        db.collection("users").document(currentUser.uid)
+            .addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
                     return
                 }
-                print("Current users born before 1900: \(snapshot.documents.map { $0.data() })")
+                let source = document.metadata.hasPendingWrites ? "Local" : "Server"
+                print("\(source) data: \(String(describing: document.data()))")
+                self.cashier = document.data()!["cashier"] as! UInt32
         }
-        // [END listen_for_users]
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

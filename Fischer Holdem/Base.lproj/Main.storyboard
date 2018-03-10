@@ -50,13 +50,13 @@
                                     <action selector="crashAction:" destination="4SW-CB-z1F" eventType="touchUpInside" id="tst-Dr-3yi"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
-                                <rect key="frame" x="8" y="28" width="359" height="46"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
+                                <rect key="frame" x="66" y="28" width="90.5" height="50"/>
                                 <attributedString key="attributedText">
                                     <fragment content="userName">
                                         <attributes>
-                                            <font key="NSFont" size="24" name="Copperplate"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <font key="NSFont" size="18" name="Copperplate"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -71,24 +71,40 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="userPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="taL-gB-urn">
-                                <rect key="frame" x="217" y="60.5" width="150" height="150"/>
+                                <rect key="frame" x="8" y="28" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="0al-Z1-Mcp"/>
-                                    <constraint firstAttribute="width" constant="150" id="wwy-YF-J6b"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ovh-qk-pmh"/>
+                                    <constraint firstAttribute="width" constant="50" id="eZb-yA-dOA"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IaQ-dy-DpD">
+                                <rect key="frame" x="8" y="86" width="359" height="24.5"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="cashier">
+                                        <attributes>
+                                            <font key="NSFont" size="24" name="Copperplate"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="taL-gB-urn" secondAttribute="trailing" constant="8" id="YqU-W9-ODB"/>
-                            <constraint firstItem="f9j-RG-n4s" firstAttribute="top" secondItem="BXn-Vs-GVr" secondAttribute="top" constant="8" id="nLc-Cb-xQt"/>
-                            <constraint firstItem="f9j-RG-n4s" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="8" id="tuK-oP-aEh"/>
-                            <constraint firstItem="taL-gB-urn" firstAttribute="top" secondItem="f9j-RG-n4s" secondAttribute="bottom" constant="8" id="yW3-DO-y3J"/>
-                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="f9j-RG-n4s" secondAttribute="trailing" constant="8" id="znM-M1-csG"/>
+                            <constraint firstItem="f9j-RG-n4s" firstAttribute="top" secondItem="BXn-Vs-GVr" secondAttribute="top" constant="8" id="6du-aK-HBv"/>
+                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="IaQ-dy-DpD" secondAttribute="trailing" constant="8" id="92H-6K-XWJ"/>
+                            <constraint firstItem="f9j-RG-n4s" firstAttribute="height" secondItem="taL-gB-urn" secondAttribute="height" id="A8k-4D-DYo"/>
+                            <constraint firstItem="f9j-RG-n4s" firstAttribute="leading" secondItem="taL-gB-urn" secondAttribute="trailing" constant="8" id="IuM-h5-ALY"/>
+                            <constraint firstItem="taL-gB-urn" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="8" id="fq2-e0-QKI"/>
+                            <constraint firstItem="taL-gB-urn" firstAttribute="top" secondItem="BXn-Vs-GVr" secondAttribute="top" constant="8" id="ivZ-5k-z2A"/>
+                            <constraint firstItem="IaQ-dy-DpD" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="8" id="ogk-ul-Mgo"/>
+                            <constraint firstItem="IaQ-dy-DpD" firstAttribute="top" secondItem="f9j-RG-n4s" secondAttribute="bottom" constant="8" id="xlI-Vz-CLe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BXn-Vs-GVr"/>
                     </view>
                     <connections>
+                        <outlet property="cashierAmount" destination="IaQ-dy-DpD" id="5PJ-wm-NcR"/>
                         <outlet property="cmdLogin" destination="imz-Io-glb" id="xpQ-sb-clj"/>
                         <outlet property="crachButton" destination="imz-Io-glb" id="wgc-dy-pMr"/>
                         <outlet property="lblMyName" destination="f9j-RG-n4s" id="1Eq-rY-8CN"/>
