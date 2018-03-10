@@ -59,6 +59,8 @@ class testViewController: UIViewController {
         // if user is new sends all his data to cloud
         checkIfNewUser()
         
+        let newGame = NewGame(player1: "computer", player2: currentUser.uid)
+        
     }
     
     private func addNewUser() {
@@ -94,7 +96,6 @@ class testViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(currentUser.uid)
         let docRef = db.collection("users").document(currentUser.uid)
         cashierListener = docRef.addSnapshotListener { (docSnapshot, err) in
             guard let docSnapshot = docSnapshot, docSnapshot.exists else { return }

@@ -14,6 +14,7 @@
 		442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8111203B5E9B00721554 /* GameOverlay.swift */; };
 		442D8118203BB5CC00721554 /* Chips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8117203BB5CC00721554 /* Chips.swift */; };
 		443E7C9C204F44810037B6CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E7C9B204F44810037B6CA /* LoginViewController.swift */; };
+		4444B87C20544A660013E549 /* NewGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4444B87B20544A660013E549 /* NewGame.swift */; };
 		446AFA4B203DD0E300EA2434 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446AFA4A203DD0E300EA2434 /* Player.swift */; };
 		446AFA4D203DD0F600EA2434 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446AFA4C203DD0F600EA2434 /* GameLogic.swift */; };
 		446AFA5B203E385900EA2434 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446AFA59203E385900EA2434 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		442D8111203B5E9B00721554 /* GameOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverlay.swift; sourceTree = "<group>"; };
 		442D8117203BB5CC00721554 /* Chips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chips.swift; sourceTree = "<group>"; };
 		443E7C9B204F44810037B6CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		4444B87B20544A660013E549 /* NewGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGame.swift; sourceTree = "<group>"; };
 		446AFA4A203DD0E300EA2434 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		446AFA4C203DD0F600EA2434 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		446AFA59203E385900EA2434 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				442D8117203BB5CC00721554 /* Chips.swift */,
 				446AFA4A203DD0E300EA2434 /* Player.swift */,
 				446AFA4C203DD0F600EA2434 /* GameLogic.swift */,
+				4444B87B20544A660013E549 /* NewGame.swift */,
 				442292DD2044E802000AEACD /* HandStrength.swift */,
 			);
 			path = Model;
@@ -368,6 +371,7 @@
 				4418BF2D203DAC7E00125819 /* testViewController.swift in Sources */,
 				44AD36F32038C22700D3A0F8 /* SharedConstants.swift in Sources */,
 				44BA6484203868280037C175 /* GameViewController.swift in Sources */,
+				4444B87C20544A660013E549 /* NewGame.swift in Sources */,
 				442D8118203BB5CC00721554 /* Chips.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
 				44DD66042051F5210047AB02 /* GameSetupViewController.swift in Sources */,
