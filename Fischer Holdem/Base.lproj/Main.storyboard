@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,37 +18,58 @@
                     <view key="view" contentMode="scaleToFill" id="wCY-SU-cWX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="0iA-NL-6fw"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zvr-JH-D4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-689" y="130"/>
+            <point key="canvasLocation" x="-337" y="5"/>
         </scene>
-        <!--Test View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="Zza-KH-jao">
+            <objects>
+                <navigationController storyboardIdentifier="MainNav" id="Edx-By-6Gh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bHp-kP-bf0">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4SW-CB-z1F" kind="relationship" relationship="rootViewController" id="mYF-Ka-Ghz"/>
+                        <segue destination="4SW-CB-z1F" kind="show" id="i58-Xn-RYg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7n8-tX-7c3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="513" y="-780"/>
+        </scene>
+        <!--Main View Controller-->
         <scene sceneID="YPC-8J-cLB">
             <objects>
-                <viewController storyboardIdentifier="Game Options" id="4SW-CB-z1F" customClass="testViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Game Options" id="4SW-CB-z1F" customClass="MainViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="imz-Io-glb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UwL-3d-eVj">
-                                <rect key="frame" x="164" y="326" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="LOGIN"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TD8-9N-hU6">
+                                <rect key="frame" x="16" y="343" width="343" height="75"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="1" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="BSG-ow-a8g"/>
+                                </constraints>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="VS Human">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="36" name="Copperplate"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
                                 <connections>
-                                    <action selector="btnClick:" destination="4SW-CB-z1F" eventType="touchUpInside" id="YN3-j2-3ru"/>
-                                    <segue destination="YfN-AY-Lqr" kind="show" id="QDQ-0r-jGj"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TD8-9N-hU6">
-                                <rect key="frame" x="138" y="388" width="98" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="REGISTER"/>
-                                <connections>
-                                    <action selector="crashAction:" destination="4SW-CB-z1F" eventType="touchUpInside" id="tst-Dr-3yi"/>
+                                    <action selector="vsHuman:" destination="4SW-CB-z1F" eventType="touchUpInside" id="tst-Dr-3yi"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9j-RG-n4s">
@@ -55,6 +77,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="userName">
                                         <attributes>
+                                            <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="18" name="Copperplate"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -62,10 +85,23 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47z-lw-X3a">
-                                <rect key="frame" x="151" y="546" width="72" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign Out"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47z-lw-X3a">
+                                <rect key="frame" x="16" y="434" width="343" height="75"/>
+                                <color key="backgroundColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="mWB-Qi-FbQ"/>
+                                </constraints>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Sign Out">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="36" name="Copperplate"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
                                 <connections>
                                     <action selector="signOut:" destination="o3J-kO-Klg" eventType="touchUpInside" id="bIo-Zd-bpI"/>
                                     <action selector="signOut:" destination="4SW-CB-z1F" eventType="touchUpInside" id="xeC-wC-icl"/>
@@ -79,36 +115,73 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IaQ-dy-DpD">
-                                <rect key="frame" x="8" y="86" width="359" height="24.5"/>
+                                <rect key="frame" x="8" y="86" width="359" height="150"/>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="zbp-4S-sBg"/>
+                                </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="cashier">
                                         <attributes>
-                                            <font key="NSFont" size="24" name="Copperplate"/>
+                                            <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="48" name="Copperplate"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UwL-3d-eVj">
+                                <rect key="frame" x="16" y="252" width="343" height="75"/>
+                                <color key="backgroundColor" red="1" green="1" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="vtd-i0-FTb"/>
+                                </constraints>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="VS Computer">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="36" name="Copperplate"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="vsComputer:" destination="4SW-CB-z1F" eventType="touchUpInside" id="YN3-j2-3ru"/>
+                                    <segue destination="3J9-gp-Rte" kind="show" id="zWE-Eq-7f9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="TD8-9N-hU6" firstAttribute="top" secondItem="UwL-3d-eVj" secondAttribute="bottom" constant="16" id="03g-Ic-G0x"/>
                             <constraint firstItem="f9j-RG-n4s" firstAttribute="top" secondItem="BXn-Vs-GVr" secondAttribute="top" constant="8" id="6du-aK-HBv"/>
                             <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="IaQ-dy-DpD" secondAttribute="trailing" constant="8" id="92H-6K-XWJ"/>
+                            <constraint firstItem="UwL-3d-eVj" firstAttribute="top" secondItem="IaQ-dy-DpD" secondAttribute="bottom" constant="16" id="9V4-Eg-KZZ"/>
                             <constraint firstItem="f9j-RG-n4s" firstAttribute="height" secondItem="taL-gB-urn" secondAttribute="height" id="A8k-4D-DYo"/>
+                            <constraint firstItem="TD8-9N-hU6" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="16" id="CIi-cB-Ofc"/>
+                            <constraint firstItem="47z-lw-X3a" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="16" id="FoU-i2-7cw"/>
                             <constraint firstItem="f9j-RG-n4s" firstAttribute="leading" secondItem="taL-gB-urn" secondAttribute="trailing" constant="8" id="IuM-h5-ALY"/>
+                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="TD8-9N-hU6" secondAttribute="trailing" constant="16" id="YDR-GR-7tj"/>
+                            <constraint firstItem="UwL-3d-eVj" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="16" id="cZV-N3-YxC"/>
+                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="47z-lw-X3a" secondAttribute="trailing" constant="16" id="dTD-uq-4FM"/>
+                            <constraint firstItem="BXn-Vs-GVr" firstAttribute="trailing" secondItem="UwL-3d-eVj" secondAttribute="trailing" constant="16" id="fjM-T4-Zws"/>
                             <constraint firstItem="taL-gB-urn" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="8" id="fq2-e0-QKI"/>
                             <constraint firstItem="taL-gB-urn" firstAttribute="top" secondItem="BXn-Vs-GVr" secondAttribute="top" constant="8" id="ivZ-5k-z2A"/>
+                            <constraint firstItem="47z-lw-X3a" firstAttribute="top" secondItem="TD8-9N-hU6" secondAttribute="bottom" constant="16" id="nhQ-3U-lOI"/>
                             <constraint firstItem="IaQ-dy-DpD" firstAttribute="leading" secondItem="BXn-Vs-GVr" secondAttribute="leading" constant="8" id="ogk-ul-Mgo"/>
                             <constraint firstItem="IaQ-dy-DpD" firstAttribute="top" secondItem="f9j-RG-n4s" secondAttribute="bottom" constant="8" id="xlI-Vz-CLe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BXn-Vs-GVr"/>
                     </view>
+                    <navigationItem key="navigationItem" id="X29-yO-ncd"/>
                     <connections>
                         <outlet property="cashierAmount" destination="IaQ-dy-DpD" id="5PJ-wm-NcR"/>
-                        <outlet property="cmdLogin" destination="imz-Io-glb" id="xpQ-sb-clj"/>
-                        <outlet property="crachButton" destination="imz-Io-glb" id="wgc-dy-pMr"/>
-                        <outlet property="lblMyName" destination="f9j-RG-n4s" id="1Eq-rY-8CN"/>
+                        <outlet property="mainButton" destination="imz-Io-glb" id="xpQ-sb-clj"/>
+                        <outlet property="unknownButton" destination="imz-Io-glb" id="wgc-dy-pMr"/>
+                        <outlet property="userName" destination="f9j-RG-n4s" id="1Eq-rY-8CN"/>
                         <outlet property="userPhoto" destination="taL-gB-urn" id="VN2-Bs-4MJ"/>
                     </connections>
                 </viewController>
@@ -116,6 +189,77 @@
                 <exit id="o3J-kO-Klg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="512.79999999999995" y="4.9475262368815596"/>
+        </scene>
+        <!--Game Setup View Controller-->
+        <scene sceneID="qxj-GY-MbF">
+            <objects>
+                <viewController storyboardIdentifier="GameSetup" id="3J9-gp-Rte" customClass="GameSetupViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BgH-YR-ikk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T94-9c-Ard">
+                                <rect key="frame" x="8" y="429" width="359" height="222"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xmy-6q-QiT">
+                                <rect key="frame" x="8" y="40" width="359" height="222.5"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="How Much Do you Want to Play with?">
+                                        <attributes>
+                                            <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="36" name="Copperplate"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39F-LU-W7k">
+                                <rect key="frame" x="32" y="278.5" width="311" height="167"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="PLAY!">
+                                            <attributes>
+                                                <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <font key="NSFont" size="48" name="Copperplate"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="playButton:" destination="Bc2-Iv-NU6" eventType="touchUpInside" id="pLe-eJ-EjN"/>
+                                    <segue destination="YfN-AY-Lqr" kind="show" id="aPB-Cp-kOf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="39F-LU-W7k" firstAttribute="leading" secondItem="Tk9-4d-X1r" secondAttribute="leading" constant="32" id="2vX-Nc-fkP"/>
+                            <constraint firstItem="T94-9c-Ard" firstAttribute="leading" secondItem="Tk9-4d-X1r" secondAttribute="leading" constant="8" id="IMX-qY-tku"/>
+                            <constraint firstItem="Xmy-6q-QiT" firstAttribute="height" secondItem="BgH-YR-ikk" secondAttribute="height" multiplier="1:3" id="PKs-sh-KdN"/>
+                            <constraint firstItem="T94-9c-Ard" firstAttribute="height" secondItem="BgH-YR-ikk" secondAttribute="height" multiplier="1:3" id="Xd2-xm-9gO"/>
+                            <constraint firstItem="Tk9-4d-X1r" firstAttribute="bottom" secondItem="T94-9c-Ard" secondAttribute="bottom" constant="16" id="j8s-E0-DcX"/>
+                            <constraint firstItem="Xmy-6q-QiT" firstAttribute="leading" secondItem="Tk9-4d-X1r" secondAttribute="leading" constant="8" id="mOS-KB-ckE"/>
+                            <constraint firstItem="39F-LU-W7k" firstAttribute="top" secondItem="Xmy-6q-QiT" secondAttribute="bottom" constant="16" id="r1q-Mm-fy5"/>
+                            <constraint firstItem="Tk9-4d-X1r" firstAttribute="trailing" secondItem="Xmy-6q-QiT" secondAttribute="trailing" constant="8" id="rp2-KB-uFb"/>
+                            <constraint firstItem="39F-LU-W7k" firstAttribute="height" secondItem="BgH-YR-ikk" secondAttribute="height" multiplier="1:4" id="sOx-Qu-Yg1"/>
+                            <constraint firstItem="Xmy-6q-QiT" firstAttribute="top" secondItem="Tk9-4d-X1r" secondAttribute="top" constant="20" id="saF-6B-jdp"/>
+                            <constraint firstItem="Tk9-4d-X1r" firstAttribute="trailing" secondItem="39F-LU-W7k" secondAttribute="trailing" constant="32" id="tsA-it-gsS"/>
+                            <constraint firstAttribute="trailing" secondItem="T94-9c-Ard" secondAttribute="trailing" constant="8" id="y4D-TJ-R0m"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Tk9-4d-X1r"/>
+                    </view>
+                    <connections>
+                        <outlet property="amountPicker" destination="T94-9c-Ard" id="Vdu-YN-vjn"/>
+                        <outlet property="playButton" destination="39F-LU-W7k" id="OlL-Ed-mPt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ppl-Yg-juK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Bc2-Iv-NU6" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1383" y="-400"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="bqN-dZ-xHZ">
@@ -130,7 +274,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="51c-A1-jwF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1285" y="5"/>
+            <point key="canvasLocation" x="2271" y="-18"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="i58-Xn-RYg"/>
+    </inferredMetricsTieBreakers>
 </document>

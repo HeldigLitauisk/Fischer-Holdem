@@ -12,7 +12,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseAuthUI
 
-class testViewController: UIViewController {
+class MainViewController: UIViewController {
     var db: Firestore!
     var currentUser: User!
     var cashier: UInt32!
@@ -21,12 +21,12 @@ class testViewController: UIViewController {
 
     
     @IBOutlet weak var userPhoto: UIImageView!
-    @IBOutlet var cmdLogin: UIButton!
-    @IBOutlet var lblMyName: UILabel!
-    @IBAction func btnClick(_ obj: Any) {
+    @IBOutlet var mainButton: UIButton!
+    @IBOutlet var userName: UILabel!
+    @IBAction func vsComputer(_ obj: Any) {
     }
-    @IBOutlet var crachButton: UIButton!
-    @IBAction func crashAction(_ sender: Any) {
+    @IBOutlet var unknownButton: UIButton!
+    @IBAction func vsHuman(_ sender: Any) {
     }
     @IBOutlet weak var cashierAmount: UILabel!
     
@@ -40,7 +40,7 @@ class testViewController: UIViewController {
         db = Firestore.firestore()
         
         // Welcomes Logged in User
-        lblMyName.text = currentUser.displayName?.uppercased() ?? "__NONAME__"
+        userName.text = currentUser.displayName?.uppercased() ?? "__NONAME__"
         
         // creates UIImage from user profile picture
         for profile in currentUser.providerData {

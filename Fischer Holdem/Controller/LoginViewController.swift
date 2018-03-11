@@ -22,7 +22,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! testViewController
+                let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! MainViewController
                 newViewController.currentUser = user
                 self.present(newViewController, animated: true, completion: nil)
             } else {
@@ -44,15 +44,6 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
         self.present(authViewController!, animated: true, completion: nil)
     }
     
-//    @IBAction func signOut(_ sender: Any) {
-//        let firebaseAuth = Auth.auth()
-//        do {
-//            try firebaseAuth.signOut()
-//        } catch let signOutError as NSError {
-//            print ("Error signing out: %@", signOutError)
-//        }
-//    }
-    
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if error != nil {
             //Problem signing in
@@ -60,7 +51,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
             
         } else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! testViewController
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! MainViewController
             newViewController.currentUser = user
             self.present(newViewController, animated: true, completion: nil)
             
