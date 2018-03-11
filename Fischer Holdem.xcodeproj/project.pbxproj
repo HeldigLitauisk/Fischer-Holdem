@@ -26,7 +26,6 @@
 		44BA6487203868280037C175 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6485203868280037C175 /* Main.storyboard */; };
 		44BA6489203868280037C175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44BA6488203868280037C175 /* Assets.xcassets */; };
 		44BA648C203868280037C175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BA648A203868280037C175 /* LaunchScreen.storyboard */; };
-		44DD66042051F5210047AB02 /* GameSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DD66032051F5210047AB02 /* GameSetupViewController.swift */; };
 		44E2E9BA2039C2710084D933 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E2E9B92039C2710084D933 /* Deck.swift */; };
 		491BB7C0D9B0CC69B020C541 /* Pods_Fischer_Holdem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C8F9B6460323DDF355192C7 /* Pods_Fischer_Holdem.framework */; };
 /* End PBXBuildFile section */
@@ -54,7 +53,6 @@
 		44BA6488203868280037C175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44BA648B203868280037C175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44BA648D203868280037C175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44DD66032051F5210047AB02 /* GameSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewController.swift; sourceTree = "<group>"; };
 		44E2E9B92039C2710084D933 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		9C8F9B6460323DDF355192C7 /* Pods_Fischer_Holdem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fischer_Holdem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCA094C7FB82EB6A5339D051 /* Pods-Fischer Holdem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fischer Holdem.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fischer Holdem/Pods-Fischer Holdem.release.xcconfig"; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 				44BA6483203868280037C175 /* GameViewController.swift */,
 				4418BF2C203DAC7E00125819 /* testViewController.swift */,
 				443E7C9B204F44810037B6CA /* LoginViewController.swift */,
-				44DD66032051F5210047AB02 /* GameSetupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -374,7 +371,6 @@
 				4444B87C20544A660013E549 /* NewGame.swift in Sources */,
 				442D8118203BB5CC00721554 /* Chips.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
-				44DD66042051F5210047AB02 /* GameSetupViewController.swift in Sources */,
 				446AFA4B203DD0E300EA2434 /* Player.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);

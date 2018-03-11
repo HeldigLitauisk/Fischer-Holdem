@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseAuthUI
 
 class testViewController: UIViewController {
     var db: Firestore!
@@ -17,6 +18,7 @@ class testViewController: UIViewController {
     var cashier: UInt32!
     var cashierListener: ListenerRegistration!
     
+
     
     @IBOutlet weak var userPhoto: UIImageView!
     @IBOutlet var cmdLogin: UIButton!
@@ -54,13 +56,22 @@ class testViewController: UIViewController {
             }
         }
         
-        
-        
         // if user is new sends all his data to cloud
         checkIfNewUser()
         
-        let newGame = NewGame(player1: "computer", player2: currentUser.uid)
+      //  let newGame = NewGame(player1: "computer", player2: currentUser.uid)
         
+    }
+    
+    @IBAction func signOut(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "LoginView") as! LoginViewController
+            self.present(newViewController, animated: true, completion: nil)
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
     }
     
     private func addNewUser() {
@@ -69,7 +80,8 @@ class testViewController: UIViewController {
             "name": currentUser.displayName ?? "__NONAME__",
             "email": currentUser.email ?? "__NOEMAIL__",
             "phone": currentUser.phoneNumber ?? "__NOPHONE__",
-            "cashier": 1000
+            "cashier": 1000,
+            "dateCreated" : Date()
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

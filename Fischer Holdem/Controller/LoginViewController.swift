@@ -44,14 +44,14 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
         self.present(authViewController!, animated: true, completion: nil)
     }
     
-    @IBAction func signOut(_ sender: Any) {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-    }
+//    @IBAction func signOut(_ sender: Any) {
+//        let firebaseAuth = Auth.auth()
+//        do {
+//            try firebaseAuth.signOut()
+//        } catch let signOutError as NSError {
+//            print ("Error signing out: %@", signOutError)
+//        }
+//    }
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if error != nil {

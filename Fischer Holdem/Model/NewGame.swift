@@ -11,40 +11,42 @@ import Firebase
 
 class NewGame {
     var db = Firestore.firestore()
-    var _dispatch_group = DispatchGroup()
-    var _gameId: String = "0"
-    var gameId: String {
-        get {
-            _dispatch_group.enter()
-            db.collection("games").getDocuments { (querySnapshot, err) in
-                if let snapshot = querySnapshot {
-                    print(snapshot.count)
-                    self._gameId = String(snapshot.count + 1)
-                }
-            }
-            _dispatch_group.leave()
-            return _gameId
-        }
-        set {
-            _gameId = newValue
-        }
-    }
+    var gameId: String = "__NODATA__"
+    var player1: String
+    var player2: String
     
     init(player1: String, player2: String) {
-        db.collection("games").addDocument(data: [
-            "id" : gameId,
-            "player1" : player1,
-            "player2" : player2 ])
+        self.player1 = player1
+        self.player2 = player2
+        newGameId {
+            self.addGameData()
+        }
+    }
+        
+    
+    private func newGameId(onSccess completion:@escaping () -> Void) {
+        let _dispatch_group = DispatchGroup()
+        _dispatch_group.enter()
+        db.collection("games").getDocuments { (querySnapshot, err) in
+            if let snapshot = querySnapshot {
+                self.gameId = String(snapshot.count + 1)
+                _dispatch_group.leave()
+            }
+        }
+
+        _dispatch_group.notify(queue: DispatchQueue.main, execute: {
+            completion()
+        })
     }
     
-//    private func newGameId() -> Int {
-//        var gamesCount = 0
-//        db.collection("games").getDocuments { (querySnapshot, err) in
-//            if let snapshot = querySnapshot {
-//                gamesCount = snapshot.count + 1
-//            }
-//        }
-//        return gamesCount
-//    }
+    private func addGameData() {
+        
+        db.collection("games").document(gameId).setData( [
+            "id" : gameId,
+            "player1" : player1,
+            "player2" : player2,
+            "startedAt" : Date()
+            ])
+    }
     
 }

@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="WSD-l7-upo">
             <objects>
-                <viewController id="nsL-Lg-ca1" customClass="LoginViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginView" id="nsL-Lg-ca1" customClass="LoginViewController" customModule="Fischer_Holdem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wCY-SU-cWX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zvr-JH-D4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-450" y="130"/>
+            <point key="canvasLocation" x="-689" y="130"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="YPC-8J-cLB">
@@ -68,6 +68,7 @@
                                 <state key="normal" title="Sign Out"/>
                                 <connections>
                                     <action selector="signOut:" destination="o3J-kO-Klg" eventType="touchUpInside" id="bIo-Zd-bpI"/>
+                                    <action selector="signOut:" destination="4SW-CB-z1F" eventType="touchUpInside" id="xeC-wC-icl"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="userPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="taL-gB-urn">
