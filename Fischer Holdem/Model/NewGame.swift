@@ -12,10 +12,10 @@ import Firebase
 class NewGame {
     var db = Firestore.firestore()
     var gameId: String = "__NODATA__"
-    var player1: String
-    var player2: String
+    var player1: Player
+    var player2: Player
     
-    init(player1: String, player2: String) {
+    init(player1: Player, player2: Player) {
         self.player1 = player1
         self.player2 = player2
         newGameId {
@@ -43,8 +43,10 @@ class NewGame {
         
         db.collection("games").document(gameId).setData( [
             "id" : gameId,
-            "player1" : player1,
-            "player2" : player2,
+            "player1_ID" : player1.playerId,
+            "player2_ID" : player2.playerId,
+            "player1_BUYIN" : player1.chipCount,
+            "player2_BUYIN" : player2.chipCount,
             "startedAt" : Date()
             ])
     }

@@ -10,6 +10,7 @@ import Foundation
 import SceneKit
 
 class Player {
+    var playerId: String
     var isHero: Bool
     var isDealer: Bool
     var isAllIn: Bool = false
@@ -19,7 +20,8 @@ class Player {
     var chips: Chips
     var playerHand: (Card, Card)?
     
-    init(chipCount: UInt32, isHero: Bool = true) {
+    init(chipCount: UInt32, isHero: Bool = true, playerId: String = "__COMPUTER__") {
+        self.playerId = playerId
         self.isHero = isHero
         self.isDealer = isHero  // for first hand only
         self.chipCount  = chipCount

@@ -14,6 +14,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var scene: SCNScene!
     var scnView: SCNView!
     var gameOverlay: GameOverlay!
+    var gameId: NewGame!
     var hero: Player!
     var opponent: Player!
     var gameLogic: GameLogic!
@@ -71,9 +72,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         
         
-        hero = Player(chipCount: 200)
-        opponent = Player(chipCount: hero.chipCount, isHero: false)
-        gameLogic = GameLogic(hero: hero, opponent: opponent)
+        hero = gameId.player1
+        opponent = gameId.player2
+        gameLogic = GameLogic(hero: gameId.player1, opponent: gameId.player2)
         
         
       

@@ -21,10 +21,7 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
     func checkLoggedIn() {
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! MainViewController
-                newViewController.currentUser = user
-                self.present(newViewController, animated: true, completion: nil)
+                self.nextView(user: user!)
             } else {
                 // No user is signed in.
                 self.login()
@@ -33,7 +30,6 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
     }
     
     func login() {
-        
         let authUI = FUIAuth.defaultAuthUI()
         let facebookProvider = FUIFacebookAuth()
         let googleProvider = FUIGoogleAuth()
@@ -50,17 +46,23 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
             login()
             
         } else {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyBoard.instantiateViewController(withIdentifier: "Game Options") as! MainViewController
-            newViewController.currentUser = user
-            self.present(newViewController, animated: true, completion: nil)
-            
-            
-            }
+            nextView(user: user!)
         }
+    }
+    
+    private func nextView(user: User) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let navController = storyBoard.instantiateViewController(withIdentifier: "MainNav") as! UINavigationController
+        if let childVC = navController.topViewController as? MainViewController {
+            childVC.currentUser = user
+            present(navController, animated: true, completion: nil)
+        }
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     }
     
-    }
+
+}
 

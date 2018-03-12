@@ -55,7 +55,6 @@ class MainViewController: UIViewController {
                 }
             }
         }
-        
         // if user is new sends all his data to cloud
         checkIfNewUser()
         
@@ -80,7 +79,7 @@ class MainViewController: UIViewController {
             "name": currentUser.displayName ?? "__NONAME__",
             "email": currentUser.email ?? "__NOEMAIL__",
             "phone": currentUser.phoneNumber ?? "__NOPHONE__",
-            "cashier": 1000,
+            "cashier": 666,
             "dateCreated" : Date()
         ]) { err in
             if let err = err {
@@ -90,7 +89,6 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
     
     private func checkIfNewUser() {
         let docRef = db.collection("users").document(currentUser.uid)
@@ -121,26 +119,14 @@ class MainViewController: UIViewController {
         super.viewWillDisappear(animated)
         cashierListener.remove()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-   
-    
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+            if let nextVC = segue.destination as? GameSetupViewController {
+                nextVC.cashier = cashier
+                nextVC.currentUser = currentUser
+            }
     }
-    */
+    
+    
 
 }
