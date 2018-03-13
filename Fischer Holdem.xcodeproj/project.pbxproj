@@ -13,6 +13,7 @@
 		442292DE2044E802000AEACD /* HandStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442292DD2044E802000AEACD /* HandStrength.swift */; };
 		442D8112203B5E9B00721554 /* GameOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8111203B5E9B00721554 /* GameOverlay.swift */; };
 		442D8118203BB5CC00721554 /* Chips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D8117203BB5CC00721554 /* Chips.swift */; };
+		443E71D8205642C50052C87B /* FirstPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E71D7205642C50052C87B /* FirstPageViewController.swift */; };
 		443E7C9C204F44810037B6CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E7C9B204F44810037B6CA /* LoginViewController.swift */; };
 		4444B87C20544A660013E549 /* NewGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4444B87B20544A660013E549 /* NewGame.swift */; };
 		4444B8842054EA820013E549 /* GameSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4444B8832054EA820013E549 /* GameSetupViewController.swift */; };
@@ -39,6 +40,7 @@
 		442292DD2044E802000AEACD /* HandStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStrength.swift; sourceTree = "<group>"; };
 		442D8111203B5E9B00721554 /* GameOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverlay.swift; sourceTree = "<group>"; };
 		442D8117203BB5CC00721554 /* Chips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chips.swift; sourceTree = "<group>"; };
+		443E71D7205642C50052C87B /* FirstPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPageViewController.swift; sourceTree = "<group>"; };
 		443E7C9B204F44810037B6CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4444B87B20544A660013E549 /* NewGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGame.swift; sourceTree = "<group>"; };
 		4444B8832054EA820013E549 /* GameSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				44BA6483203868280037C175 /* GameViewController.swift */,
 				4418BF2C203DAC7E00125819 /* MainViewController.swift */,
 				443E7C9B204F44810037B6CA /* LoginViewController.swift */,
+				443E71D7205642C50052C87B /* FirstPageViewController.swift */,
 				4444B8832054EA820013E549 /* GameSetupViewController.swift */,
 			);
 			path = Controller;
@@ -375,6 +378,7 @@
 				4444B87C20544A660013E549 /* NewGame.swift in Sources */,
 				442D8118203BB5CC00721554 /* Chips.swift in Sources */,
 				44AD36ED203873BD00D3A0F8 /* Card.swift in Sources */,
+				443E71D8205642C50052C87B /* FirstPageViewController.swift in Sources */,
 				446AFA4B203DD0E300EA2434 /* Player.swift in Sources */,
 				44BA6480203868280037C175 /* AppDelegate.swift in Sources */,
 			);

@@ -30,6 +30,12 @@ class MainViewController: UIViewController {
     }
     @IBOutlet weak var cashierAmount: UILabel!
     
+    // Buttons
+    @IBOutlet weak var vsHumanButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var vsComputerButton: UIButton!
+    
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -48,13 +54,29 @@ class MainViewController: UIViewController {
             if photoUrl != nil {
                 if let data = try? Data(contentsOf: photoUrl!) {
                     userPhoto.image = UIImage(data: data)
-                    userPhoto.layer.cornerRadius = userPhoto.frame.size.height / 2
+                    userPhoto.layer.cornerRadius = userPhoto.frame.size.height / 2.0
                     userPhoto.layer.masksToBounds = true
                     userPhoto.layer.borderColor = UIColor.black.cgColor
                     userPhoto.layer.borderWidth = 1.0
                 }
             }
         }
+        
+        // Make buttons round
+        vsComputerButton.layer.cornerRadius = (vsComputerButton.frame.size.height / 2.0)
+        vsComputerButton.layer.masksToBounds = true
+        vsComputerButton.layer.borderColor = UIColor.black.cgColor
+        vsComputerButton.layer.borderWidth = 1.0
+        
+        vsHumanButton.layer.cornerRadius = vsHumanButton.frame.size.height / 2.0
+        vsHumanButton.layer.masksToBounds = true
+        vsHumanButton.layer.borderColor = UIColor.black.cgColor
+        vsHumanButton.layer.borderWidth = 1.0
+        
+        signOutButton.layer.cornerRadius = signOutButton.frame.size.height / 2.0
+        signOutButton.layer.masksToBounds = true
+        signOutButton.layer.borderColor = UIColor.black.cgColor
+        signOutButton.layer.borderWidth = 1.0
         // if user is new sends all his data to cloud
         checkIfNewUser()
         

@@ -66,7 +66,9 @@ class GameSetupViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     private func updateDb() {
-    
+        db.collection("users").document(currentUser.uid).setData( [
+            "cashier": (cashier - amountPicked),
+            ])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -74,6 +76,7 @@ class GameSetupViewController: UIViewController, UIPickerViewDataSource, UIPicke
             let hero = Player(chipCount: amountPicked, playerId: currentUser.uid)
             let opponent = Player(chipCount: amountPicked, isHero: false)
             nextVC.gameId = NewGame(player1: hero, player2: opponent)
+            updateDb()
         }
     }
 

@@ -36,8 +36,13 @@ class LoginViewController: UIViewController, FUIAuthDelegate {
         let twitterProvider = FUITwitterAuth()
         authUI?.delegate = self
         authUI?.providers = [googleProvider, facebookProvider, twitterProvider]
-        let authViewController = authUI?.authViewController()
-        self.present(authViewController!, animated: true, completion: nil)
+        
+//        let authViewController = authUI?.authViewController()
+//        self.present(authViewController!, animated: true, completion: nil)
+        
+        let authViewController = FirstPageViewController(authUI: authUI!)
+       // let navc = UINavigationController(rootViewController: authViewController)
+        self.present(authViewController, animated: true, completion: nil)
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {

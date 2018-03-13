@@ -68,6 +68,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let cameraSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeCamera(_:)))
         cameraSwipe.direction = [.left, .right]
         scnView.addGestureRecognizer(cameraSwipe)
+        
+        
 
         
         
@@ -296,6 +298,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         if gameLogic.haveWinner {
             if gameLogic.opponent.chipCount < 3 {
                 gameLogic.opponent.chipCount += 200
+            } else if gameLogic.hero.chipCount < 3 {
+                // TODO
             }
             reactionButtonsOff()
             actionButtonsOff()
